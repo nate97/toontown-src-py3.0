@@ -31,13 +31,13 @@ parser.add_argument('modules', nargs='*', default=['otp', 'toontown'],
                     help='The Toontown Infinite modules to be included in the build.')
 args = parser.parse_args()
 
-print 'Preparing the client...'
+print('Preparing the client...')
 
 # Create a clean directory to store the build files in:
 if os.path.exists(args.build_dir):
     shutil.rmtree(args.build_dir)
 os.mkdir(args.build_dir)
-print 'Build directory = ' + args.build_dir
+print('Build directory = ' + args.build_dir)
 
 # Copy the provided Toontown Infinite modules:
 
@@ -82,7 +82,7 @@ def minify(f):
 
 
 for module in args.modules:
-    print 'Writing module...', module
+    print('Writing module...', module)
     for root, folders, files in os.walk(os.path.join(args.src_dir, module)):
         outputDir = root.replace(args.src_dir, args.build_dir)
         if not os.path.exists(outputDir):
@@ -113,7 +113,7 @@ with open('../config/general.prc') as f:
 
 configFileName = args.distribution + '.prc'
 configFilePath = os.path.join(args.config_dir, configFileName)
-print 'Using configuration file: ' + configFilePath
+print('Using configuration file: ' + configFilePath)
 
 with open(configFilePath) as f:
     data = f.readlines()
@@ -136,7 +136,7 @@ filepath = os.path.join(args.src_dir, 'astron/dclass')
 for filename in os.listdir(filepath):
     if filename.endswith('.dc'):
         fullpath = str(Filename.fromOsSpecific(os.path.join(filepath, filename)))
-        print 'Reading %s...' % fullpath
+        print('Reading %s...' % fullpath)
         with open(fullpath, 'r') as f:
             data = f.read()
             for line in data.split('\n'):
@@ -145,14 +145,14 @@ for filename in os.listdir(filepath):
             dcData += data
 
 # Finally, write our data to game_data.py:
-print 'Writing game_data.py...'
+print('Writing game_data.py...')
 gameData = 'CONFIG = %r\nDC = %r\n'
 with open(os.path.join(args.build_dir, 'game_data.py'), 'wb') as f:
     f.write(gameData % (configData, dcData.strip()))
 
 # We have all of the code gathered together. Let's create the multifiles now:
 if args.build_mfs:
-    print 'Building multifiles...'
+    print('Building multifiles...')
     dest = os.path.join(args.build_dir, 'resources')
     if not os.path.exists(dest):
         os.mkdir(dest)
@@ -164,8 +164,8 @@ if args.build_mfs:
         if not os.path.isdir(phase):
             continue
         filename = phase + '.mf'
-        print 'Writing...', filename
+        print('Writing...', filename)
         filepath = os.path.join(dest, filename)
         os.system('multify -c -f "%s" "%s"' % (filepath, phase))
 
-print 'Done preparing the client.'
+print('Done preparing the client.')

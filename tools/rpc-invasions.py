@@ -32,7 +32,7 @@ while True:
   try:
     res = client.ping(generate_token(700), 12345)
     if res != 12345:
-      print "Is the server accessable?\n"
+      print("Is the server accessable?\n")
       exit
     
     # How many times a day is this script going to be called?
@@ -46,7 +46,7 @@ while True:
     
     while True:
       shards = client.listShards(generate_token(700))
-      print shards
+      print(shards)
       count = 0
       for skey in shards:
         shard = shards[skey]
@@ -60,7 +60,7 @@ while True:
             suit = int(float(random.random()) * 4.0) + 4  # Bias the cogs to be big
             client.startInvasion(generate_token(700), int(skey), typ, suit, 0, 0)
             count = count + 1
-            print 'Calling invasion for %s with %d,%d'%(shard['name'],typ,suit)
+            print('Calling invasion for %s with %d,%d'%(shard['name'],typ,suit))
       if count < 3:
         for skey in shards:
           shard = shards[skey]
@@ -70,9 +70,9 @@ while True:
               typ = int(float(random.random()) * 4.0)
               suit = int(float(random.random()) * 8.0)
               client.startInvasion(generate_token(700), int(skey), typ, suit, 0, 0)
-              print 'Calling invasion for %s with %d,%d'%(shard['name'],typ,suit)
-      print "tick..(was %d)\n"%(count)
+              print('Calling invasion for %s with %d,%d'%(shard['name'],typ,suit))
+      print("tick..(was %d)\n"%(count))
       time.sleep(60)
-  except Exception, e:
-    print e
+  except Exception as e:
+    print(e)
   time.sleep(300)

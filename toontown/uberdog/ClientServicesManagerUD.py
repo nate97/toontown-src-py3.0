@@ -116,8 +116,14 @@ class DeveloperAccountDB(AccountDB):
     notify = directNotify.newCategory('DeveloperAccountDB')
 
     def lookup(self, username, callback):
+
+        accounts = []
+        for acct in self.dbm:
+            acct = str(acct, 'utf-8')
+            accounts.append(acct)
+
         # Let's check if this user's ID is in your account database bridge:
-        if str(username) not in self.dbm:
+        if str(username) not in accounts:
 
             # Nope. Let's associate them with a brand new Account object! We
             # will assign them with 600 access just because they are a

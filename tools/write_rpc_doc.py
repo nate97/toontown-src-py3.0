@@ -116,7 +116,7 @@ class MediaWikiGenerator:
         self.writeHeader()
 
         # Write the categories and methods:
-        for category, methods in self.methods.items():
+        for category, methods in list(self.methods.items()):
             self.writeCategory(category)
             for name, accessLevel, doc in methods:
                 self.writeMethod(name, accessLevel, doc)

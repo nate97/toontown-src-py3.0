@@ -53,7 +53,7 @@ for include in args.includes:
         panda3dFiles.append(getFileInfo(filepath))
     else:
         rootFiles.append(getFileInfo(filepath))
-    print 'Including...', include
+    print('Including...', include)
 
 resourcesFiles = []
 resourcesDir = os.path.join(args.build_dir, 'resources')
@@ -64,9 +64,9 @@ for filename in os.listdir(resourcesDir):
         continue
     filepath = os.path.join(resourcesDir, filename)
     resourcesFiles.append(getFileInfo(filepath))
-    print 'Including...', filename
+    print('Including...', filename)
 
-print 'Writing %s...' % args.output
+print('Writing %s...' % args.output)
 
 # First, add the element:
 patcher = ET.Element('patcher')
@@ -134,4 +134,4 @@ for filename, size, hash in resourcesFiles:
 filepath = os.path.join(args.dest_dir, args.output)
 ET.ElementTree(patcher).write(filepath)
 
-print 'Done writing %s.' % args.output
+print('Done writing %s.' % args.output)

@@ -2414,9 +2414,9 @@ def isValidAccessory(itemIdx, textureIdx, colorIdx, which):
 
 class ToonDNA(AvatarDNA.AvatarDNA):
 
-    def __init__(self, str = None, type = None, dna = None, r = None, b = None, g = None):
-        if str != None:
-            self.makeFromNetString(str)
+    def __init__(self, tstr = None, type = None, dna = None, r = None, b = None, g = None):
+        if tstr != None:
+            self.makeFromNetString(tstr)
         elif type != None:
             if type == 't':
                 if dna == None:
@@ -2429,20 +2429,20 @@ class ToonDNA(AvatarDNA.AvatarDNA):
         return
 
     def __str__(self):
-        string = 'type = toon\n'
-        string = string + 'gender = %s\n' % self.gender
-        string = string + 'head = %s, torso = %s, legs = %s\n' % (self.head, self.torso, self.legs)
-        string = string + 'arm color = %d\n' % self.armColor
-        string = string + 'glove color = %d\n' % self.gloveColor
-        string = string + 'leg color = %d\n' % self.legColor
-        string = string + 'head color = %d\n' % self.headColor
-        string = string + 'top texture = %d\n' % self.topTex
-        string = string + 'top texture color = %d\n' % self.topTexColor
-        string = string + 'sleeve texture = %d\n' % self.sleeveTex
-        string = string + 'sleeve texture color = %d\n' % self.sleeveTexColor
-        string = string + 'bottom texture = %d\n' % self.botTex
-        string = string + 'bottom texture color = %d\n' % self.botTexColor
-        return string
+        nString = 'type = toon\n'
+        nString = nString + 'gender = %s\n' % self.gender
+        nString = nString + 'head = %s, torso = %s, legs = %s\n' % (self.head, self.torso, self.legs)
+        nString = nString + 'arm color = %d\n' % self.armColor
+        nString = nString + 'glove color = %d\n' % self.gloveColor
+        nString = nString + 'leg color = %d\n' % self.legColor
+        nString = nString + 'head color = %d\n' % self.headColor
+        nString = nString + 'top texture = %d\n' % self.topTex
+        nString = nString + 'top texture color = %d\n' % self.topTexColor
+        nString = nString + 'sleeve texture = %d\n' % self.sleeveTex
+        nString = nString + 'sleeve texture color = %d\n' % self.sleeveTexColor
+        nString = nString + 'bottom texture = %d\n' % self.botTex
+        nString = nString + 'bottom texture color = %d\n' % self.botTexColor
+        return nString
 
     def clone(self):
         d = ToonDNA()
@@ -2479,8 +2479,8 @@ class ToonDNA(AvatarDNA.AvatarDNA):
             notify.error('unknown avatar type: ', self.type)
         return dg.getMessage()
 
-    def isValidNetString(self, string):
-        dg = PyDatagram(string)
+    def isValidNetString(self, nString):
+        dg = PyDatagram(nString)
         dgi = PyDatagramIterator(dg)
         if dgi.getRemainingSize() != 15:
             return False
@@ -2533,8 +2533,12 @@ class ToonDNA(AvatarDNA.AvatarDNA):
             return False
         return True
 
-    def makeFromNetString(self, string):
-        dg = PyDatagram(string)
+    def makeFromNetString(self, nString):
+
+        if isinstance(nString, str):
+            nString = nString.encode('utf-8') # PY3
+
+        dg = PyDatagram(nString)
         dgi = PyDatagramIterator(dg)
         self.type = dgi.getFixedString(1)
         if self.type == 't':
