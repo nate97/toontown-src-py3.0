@@ -22,7 +22,7 @@ echo "==============================="
 
 while [ true ]
 do
-/usr/bin/python2 -m toontown.uberdog.ServiceStart --base-channel $BASE_CHANNEL \
+/usr/bin/python3 -m toontown.uberdog.ServiceStart --base-channel $BASE_CHANNEL \
                  --max-channels $MAX_CHANNELS --stateserver $STATESERVER \
                  --astron-ip $ASTRON_IP --eventlogger-ip $EVENTLOGGER_IP
 done

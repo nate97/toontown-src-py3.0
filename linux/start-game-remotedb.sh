@@ -20,4 +20,4 @@ echo "Username: $ttiUsername"
 echo "Gameserver: $TTI_GAMESERVER"
 echo "==============================="
 
-/usr/bin/python2 -m toontown.toonbase.ClientStartRemoteDB
+/usr/bin/python3 -m toontown.toonbase.ClientStartRemoteDB
