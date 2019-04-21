@@ -55,7 +55,10 @@ def readFile(filename):
     global curId
     scriptFile = StreamReader(vfs.openReadFile(filename, 1), 1)
     def readline():
-        return scriptFile.readline().replace('\r', '')
+        scriptL = scriptFile.readline() # PY3
+        scriptL = scriptL.decode('utf-8')
+        scriptL = scriptL.replace('\r', '')
+        return scriptL
 
     gen = tokenize.generate_tokens(readline)
     line = getLineOfTokens(gen)

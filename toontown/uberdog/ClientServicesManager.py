@@ -19,8 +19,11 @@ class ClientServicesManager(DistributedObjectGlobal):
         self.systemMessageSfx = None
 
         token = self.cr.playToken or 'dev'
+        token = token.encode('utf-8') # PY3
 
         key = 'bG9sLndlLmNoYW5nZS50aGlzLnRvby5tdWNo'
+        key = key.encode('utf-8') # PY3
+
         digest_maker = hmac.new(key)
         digest_maker.update(token)
         clientKey = digest_maker.hexdigest()

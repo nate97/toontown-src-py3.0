@@ -2235,8 +2235,12 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
                 nextTime = nextGiftTime
             if nextGiftTime == None:
                 nextGiftTime = nextTime
-            if nextGiftTime < nextTime:
-                nextTime = nextGiftTime
+
+            if nextTime: # PY3
+                if nextGiftTime < nextTime:
+                    nextTime = nextGiftTime
+
+
             existingDuration = None
             checkTaskList = taskMgr.getTasksNamed(taskName)
             if checkTaskList:

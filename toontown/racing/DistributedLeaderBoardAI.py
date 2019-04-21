@@ -30,7 +30,7 @@ class DistributedLeaderBoardAI(DistributedObjectAI):
         currentScores = display[2]
 
         test = {"name": trackTitle, "scoreType": recordTitle, "scores": currentScores}
-        pData = cPickle.dumps(test)
+        pData = pickle.dumps(test)
         self.display = pData
 
         self.sendUpdate('setDisplay', [self.display])

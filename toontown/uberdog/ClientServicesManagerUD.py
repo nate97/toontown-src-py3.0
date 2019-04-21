@@ -550,7 +550,7 @@ class CreateAvatarFSM(OperationFSM):
             return
 
         # Otherwise, we're done!
-        self.csm.air.writeServerEvent('avatarCreated', self.avId, self.target, self.dna.encode('hex'), self.index)
+        self.csm.air.writeServerEvent('avatarCreated', self.avId, self.target, self.dna, self.index)
         self.csm.sendUpdateToAccountId(self.target, 'createAvatarResp', [self.avId])
         self.demand('Off')
 
@@ -930,7 +930,7 @@ class LoadAvatarFSM(AvatarOperationFSM):
             channel,
             self.csm.air.ourChannel,
             CLIENTAGENT_ADD_POST_REMOVE)
-        datagram.addString(datagramCleanup.getMessage())
+        datagram.addBlob(datagramCleanup.getMessage())
         self.csm.air.send(datagram)
 
         # Activate the avatar on the DBSS:
@@ -1095,8 +1095,12 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
 
         sender = self.air.getMsgSender()
 
+
+        cookie = cookie.encode('utf-8') # PY3
+        key = self.key.encode('utf-8') # PY3
+
         # Time to check this login to see if its authentic
-        digest_maker = hmac.new(self.key)
+        digest_maker = hmac.new(key)
         digest_maker.update(cookie)
         serverKey = digest_maker.hexdigest()
         if serverKey == authKey:

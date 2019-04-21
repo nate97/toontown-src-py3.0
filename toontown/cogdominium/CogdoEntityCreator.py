@@ -9,7 +9,7 @@ class CogdoEntityCreator(EntityCreator.EntityCreator):
     def __init__(self, level):
         EntityCreator.EntityCreator.__init__(self, level)
         nothing = EntityCreator.nothing
-        nonlocal = EntityCreator.nonlocal
+        cogdononlocal = EntityCreator.entitynonlocal
         self.privRegisterTypes({'levelMgr': CogdoLevelMgr,
          'cogdoBoardroomGameSettings': Functor(self._createCogdoSettings, CogdoBoardroomGameConsts.Settings),
          'cogdoCraneGameSettings': Functor(self._createCogdoSettings, CogdoCraneGameConsts.Settings),

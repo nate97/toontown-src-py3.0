@@ -447,8 +447,8 @@ class TTChatInputSpeedChat(DirectObject.DirectObject):
         scZ = -0.04
         self.speedChat.setPos(0.283, 0, scZ)
         if not self.firstTime:
-			self.speedChat.setPos(-99, -99, -99)
-			self.firstTime = 1
+            self.speedChat.setPos(-99, -99, -99)
+            self.firstTime = 1
         self.speedChat.setWhisperMode(self.whisperAvatarId != None)
         self.speedChat.enter()
         return

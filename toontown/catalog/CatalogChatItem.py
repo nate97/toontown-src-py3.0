@@ -134,7 +134,7 @@ class CatalogChatItem(CatalogItem.CatalogItem):
 
 
 def getChatRange(fromIndex, toIndex, *otherRanges):
-    list = []
+    currentList = []
     froms = [fromIndex]
     tos = [toIndex]
     i = 0
@@ -143,9 +143,12 @@ def getChatRange(fromIndex, toIndex, *otherRanges):
         tos.append(otherRanges[i + 1])
         i += 2
 
-    for chatId in list(OTPLocalizer.CustomSCStrings.keys()):
+    for chatId in (OTPLocalizer.CustomSCStrings.keys()):
         for fromIndex, toIndex in zip(froms, tos):
             if chatId >= fromIndex and chatId <= toIndex and chatId not in bannedPhrases:
-                list.append(CatalogChatItem(chatId))
+                currentList.append(CatalogChatItem(chatId))
 
-    return list
+    return currentList
+
+
+

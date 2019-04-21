@@ -48,7 +48,7 @@ class TrackFrame(DirectFrame):
         if self.toon:
             numFrames = self.toon.getNumFrames(anim) - 1
             fromFrame = 0
-            toFrame = (self.toon.getNumFrames(anim) - 1) / MAX_FRAMES * self.index
+            toFrame = (self.toon.getNumFrames(anim) - 1) // MAX_FRAMES * self.index
             self.toon.play(anim, None, fromFrame, toFrame - 1)
         return
 
@@ -57,7 +57,7 @@ class TrackFrame(DirectFrame):
             self.makeToon()
         if not base.launcher or base.launcher and base.launcher.getPhaseComplete(5):
             anim = Track2Anim[trackId]
-            frame = (self.toon.getNumFrames(anim) - 1) / MAX_FRAMES * self.index
+            frame = (self.toon.getNumFrames(anim) - 1) // MAX_FRAMES * self.index
         else:
             anim = 'neutral'
             frame = 0
@@ -110,7 +110,7 @@ class TrackPage(ShtikerPage.ShtikerPage):
         for index in range(1, MAX_FRAMES + 1):
             frame = self.trackFrames[index - 1]
             col = (index - 1) % 6
-            row = (index - 1) / 6
+            row = (index - 1) // 6
             frame.setPos(colPos[col], 0, rowPos[row])
             frame.setScale(0.39)
 

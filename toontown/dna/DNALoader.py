@@ -199,7 +199,7 @@ class DNALoader:
         dgi = PyDatagramIterator(dg)
         dnaFile.close()
         header = dgi.extractBytes(5)
-        if header != 'PDNA\n':
+        if header != b'PDNA\n':
             raise DNAError.DNAError('Invalid header: %s' % (header))
         compressed = dgi.getBool()
         dgi.skipBytes(1)
@@ -220,3 +220,6 @@ class DNALoader:
     def loadDNAFileAI(self, dnaStorage, file):
         self.loadDNAFileBase(dnaStorage, file)
         return self.prop
+
+
+

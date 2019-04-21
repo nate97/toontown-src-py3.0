@@ -43,12 +43,15 @@ class NameGenerator:
         searchPath.appendDirectory(Filename('/phase_3/etc'))
         filename = Filename(TTLocalizer.NameShopNameMaster)
         found = vfs.resolveFilename(filename, searchPath)
+
         if not found:
             self.notify.error("NameGenerator: Error opening name list text file '%s.'" % TTLocalizer.NameShopNameMaster)
+
         input = StreamReader(vfs.openReadFile(filename, 1), 1)
         currentLine = input.readline().strip()
         while currentLine:
             if currentLine.lstrip()[0:1] != '#':
+                currentLine = currentLine.decode('utf-8') # PY3
                 a1 = currentLine.find('*')
                 a2 = currentLine.find('*', a1 + 1)
                 self.nameDictionary[int(currentLine[0:a1])] = (int(currentLine[a1 + 1:a2]), currentLine[a2 + 1:len(currentLine)])

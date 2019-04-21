@@ -1,5 +1,6 @@
 if __name__ == '__main__':
     from direct.directbase import DirectStart
+
 from panda3d.core import *
 from direct.directnotify import DirectNotifyGlobal
 from direct.gui.DirectGui import *
@@ -13,8 +14,10 @@ from toontown.racing.Kart import Kart
 from toontown.shtiker.KartPage import KartViewer
 from .KartDNA import *
 from toontown.toontowngui.TeaserPanel import TeaserPanel
+
 if (__debug__):
     import pdb
+
 MENUS = PythonUtil.Enum('MainMenu, BuyKart, BuyAccessory, ReturnKart, ConfirmBuyAccessory, ConfirmBuyKart, BoughtKart, BoughtAccessory, TeaserPanel')
 MM_OPTIONS = PythonUtil.Enum('Cancel, BuyAccessory, BuyKart', -1)
 BK_OPTIONS = PythonUtil.Enum('Cancel, BuyKart', -1)
@@ -27,7 +30,7 @@ BTA_OPTIONS = PythonUtil.Enum('Ok', -1)
 KS_TEXT_SIZE_BIG = TTLocalizer.KSGtextSizeBig
 KS_TEXT_SIZE_SMALL = TTLocalizer.KSGtextSizeSmall
 
-class KartShopGuiMgr(object, DirectObject.DirectObject):
+class KartShopGuiMgr(object):
     notify = DirectNotifyGlobal.directNotify.newCategory('KartShopGuiMgr')
 
     class MainMenuDlg(DirectFrame):
