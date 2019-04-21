@@ -157,7 +157,8 @@ def findToonAttack(toons, attacks, track):
             return -1
         return 0
 
-    foundAttacks.sort(compFunc)
+    #foundAttacks.sort(compFunc)
+    foundAttacks.sort() # PY3
     return foundAttacks
 
 
