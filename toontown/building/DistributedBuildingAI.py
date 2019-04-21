@@ -1,16 +1,16 @@
 import random
 import time
 
-import DistributedDoorAI
-import DistributedElevatorExtAI
-import DistributedKnockKnockDoorAI
-import DistributedSuitInteriorAI
-import DistributedToonHallInteriorAI
-import DistributedToonInteriorAI
-import DoorTypes
-import FADoorCodes
-import SuitBuildingGlobals
-import SuitPlannerInteriorAI
+from . import DistributedDoorAI
+from . import DistributedElevatorExtAI
+from . import DistributedKnockKnockDoorAI
+from . import DistributedSuitInteriorAI
+from . import DistributedToonHallInteriorAI
+from . import DistributedToonInteriorAI
+from . import DoorTypes
+from . import FADoorCodes
+from . import SuitBuildingGlobals
+from . import SuitPlannerInteriorAI
 from direct.distributed import DistributedObjectAI
 from direct.distributed.ClockDelta import *
 from direct.fsm import ClassicFSM, State
@@ -220,7 +220,7 @@ class DistributedBuildingAI(DistributedObjectAI.DistributedObjectAI):
         self.victorList = victorList
 
     def findVictorIndex(self, avId):
-        for i in xrange(len(self.victorList)):
+        for i in range(len(self.victorList)):
             if self.victorList[i] == avId:
                 return i
 
@@ -249,7 +249,7 @@ class DistributedBuildingAI(DistributedObjectAI.DistributedObjectAI):
             self.toonTakeOver()
 
     def setVictorExited(self, avId):
-        print 'victor %d exited unexpectedly for bldg %d' % (avId, self.doId)
+        print('victor %d exited unexpectedly for bldg %d' % (avId, self.doId))
         self.recordVictorResponse(avId)
         if self.allVictorsResponded():
             self.toonTakeOver()
@@ -292,7 +292,7 @@ class DistributedBuildingAI(DistributedObjectAI.DistributedObjectAI):
                 self.air.writeServerEvent('buildingDefeated', t, '%s|%s|%s|%s' % (self.track, self.numFloors, self.zoneId, victorList))
             if toon is not None:
                 self.air.questManager.toonKilledBuilding(toon, self.track, self.difficulty, self.numFloors, self.zoneId, activeToons)
-        for i in xrange(0, 4):
+        for i in range(0, 4):
             victor = victorList[i]
             if (victor is None) or (victor not in self.air.doId2do):
                 victorList[i] = 0
@@ -325,7 +325,7 @@ class DistributedBuildingAI(DistributedObjectAI.DistributedObjectAI):
                 self.air.writeServerEvent('buildingDefeated', t, '%s|%s|%s|%s' % (self.track, self.numFloors, self.zoneId, victorList))
             if toon is not None:
                 self.air.questManager.toonKilledCogdo(toon, self.difficulty, self.numFloors, self.zoneId, activeToons)
-        for i in xrange(0, 4):
+        for i in range(0, 4):
             victor = victorList[i]
             if (victor is None) or (victor not in self.air.doId2do):
                 victorList[i] = 0

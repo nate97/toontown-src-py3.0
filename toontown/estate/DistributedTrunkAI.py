@@ -1,7 +1,7 @@
 from toontown.estate.DistributedClosetAI import DistributedClosetAI
 from toontown.toon.ToonDNA import ToonDNA, HAT, GLASSES, BACKPACK, SHOES
 from direct.distributed.ClockDelta import globalClockDelta
-import ClosetGlobals
+from . import ClosetGlobals
 
 
 class DistributedTrunkAI(DistributedClosetAI):

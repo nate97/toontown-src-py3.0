@@ -1,6 +1,6 @@
-import DNALandmarkBuilding
-import DNAError
-import DNAUtil
+from . import DNALandmarkBuilding
+from . import DNAError
+from . import DNAUtil
 
 class DNAAnimBuilding(DNALandmarkBuilding.DNALandmarkBuilding):
     COMPONENT_CODE = 16

@@ -1,5 +1,5 @@
 from panda3d.core import BamFile, NodePath, StringStream, decompressString
-import DNANode
+from . import DNANode
 
 class DNASignBaseline(DNANode.DNANode):
     COMPONENT_CODE = 6

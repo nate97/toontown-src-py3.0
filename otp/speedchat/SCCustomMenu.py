@@ -1,5 +1,5 @@
-from SCCustomTerminal import SCCustomTerminal
-from SCMenu import SCMenu
+from .SCCustomTerminal import SCCustomTerminal
+from .SCMenu import SCMenu
 from otp.otpbase.OTPLocalizer import CustomSCStrings
 
 

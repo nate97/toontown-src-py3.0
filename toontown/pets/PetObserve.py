@@ -10,7 +10,7 @@ def getEventName(zoneId):
 
 def send(zoneIds, petObserve):
     if petObserve.isValid():
-        if type(zoneIds) not in (types.ListType, types.TupleType):
+        if type(zoneIds) not in (list, tuple):
             zoneIds = [zoneIds]
         for zoneId in zoneIds:
             messenger.send(getEventName(zoneId), [petObserve])
@@ -73,7 +73,7 @@ class PetPhraseObserve(PetObserve):
         return 1
 
     def _influence(self, petBrain):
-        print "influence phrase"
+        print("influence phrase")
         petBrain._handlePhraseObserve(self)
 
     def __repr__(self):

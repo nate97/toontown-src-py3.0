@@ -10,7 +10,7 @@ import math
 from panda3d.core import *
 from panda3d.core import *
 
-import CannonGlobals
+from . import CannonGlobals
 from toontown.effects import DustCloud
 from toontown.effects import Splash
 from toontown.effects import Wake
@@ -722,7 +722,7 @@ class DistributedCannon(DistributedObject.DistributedObject):
             self.cannonMoving = 0
             self.sndCannonMove.stop()
             self.__broadcastLocalCannonPosition()
-            print 'Cannon Rot:%s Angle:%s' % (pos[0], pos[1])
+            print('Cannon Rot:%s Angle:%s' % (pos[0], pos[1]))
         return Task.cont
 
     def __broadcastLocalCannonPosition(self):
@@ -803,7 +803,7 @@ class DistributedCannon(DistributedObject.DistributedObject):
         head.reparentTo(hidden)
         av = self.toonModel
         av.reparentTo(render)
-        print 'start Pos%s Hpr%s' % (startPos, startHpr)
+        print('start Pos%s Hpr%s' % (startPos, startHpr))
         av.setPos(startPos)
         barrelHpr = self.barrel.getHpr(render)
         place = base.cr.playGame.getPlace()
@@ -870,7 +870,7 @@ class DistributedCannon(DistributedObject.DistributedObject):
             if not hasattr(place, 'fsm'):
                 return
             placeState = place.fsm.getCurrentState().getName()
-            print placeState
+            print(placeState)
             if (self.inWater or place.toonSubmerged) and placeState != 'fishing':
                 if self.av != None:
                     self.av.startSmooth()
@@ -1508,7 +1508,7 @@ class DistributedCannon(DistributedObject.DistributedObject):
          (0, 1, 5, 4),
          (0, 4, 7, 3),
          (1, 2, 6, 5)]
-        for i in xrange(len(vertices)):
+        for i in range(len(vertices)):
             vertex = vertices[i]
             vertexWriter.addData3f(vertex[0], vertex[1], vertex[2])
             colorWriter.addData4f(*colors[i])

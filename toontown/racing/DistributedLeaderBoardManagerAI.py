@@ -184,7 +184,7 @@ class DistributedLeaderBoardManagerAI(DistributedObjectAI.DistributedObjectAI):
 
     def exportScores(self, scoreList):
         w = csv.writer(io.open(self.fullPath + self.fullName, 'wb'))
-        for key, val in scoreList.items():
+        for key, val in list(scoreList.items()):
             w.writerow([key, val])
         del w # Close
 

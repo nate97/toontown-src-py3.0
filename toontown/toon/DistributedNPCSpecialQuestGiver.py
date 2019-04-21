@@ -1,7 +1,7 @@
 from direct.interval.IntervalGlobal import *
 from panda3d.core import *
 
-from DistributedNPCToonBase import *
+from .DistributedNPCToonBase import *
 from toontown.chat.ChatGlobals import *
 from toontown.hood import ZoneUtil
 from toontown.nametag.NametagGlobals import *
@@ -26,7 +26,7 @@ class DistributedNPCSpecialQuestGiver(DistributedNPCToonBase):
 
     def announceGenerate(self):
         self.setAnimState('neutral', 0.9, None, None)
-        npcOrigin = self.cr.playGame.hood.loader.geom.find('**/npc_origin_' + `(self.posIndex)`)
+        npcOrigin = self.cr.playGame.hood.loader.geom.find('**/npc_origin_' + repr((self.posIndex)))
         if not npcOrigin.isEmpty():
             self.reparentTo(npcOrigin)
             self.clearMat()

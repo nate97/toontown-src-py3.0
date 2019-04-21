@@ -125,7 +125,7 @@ class OTPClientRepository(ClientRepositoryBase):
                               '&CHAT_CODE_CREATION_RULE=%s' % config.GetString('fake-DISL-ChatCodeCreation', 'YES') +
                               '&FAMILY_MEMBERS=%s' % config.GetString('fake-DISL-FamilyMembers') + '&PIRATES_SUB_COUNT=%s' % subCount)
 
-            for i in xrange(subCount):
+            for i in range(subCount):
                 self.DISLToken += ('&PIRATES_SUB_%s_ACCESS=%s' % (i, config.GetString('fake-DISL-Sub-%s-Access' % i, 'FULL')) +
                                    '&PIRATES_SUB_%s_ACTIVE=%s' % (i, config.GetString('fake-DISL-Sub-%s-Active' % i, 'YES')) +
                                    '&PIRATES_SUB_%s_ID=%s' % (i, config.GetInt('fake-DISL-Sub-%s-Id' % i, playerAccountId) +  config.GetInt('fake-DISL-Sub-Id-Offset', 0)) +
@@ -139,7 +139,7 @@ class OTPClientRepository(ClientRepositoryBase):
             self.DISLToken += ('&WL_CHAT_ENABLED=%s' % config.GetString('fake-DISL-WLChatEnabled', 'YES') +
                                '&valid=true')
             if base.logPrivateInfo:
-                print self.DISLToken
+                print(self.DISLToken)
 
 
         self.requiredLogin = config.GetString('required-login', 'auto')
@@ -468,7 +468,7 @@ class OTPClientRepository(ClientRepositoryBase):
             dcFile.readAll()
 
         self.hashVal = DCClassImports.hashVal
-        for i in xrange(dcFile.getNumClasses()):
+        for i in range(dcFile.getNumClasses()):
             dclass = dcFile.getClass(i)
             number = dclass.getNumber()
             className = dclass.getName()
@@ -481,7 +481,7 @@ class OTPClientRepository(ClientRepositoryBase):
                         self.notify.warning('Module %s does not define class %s.' % (className, className))
                         continue
                     classDef = getattr(classDef, className)
-                if (type(classDef) != types.ClassType) and (type(classDef) != types.TypeType):
+                if (type(classDef) != type) and (type(classDef) != type):
                     self.notify.error('Symbol %s is not a class name.' % className)
                 else:
                     dclass.setClassDef(classDef)
@@ -823,7 +823,7 @@ class OTPClientRepository(ClientRepositoryBase):
     @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
     def _shardsAreReady(self):
         maxPop = config.GetInt('shard-mid-pop', 300)
-        for shard in self.activeDistrictMap.values():
+        for shard in list(self.activeDistrictMap.values()):
             if shard.available:
                 if shard.avatarCount < maxPop:
                     return True
@@ -1188,11 +1188,11 @@ class OTPClientRepository(ClientRepositoryBase):
                 continue
             else:
                 if hasattr(task, 'debugInitTraceback'):
-                    print task.debugInitTraceback
+                    print(task.debugInitTraceback)
                 problems.append(task.name)
 
         if problems:
-            print taskMgr
+            print(taskMgr)
             msg = "You can't leave until you clean up your tasks: {"
             for task in problems:
                 msg += '\n  ' + task
@@ -1276,21 +1276,21 @@ class OTPClientRepository(ClientRepositoryBase):
     def detectLeakedIntervals(self):
         numIvals = ivalMgr.getNumIntervals()
         if numIvals > 0:
-            print "You can't leave until you clean up your intervals: {"
-            for i in xrange(ivalMgr.getMaxIndex()):
+            print("You can't leave until you clean up your intervals: {")
+            for i in range(ivalMgr.getMaxIndex()):
                 ival = None
                 if i < len(ivalMgr.ivals):
                     ival = ivalMgr.ivals[i]
                 if ival == None:
                     ival = ivalMgr.getCInterval(i)
                 if ival:
-                    print ival
+                    print(ival)
                     if hasattr(ival, 'debugName'):
-                        print ival.debugName
+                        print(ival.debugName)
                     if hasattr(ival, 'debugInitTraceback'):
-                        print ival.debugInitTraceback
+                        print(ival.debugInitTraceback)
 
-            print '}'
+            print('}')
             self.notify.info("You can't leave until you clean up your intervals.")
             return numIvals
         else:
@@ -1408,7 +1408,7 @@ class OTPClientRepository(ClientRepositoryBase):
 
     @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
     def _removeAllOV(self):
-        ownerDoIds = self.doId2ownerView.keys()
+        ownerDoIds = list(self.doId2ownerView.keys())
         for doId in ownerDoIds:
             self.disableDoId(doId, ownerView=True)
 
@@ -1534,7 +1534,7 @@ class OTPClientRepository(ClientRepositoryBase):
 
     def handlePlayGame(self, msgType, di):
         if self.notify.getDebug():
-            self.notify.debug('handle play game got message type: ' + `msgType`)
+            self.notify.debug('handle play game got message type: ' + repr(msgType))
         if self.__recordObjectMessage(msgType, di):
             return
         if msgType == CLIENT_ENTER_OBJECT_REQUIRED:
@@ -1663,14 +1663,14 @@ class OTPClientRepository(ClientRepositoryBase):
 
     def getStartingDistrict(self):
         district = None
-        if len(self.activeDistrictMap.keys()) == 0:
+        if len(list(self.activeDistrictMap.keys())) == 0:
             self.notify.info('no shards')
             return
 
         maxPop = config.GetInt('shard-mid-pop', 300)
 
         # Join the least populated district.
-        for shard in self.activeDistrictMap.values():
+        for shard in list(self.activeDistrictMap.values()):
             if district:
                 if shard.avatarCount < district.avatarCount and shard.available:
                     if shard.avatarCount < maxPop:
@@ -1700,14 +1700,14 @@ class OTPClientRepository(ClientRepositoryBase):
 
     def listActiveShards(self):
         list = []
-        for s in self.activeDistrictMap.values():
+        for s in list(self.activeDistrictMap.values()):
             if s.available:
                 list.append((s.doId, s.name, s.avatarCount, s.newAvatarCount))
 
         return list
 
     def getPlayerAvatars(self):
-        return [i for i in self.doId2do.values() if isinstance(i, DistributedPlayer)]
+        return [i for i in list(self.doId2do.values()) if isinstance(i, DistributedPlayer)]
 
     def queryObjectField(self, dclassName, fieldName, doId, context = 0):
         dclass = self.dclassesByName.get(dclassName)
@@ -1926,7 +1926,7 @@ class OTPClientRepository(ClientRepositoryBase):
     #@exceptionLogged(append=False)
     def handleDatagram(self, di):
         if self.notify.getDebug():
-            print 'ClientRepository received datagram:'
+            print('ClientRepository received datagram:')
             di.getDatagram().dumpHex(ostream)
         msgType = self.getMsgType()
         if msgType == 65535:
@@ -2000,7 +2000,7 @@ class OTPClientRepository(ClientRepositoryBase):
 
         # Decide whether we should add this to the interest's pending
         # generates, or process it right away:
-        for handle, interest in self._interests.items():
+        for handle, interest in list(self._interests.items()):
             if parentId != interest.parentId:
                 continue
 

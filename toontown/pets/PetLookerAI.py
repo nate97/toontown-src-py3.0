@@ -32,7 +32,7 @@ class PetLookerAI:
         if self.__active:
             self.exitPetLook()
         if len(self.others):
-            PetLookerAI.notify.warning('%s: self.others not empty: %s' % (self.doId, self.others.keys()))
+            PetLookerAI.notify.warning('%s: self.others not empty: %s' % (self.doId, list(self.others.keys())))
             self.others = {}
 
     def _getPetLookerBodyNode(self):
@@ -42,13 +42,13 @@ class PetLookerAI:
         return 0
 
     def enterPetLook(self):
-        print "PET LOOK"
+        print("PET LOOK")
         PetLookerAI.notify.debug('enterPetLook: %s' % self.doId)
         if self.__active:
             PetLookerAI.notify.warning('enterPetLook: %s already active!' % self.doId)
             return
         if len(self.others):
-            PetLookerAI.notify.warning('%s: len(self.others) != 0: %s' % (self.doId, self.others.keys()))
+            PetLookerAI.notify.warning('%s: len(self.others) != 0: %s' % (self.doId, list(self.others.keys())))
             self.others = {}
         self.__active = 1
         self.__collNode = self._getPetLookerBodyNode().attachNewNode('PetLookerCollNode')
@@ -60,13 +60,13 @@ class PetLookerAI:
             PetLookerAI.notify.warning('exitPetLook: %s not active!' % self.doId)
             return
         if len(self.others):
-            otherIds = self.others.keys()
+            otherIds = list(self.others.keys())
             PetLookerAI.notify.warning('%s: still in otherIds: %s' % (self.doId, otherIds))
             for otherId in otherIds:
                 self._handleLookingAtOtherStop(otherId)
 
             if len(self.others):
-                PetLookerAI.notify.warning('%s: self.others still not empty: %s' % (self.doId, self.others.keys()))
+                PetLookerAI.notify.warning('%s: self.others still not empty: %s' % (self.doId, list(self.others.keys())))
                 self.others = {}
         self._destroyPetLookSphere()
         self.__collNode.removeNode()

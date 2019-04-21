@@ -9,8 +9,8 @@ from direct.interval.IntervalGlobal import *
 from toontown.minigame import Purchase
 from direct.gui import OnscreenText
 from toontown.building import SuitInterior
-import QuietZoneState
-import ZoneUtil
+from . import QuietZoneState
+from . import ZoneUtil
 from toontown.toonbase import TTLocalizer
 from toontown.toon.Toon import teleportDebug
 from toontown.dna.DNAParser import *
@@ -177,7 +177,7 @@ class Hood(StateData.StateData):
         elif loaderName == 'minigame':
             pass
         elif loaderName == 'cogHQLoader':
-            print 'should be loading HQ'
+            print('should be loading HQ')
 
     def handleLeftQuietZone(self):
         status = self.quietZoneStateData.getRequestStatus()

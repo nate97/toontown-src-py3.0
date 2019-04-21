@@ -26,7 +26,7 @@ class GZHoodAI(HoodAI.HoodAI):
         if isinstance(dnaGroup, DNAGroup) and ('golf_kart' in dnaGroup.getName()):
             nameInfo = dnaGroup.getName().split('_')
             golfCourse = int(nameInfo[2])
-            for i in xrange(dnaGroup.getNumChildren()):
+            for i in range(dnaGroup.getNumChildren()):
                 childDnaGroup = dnaGroup.at(i)
                 if 'starting_block' in childDnaGroup.getName():
                     pos = childDnaGroup.getPos()
@@ -38,7 +38,7 @@ class GZHoodAI(HoodAI.HoodAI):
                     golfKarts.append(golfKart)
         elif isinstance(dnaGroup, DNAVisGroup) and (not overrideDNAZone):
             zoneId = ZoneUtil.getTrueZoneId(int(dnaGroup.getName().split(':')[0]), zoneId)
-        for i in xrange(dnaGroup.getNumChildren()):
+        for i in range(dnaGroup.getNumChildren()):
             foundGolfKarts = self.findGolfKarts(dnaGroup.at(i), zoneId, area, overrideDNAZone=overrideDNAZone)
             golfKarts.extend(foundGolfKarts)
         return golfKarts

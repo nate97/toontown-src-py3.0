@@ -78,7 +78,7 @@ class GSHoodAI(HoodAI.HoodAI):
             racingPads.append(racingPad)
         elif isinstance(dnaGroup, DNAVisGroup):
             zoneId = ZoneUtil.getTrueZoneId(int(dnaGroup.getName().split(':')[0]), zoneId)
-        for i in xrange(dnaGroup.getNumChildren()):
+        for i in range(dnaGroup.getNumChildren()):
             (foundRacingPads, foundRacingPadGroups) = self.findRacingPads(dnaGroup.at(i), zoneId, area, padType=padType)
             racingPads.extend(foundRacingPads)
             racingPadGroups.extend(foundRacingPadGroups)
@@ -102,7 +102,7 @@ class GSHoodAI(HoodAI.HoodAI):
             startingBlock.generateWithRequired(racePad.zoneId)
 
             startingBlocks.append(startingBlock)
-        for i in xrange(dnaGroup.getNumChildren()):
+        for i in range(dnaGroup.getNumChildren()):
             foundStartingBlocks = self.findStartingBlocks(dnaGroup.at(i), racePad)
             startingBlocks.extend(foundStartingBlocks)
         return startingBlocks
@@ -159,7 +159,7 @@ class GSHoodAI(HoodAI.HoodAI):
             self.leaderBoards.append(leaderBoard)
 
 
-        for i in xrange(dnaGroup.getNumChildren()):
+        for i in range(dnaGroup.getNumChildren()):
             (foundLeaderBoards) = self.findLeaderBoards(dnaGroup.at(i), zoneId)
         
         return (self.leaderBoards)

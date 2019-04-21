@@ -86,7 +86,7 @@ class DistributedPartyTugOfWarActivityAI(DistributedPartyTeamActivityAI):
             self._winnerTeam = int(self.pos < 0)
             self._teamScores = scoreRef[self._winnerTeam + self._hasFall * 10]
 
-        print self._teamScores
+        print(self._teamScores)
         self.b_setState('Conclusion', self._winnerTeam)
 
     def startActive(self, data):

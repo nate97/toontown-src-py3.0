@@ -1,7 +1,7 @@
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed.DistributedObjectAI import DistributedObjectAI
 from direct.distributed.ClockDelta import *
-import ButterflyGlobals
+from . import ButterflyGlobals
 import random
 
 class DistributedButterflyAI(DistributedObjectAI):

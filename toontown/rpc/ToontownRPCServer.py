@@ -4,7 +4,7 @@ import errno
 from panda3d.core import TP_normal
 import select
 import socket
-import urlparse
+import urllib.parse
 
 from toontown.rpc.ToontownRPCConnection import ToontownRPCConnection
 
@@ -16,7 +16,7 @@ class ToontownRPCServer:
         self.handler = handler
 
         # Parse the endpoint:
-        url = urlparse.urlparse(endpoint)
+        url = urllib.parse.urlparse(endpoint)
 
         # We only support the http scheme:
         if url.scheme != 'http':
@@ -67,7 +67,7 @@ class ToontownRPCServer:
         taskMgr.remove(taskName)
 
         # Close any open connections:
-        for k, v in self.connections.items():
+        for k, v in list(self.connections.items()):
             v.close()
             del self.connections[k]
 
@@ -95,7 +95,7 @@ class ToontownRPCServer:
         Poll for incoming data once.
         """
         try:
-            rlist = select.select([self.listenerSocket] + self.connections.keys(), [], [])[0]
+            rlist = select.select([self.listenerSocket] + list(self.connections.keys()), [], [])[0]
         except:
             # It's likely that one or more of our sockets is no longer valid.
 
@@ -107,7 +107,7 @@ class ToontownRPCServer:
 
             # Otherwise, discard the faulty sockets, and wait for the next poll
             # iteration:
-            for socket in self.connections.keys():
+            for socket in list(self.connections.keys()):
                 try:
                     socket.fileno()
                     socket.getpeername()
@@ -144,7 +144,7 @@ class ToontownRPCServer:
         """
         try:
             conn = self.listenerSocket.accept()[0]
-        except socket.error, e:
+        except socket.error as e:
             if e.args[0] != errno.EWOULDBLOCK:
                 raise e
         self.connections[conn] = ToontownRPCConnection(conn, self.handler)

@@ -57,7 +57,7 @@ class HolidayDecorator:
 
 
         p = Parallel()
-        for i in xrange(npl.getNumPaths()):
+        for i in range(npl.getNumPaths()):
             np = npl.getPath(i)
 
             geomNodeCollection = np.findAllMatches('**/+GeomNode')
@@ -94,11 +94,11 @@ class HolidayDecorator:
 
             DDLHalloween = np.findAllMatches('**/+GeomNode') # NJF
             for nodePathA in DDLHalloween:
-                print nodePathA
+                print(nodePathA)
                 try:
-                    print nodePathA.getPos()
+                    print(nodePathA.getPos())
                 except:
-                    print "no pos"
+                    print("no pos")
 
 
             np.setTransparency(TransparencyAttrib.MDual, 1)

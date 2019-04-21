@@ -11,8 +11,8 @@ from direct.task.Task import Task
 from panda3d.core import *
 from random import *
 
-from ChineseCheckersBoard import ChineseCheckersBoard
-from TrolleyConstants import *
+from .ChineseCheckersBoard import ChineseCheckersBoard
+from .TrolleyConstants import *
 from otp.otpbase import OTPGlobals
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
@@ -124,7 +124,7 @@ class DistributedFindFour(DistributedNode.DistributedNode):
         self.startingPositions = self.startingPositions.getChildren()
         instancePiece = self.boardNode.find('**/pieces')
         tempList = []
-        for x in xrange(7):
+        for x in range(7):
             self.startingPositions[x].setTag('StartLocator', '%d' % x)
             collNode = CollisionNode('startpicker%d' % x)
             collNode.setIntoCollideMask(BitMask32(4096))
@@ -137,7 +137,7 @@ class DistributedFindFour(DistributedNode.DistributedNode):
                 val.hide()
 
         tempList = []
-        for x in xrange(42):
+        for x in range(42):
             self.locatorList[x].setTag('GamePeiceLocator', '%d' % x)
             collNode = CollisionNode('startpicker%d' % x)
             collNode.setIntoCollideMask(BitMask32(4096))
@@ -466,27 +466,27 @@ class DistributedFindFour(DistributedNode.DistributedNode):
         messenger.send('wakeup')
         if self.table.fsm.getCurrentState().getName() == 'observing':
             isBlank = True
-            for x in xrange(7):
+            for x in range(7):
                 if self.board[5][x] != 0:
                     isBlank = False
                     break
 
             gameBlank = True
-            for x in xrange(7):
+            for x in range(7):
                 if tableState[5][x] != 0:
                     gameBlank = False
                     break
 
             if isBlank == True and gameBlank == False:
-                for x in xrange(6):
-                    for y in xrange(7):
+                for x in range(6):
+                    for y in range(7):
                         self.board[x][y] = tableState[x][y]
 
                 self.updateGameState()
                 return
         if moveCol == 0 and movePos == 0 and turn == 0:
-            for x in xrange(6):
-                for y in xrange(7):
+            for x in range(6):
+                for y in range(7):
                     self.board[x][y] = tableState[x][y]
 
             self.updateGameState()
@@ -498,13 +498,13 @@ class DistributedFindFour(DistributedNode.DistributedNode):
         return
 
     def updateGameState(self):
-        for x in xrange(6):
-            for y in xrange(7):
+        for x in range(6):
+            for y in range(7):
                 for z in self.locatorList[x * 7 + y].getChild(1).getChildren():
                     z.hide()
 
-        for x in xrange(6):
-            for y in xrange(7):
+        for x in range(6):
+            for y in range(7):
                 state = self.board[x][y]
                 if state == 1:
                     self.locatorList[x * 7 + y].getChild(1).getChild(0).show()
@@ -512,8 +512,8 @@ class DistributedFindFour(DistributedNode.DistributedNode):
                     self.locatorList[x * 7 + y].getChild(1).getChild(1).show()
 
     def checkForWin(self):
-        for x in xrange(6):
-            for y in xrange(7):
+        for x in range(6):
+            for y in range(7):
                 if self.board[x][y] == self.playerNum:
                     if self.checkHorizontal(x, y, self.playerNum) == True:
                         return [x, y]
@@ -537,7 +537,7 @@ class DistributedFindFour(DistributedNode.DistributedNode):
         elif winDirection == 2:
             blinkList = self.findDiagonal(x, y, playerNum)
         if blinkList != []:
-            print blinkList
+            print(blinkList)
             val0 = x * 7 + y
             x = blinkList[0][0]
             y = blinkList[0][1]
@@ -563,7 +563,7 @@ class DistributedFindFour(DistributedNode.DistributedNode):
         self.moveSequence.finish()
         if self.turnText:
             self.turnText.hide()
-        for x in xrange(41):
+        for x in range(41):
             self.tieSequence.append(Parallel(LerpColorInterval(self.locatorList[x], 0.15, Vec4(0.5, 0.5, 0.5, 0.5), Vec4(1, 1, 1, 1)), LerpColorInterval(self.locatorList[x], 0.15, Vec4(1, 1, 1, 1), Vec4(0.5, 0.5, 0.5, 0.5))))
 
         whisper = WhisperPopup('This Find Four game has resulted in a Tie!', OTPGlobals.getInterfaceFont(), WTNormal)
@@ -575,8 +575,8 @@ class DistributedFindFour(DistributedNode.DistributedNode):
 
     def animatePeice(self, tableState, moveCol, movePos, turn):
         messenger.send('wakeup')
-        for x in xrange(6):
-            for y in xrange(7):
+        for x in range(6):
+            for y in range(7):
                 self.board[x][y] = tableState[x][y]
 
         pos = self.startingPositions[moveCol].getPos()
@@ -623,13 +623,13 @@ class DistributedFindFour(DistributedNode.DistributedNode):
 
     def checkHorizontal(self, rVal, cVal, playerNum):
         if cVal == 3:
-            for x in xrange(1, 4):
+            for x in range(1, 4):
                 if self.board[rVal][cVal - x] != playerNum:
                     break
                 if self.board[rVal][cVal - x] == playerNum and x == 3:
                     return True
 
-            for x in xrange(1, 4):
+            for x in range(1, 4):
                 if self.board[rVal][cVal + x] != playerNum:
                     break
                 if self.board[rVal][cVal + x] == playerNum and x == 3:
@@ -637,7 +637,7 @@ class DistributedFindFour(DistributedNode.DistributedNode):
 
             return False
         elif cVal == 2:
-            for x in xrange(1, 4):
+            for x in range(1, 4):
                 if self.board[rVal][cVal + x] != playerNum:
                     break
                 if self.board[rVal][cVal + x] == playerNum and x == 3:
@@ -645,7 +645,7 @@ class DistributedFindFour(DistributedNode.DistributedNode):
 
             return False
         elif cVal == 4:
-            for x in xrange(1, 4):
+            for x in range(1, 4):
                 if self.board[rVal][cVal - x] != playerNum:
                     break
                 if self.board[rVal][cVal - x] == playerNum and x == 3:
@@ -657,7 +657,7 @@ class DistributedFindFour(DistributedNode.DistributedNode):
 
     def checkVertical(self, rVal, cVal, playerNum):
         if rVal == 2:
-            for x in xrange(1, 4):
+            for x in range(1, 4):
                 if self.board[rVal + x][cVal] != playerNum:
                     break
                 if self.board[rVal + x][cVal] == playerNum and x == 3:
@@ -665,7 +665,7 @@ class DistributedFindFour(DistributedNode.DistributedNode):
 
             return False
         elif rVal == 3:
-            for x in xrange(1, 4):
+            for x in range(1, 4):
                 if self.board[rVal - x][cVal] != playerNum:
                     break
                 if self.board[rVal - x][cVal] == playerNum and x == 3:
@@ -678,7 +678,7 @@ class DistributedFindFour(DistributedNode.DistributedNode):
     def checkDiagonal(self, rVal, cVal, playerNum):
         if cVal <= 2:
             if rVal == 2:
-                for x in xrange(1, 4):
+                for x in range(1, 4):
                     if self.board[rVal + x][cVal + x] != playerNum:
                         break
                     if self.board[rVal + x][cVal + x] == playerNum and x == 3:
@@ -686,7 +686,7 @@ class DistributedFindFour(DistributedNode.DistributedNode):
 
                 return False
             elif rVal == 3:
-                for x in xrange(1, 4):
+                for x in range(1, 4):
                     if self.board[rVal - x][cVal + x] != playerNum:
                         break
                     if self.board[rVal - x][cVal + x] == playerNum and x == 3:
@@ -695,7 +695,7 @@ class DistributedFindFour(DistributedNode.DistributedNode):
                 return False
         elif cVal >= 4:
             if rVal == 2:
-                for x in xrange(1, 4):
+                for x in range(1, 4):
                     if self.board[rVal + x][cVal - x] != playerNum:
                         break
                     if self.board[rVal + x][cVal - x] == playerNum and x == 3:
@@ -703,7 +703,7 @@ class DistributedFindFour(DistributedNode.DistributedNode):
 
                 return False
             elif rVal == 3:
-                for x in xrange(1, 4):
+                for x in range(1, 4):
                     if self.board[rVal - x][cVal - x] != playerNum:
                         break
                     if self.board[rVal - x][cVal - x] == playerNum and x == 3:
@@ -711,13 +711,13 @@ class DistributedFindFour(DistributedNode.DistributedNode):
 
                 return False
         elif rVal == 3 or rVal == 4 or rVal == 5:
-            for x in xrange(1, 4):
+            for x in range(1, 4):
                 if self.board[rVal - x][cVal - x] != playerNum:
                     break
                 if self.board[rVal - x][cVal - x] == playerNum and x == 3:
                     return True
 
-            for x in xrange(1, 4):
+            for x in range(1, 4):
                 if self.board[rVal - x][cVal - x] != playerNum:
                     break
                 if self.board[rVal - x][cVal - x] == playerNum and x == 3:
@@ -725,13 +725,13 @@ class DistributedFindFour(DistributedNode.DistributedNode):
 
             return False
         elif rVal == 0 or rVal == 1 or rVal == 2:
-            for x in xrange(1, 4):
+            for x in range(1, 4):
                 if self.board[rVal + x][cVal - x] != playerNum:
                     break
                 if self.board[rVal + x][cVal - x] == playerNum and x == 3:
                     return True
 
-            for x in xrange(1, 4):
+            for x in range(1, 4):
                 if self.board[rVal + x][cVal + x] != playerNum:
                     break
                 if self.board[rVal + x][cVal + x] == playerNum and x == 3:
@@ -743,7 +743,7 @@ class DistributedFindFour(DistributedNode.DistributedNode):
     def findHorizontal(self, rVal, cVal, playerNum):
         if cVal == 3:
             retList = []
-            for x in xrange(1, 4):
+            for x in range(1, 4):
                 retList.append([rVal, cVal - x])
                 if self.board[rVal][cVal - x] != playerNum:
                     retList = []
@@ -751,7 +751,7 @@ class DistributedFindFour(DistributedNode.DistributedNode):
                 if self.board[rVal][cVal - x] == playerNum and x == 3:
                     return retList
 
-            for x in xrange(1, 4):
+            for x in range(1, 4):
                 retList.append([rVal, cVal + x])
                 if self.board[rVal][cVal + x] != playerNum:
                     retList = []
@@ -762,7 +762,7 @@ class DistributedFindFour(DistributedNode.DistributedNode):
             return []
         elif cVal == 2:
             retList = []
-            for x in xrange(1, 4):
+            for x in range(1, 4):
                 retList.append([rVal, cVal + x])
                 if self.board[rVal][cVal + x] != playerNum:
                     retList = []
@@ -773,7 +773,7 @@ class DistributedFindFour(DistributedNode.DistributedNode):
             return []
         elif cVal == 4:
             retList = []
-            for x in xrange(1, 4):
+            for x in range(1, 4):
                 retList.append([rVal, cVal - x])
                 if self.board[rVal][cVal - x] != playerNum:
                     retList = []
@@ -788,7 +788,7 @@ class DistributedFindFour(DistributedNode.DistributedNode):
     def findVertical(self, rVal, cVal, playerNum):
         if rVal == 2:
             retList = []
-            for x in xrange(1, 4):
+            for x in range(1, 4):
                 retList.append([rVal + x, cVal])
                 if self.board[rVal + x][cVal] != playerNum:
                     retList = []
@@ -799,7 +799,7 @@ class DistributedFindFour(DistributedNode.DistributedNode):
             return []
         elif rVal == 3:
             retList = []
-            for x in xrange(1, 4):
+            for x in range(1, 4):
                 retList.append([rVal - x, cVal])
                 if self.board[rVal - x][cVal] != playerNum:
                     retList = []
@@ -815,7 +815,7 @@ class DistributedFindFour(DistributedNode.DistributedNode):
         retList = []
         if cVal <= 2:
             if rVal == 2:
-                for x in xrange(1, 4):
+                for x in range(1, 4):
                     retList.append([rVal + x, cVal + x])
                     if self.board[rVal + x][cVal + x] != playerNum:
                         retList = []
@@ -825,7 +825,7 @@ class DistributedFindFour(DistributedNode.DistributedNode):
 
                 return []
             elif rVal == 3:
-                for x in xrange(1, 4):
+                for x in range(1, 4):
                     retList.append([rVal - x, cVal + x])
                     if self.board[rVal - x][cVal + x] != playerNum:
                         retList = []
@@ -836,7 +836,7 @@ class DistributedFindFour(DistributedNode.DistributedNode):
                 return []
         elif cVal >= 4:
             if rVal == 2:
-                for x in xrange(1, 4):
+                for x in range(1, 4):
                     retList.append([rVal + x, cVal - x])
                     if self.board[rVal + x][cVal - x] != playerNum:
                         retList = []
@@ -846,7 +846,7 @@ class DistributedFindFour(DistributedNode.DistributedNode):
 
                 return []
             elif rVal == 3:
-                for x in xrange(1, 4):
+                for x in range(1, 4):
                     retList.append([rVal - x, cVal - x])
                     if self.board[rVal - x][cVal - x] != playerNum:
                         retList = []
@@ -856,7 +856,7 @@ class DistributedFindFour(DistributedNode.DistributedNode):
 
                 return []
         elif rVal == 3 or rVal == 4 or rVal == 5:
-            for x in xrange(1, 4):
+            for x in range(1, 4):
                 retList.append([rVal - x, cVal - x])
                 if self.board[rVal - x][cVal - x] != playerNum:
                     retList = []
@@ -864,7 +864,7 @@ class DistributedFindFour(DistributedNode.DistributedNode):
                 if self.board[rVal - x][cVal - x] == playerNum and x == 3:
                     return retList
 
-            for x in xrange(1, 4):
+            for x in range(1, 4):
                 retList.append([rVal + x, cVal - x])
                 if self.board[rVal + x][cVal - x] != playerNum:
                     retList = []
@@ -874,7 +874,7 @@ class DistributedFindFour(DistributedNode.DistributedNode):
 
             return []
         elif rVal == 0 or rVal == 1 or rVal == 2:
-            for x in xrange(1, 4):
+            for x in range(1, 4):
                 retList.append([rVal + x, cVal - x])
                 if self.board[rVal + x][cVal - x] != playerNum:
                     retList = []
@@ -882,7 +882,7 @@ class DistributedFindFour(DistributedNode.DistributedNode):
                 if self.board[rVal + x][cVal - x] == playerNum and x == 3:
                     return retList
 
-            for x in xrange(1, 4):
+            for x in range(1, 4):
                 retList.append([rVal + x, cVal + x])
                 if self.board[rVal + x][cVal + x] != playerNum:
                     retList = []

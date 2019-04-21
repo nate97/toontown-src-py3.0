@@ -1,7 +1,7 @@
 from panda3d.core import LVector4f, NodePath, DecalEffect
-import DNAGroup
-import DNAError
-import DNAUtil
+from . import DNAGroup
+from . import DNAError
+from . import DNAUtil
 
 import random
 

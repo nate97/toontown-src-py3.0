@@ -5,7 +5,7 @@ from toontown.catalog.CatalogInvalidItem import CatalogInvalidItem
 from toontown.catalog.CatalogItemList import CatalogItemList
 from direct.distributed.ClockDelta import *
 import time
-import PhoneGlobals
+from . import PhoneGlobals
 
 
 class DistributedPhoneAI(DistributedFurnitureItemAI):

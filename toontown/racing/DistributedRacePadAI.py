@@ -126,7 +126,7 @@ class DistributedRacePadAI(DistributedKartPadAI, FSM):
         race.setRaceType(self.trackType)
         race.setCircuitLoop([])
         race.setAvatars(avatars)
-        race.setStartingPlaces(range(len(avatars)))
+        race.setStartingPlaces(list(range(len(avatars))))
         race.setLapCount(3)
         race.generateWithRequired(self.raceZone)
         for avId in avatars:

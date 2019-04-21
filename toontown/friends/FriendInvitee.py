@@ -63,7 +63,7 @@ class FriendInvitee(ToonHeadDialog.ToonHeadDialog):
             if base.friendMode == 0:
                 base.cr.friendManager.up_inviteeFriendResponse(1, self.context)
             elif base.friendMode == 1:
-                print 'sending Request Invite'
+                print('sending Request Invite')
                 base.cr.avatarFriendsManager.sendRequestInvite(self.avId)
         elif base.friendMode == 0:
             base.cr.friendManager.up_inviteeFriendResponse(0, self.context)

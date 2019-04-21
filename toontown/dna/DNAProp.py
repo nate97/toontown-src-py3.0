@@ -1,6 +1,6 @@
 from panda3d.core import LVector4f, ModelNode
-import DNANode
-import DNAUtil
+from . import DNANode
+from . import DNAUtil
 
 class DNAProp(DNANode.DNANode):
     COMPONENT_CODE = 4

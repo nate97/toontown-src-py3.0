@@ -1,11 +1,11 @@
-import __builtin__
+import builtins
 
 
-__builtin__.process = 'ai'
+builtins.process = 'ai'
 
 
 # Temporary hack patch:
-__builtin__.__dict__.update(__import__('pandac.PandaModules', fromlist=['*']).__dict__)
+builtins.__dict__.update(__import__('pandac.PandaModules', fromlist=['*']).__dict__)
 from direct.extensions_native import HTTPChannel_extensions
 
 

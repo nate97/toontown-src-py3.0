@@ -1,6 +1,6 @@
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed.DistributedObjectAI import DistributedObjectAI
-from CatalogGenerator import CatalogGenerator
+from .CatalogGenerator import CatalogGenerator
 from toontown.toonbase import ToontownGlobals
 import time
 

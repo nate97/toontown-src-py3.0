@@ -129,7 +129,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode, Kart.Kart,
         self.pieCount = 0
         self.numPieChunks = 6
         self.pieSlideSpeed = []
-        for piece in xrange(self.numPieChunks):
+        for piece in range(self.numPieChunks):
             self.pieSlideSpeed.append(randFloat(0.0, 0.2))
 
         self.wantSmoke = ConfigVariableBool('want-kart-smoke', 1).getValue()
@@ -428,7 +428,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode, Kart.Kart,
         sides = {0: 'right',
          1: 'left'}
         if side == None:
-            for x in sides.keys():
+            for x in list(sides.keys()):
                 self.sparks[x].effect.getParticlesNamed('particles-1').setBirthRate(1000)
                 taskMgr.doMethodLater(0.75, self.sparks[x].stop, 'stopSparks-' + sides[x], extraArgs=[])
 
@@ -545,7 +545,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode, Kart.Kart,
         if scale == None:
             scale = ToontownGlobals.toonHeadScales[model.style.getAnimal()]
             base.localAvatar.clearCheesyEffect()
-        for hi in xrange(model.headParts.getNumPaths()):
+        for hi in range(model.headParts.getNumPaths()):
             head = model.headParts[hi]
             head.setScale(scale)
 
@@ -553,7 +553,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode, Kart.Kart,
 
     def __createPieWindshield(self):
         self.piePieces = []
-        for piece in xrange(self.numPieChunks):
+        for piece in range(self.numPieChunks):
             self.piePieces.append(DirectLabel(relief=None, pos=(0.0, 0.0, 0.0), image=self.pieSplatter, image_scale=(0.5, 0.5, 0.5), text=' ', text_scale=0.18, text_fg=(1, 0, 1, 1), text_pos=(-0.0, 0.0, 0), text_font=ToontownGlobals.getSignFont(), textMayChange=1))
             self.piePieces[piece].hide()
 
@@ -567,7 +567,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode, Kart.Kart,
             piece.show()
             xRange += 2.5 / self.numPieChunks
 
-        for piece in xrange(self.numPieChunks):
+        for piece in range(self.numPieChunks):
             self.pieSlideSpeed[piece] = randFloat(0.0, 0.2)
 
     def splatPie(self):
@@ -589,7 +589,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode, Kart.Kart,
 
     def __slidePies(self, optional = None):
         dt = globalClock.getDt()
-        for piece in xrange(self.numPieChunks):
+        for piece in range(self.numPieChunks):
             self.pieSlideSpeed[piece] += randFloat(0.0, 0.25 * dt)
             pieSpeed = self.pieSlideSpeed[piece] * dt
             self.piePieces[piece].setPos(self.piePieces[piece].getPos()[0], self.piePieces[piece].getPos()[1] - pieSpeed, self.piePieces[piece].getPos()[2] - pieSpeed)
@@ -908,7 +908,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode, Kart.Kart,
             driftMin = self.surfaceModifiers[self.groundType]['driftMin'] * 0.2
             if self.skidding:
                 driftMin = self.surfaceModifiers[self.groundType]['driftMin']
-        for i in xrange(int(numFrames)):
+        for i in range(int(numFrames)):
             self.physicsMgr.doPhysics(self.physicsDt)
             curVelocity = self.actorNode.getPhysicsObject().getVelocity()
             idealVelocity = curHeading * curSpeed
@@ -1026,7 +1026,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode, Kart.Kart,
     def stickCarToGround(self):
         posList = []
         nWheels = len(self.wheelData)
-        for nWheel in xrange(nWheels):
+        for nWheel in range(nWheels):
             cQueue = self.cQueue[nWheel]
             cQueue.sortEntries()
             if cQueue.getNumEntries() == 0:
@@ -1138,14 +1138,14 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode, Kart.Kart,
     def lookUp(self):
         if self.toon and self.toon.headParts:
             headParts = self.toon.headParts
-            for hi in xrange(headParts.getNumPaths()):
+            for hi in range(headParts.getNumPaths()):
                 head = headParts[hi]
                 head.setP(90)
 
     def lookNormal(self):
         if self.toon and self.toon.headParts:
             headParts = self.toon.headParts
-            for hi in xrange(headParts.getNumPaths()):
+            for hi in range(headParts.getNumPaths()):
                 head = headParts[hi]
                 head.setP(0)
 
@@ -1199,7 +1199,7 @@ class DistributedVehicle(DistributedSmoothNode.DistributedSmoothNode, Kart.Kart,
         self.wipeOut.start()
 
     def hitPie(self):
-        print 'yar, got Me with pi!'
+        print('yar, got Me with pi!')
         self.splatPie()
         if self.wipeOut:
             self.wipeOut.pause()

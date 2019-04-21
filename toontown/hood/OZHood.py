@@ -25,7 +25,7 @@ class OZHood(ToonHood):
         if color is not None:
             try:
                 self.underwaterColor = Vec4(color['r'], color['g'], color['b'], color['a'])
-            except Exception, e:
+            except Exception as e:
                 raise ContentPackError(e)
         elif self.underwaterColor is None:
             self.underwaterColor = Vec4(0, 0, 0.6, 1)

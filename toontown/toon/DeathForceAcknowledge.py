@@ -4,7 +4,7 @@ from toontown.toonbase import TTLocalizer
 from direct.showbase import Transitions
 from direct.gui.DirectGui import *
 from panda3d.core import *
-import LaffMeter
+from . import LaffMeter
 
 class DeathForceAcknowledge:
 
@@ -21,7 +21,7 @@ class DeathForceAcknowledge:
             self.fade.reparentTo(aspect2d, 1000) # FADE_SORT_INDEX # where 1000 is
             fadeModel.removeNode()
         else:
-            print 'Problem loading fadeModel.'
+            print('Problem loading fadeModel.')
             self.fade = None
         self.dialog = TTDialog.TTGlobalDialog(
             message=TTLocalizer.PlaygroundDeathAckMessage,

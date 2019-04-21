@@ -40,7 +40,7 @@ class PetNameGenerator:
 
             found = vfs.resolveFilename(filename, searchPath)
             if not found:
-                print 'Error no pet name file'
+                print('Error no pet name file')
 
 
         if __debug__:
@@ -50,7 +50,7 @@ class PetNameGenerator:
 
 
         if not input:
-            print 'Error no pet name file'
+            print('Error no pet name file')
 
 
         currentLine = input.readline()
@@ -62,7 +62,7 @@ class PetNameGenerator:
             currentLine = input.readline()
 
         masterList = [self.boyFirsts, self.girlFirsts, self.neutralFirsts]
-        for tu in self.nameDictionary.values():
+        for tu in list(self.nameDictionary.values()):
             masterList[tu[0]].append(tu[1])
 
         return 1
@@ -78,7 +78,7 @@ class PetNameGenerator:
         newtu[0] = (0, name)
         newtu[1] = (1, name)
         newtu[2] = (2, name)
-        for tu in self.nameDictionary.items():
+        for tu in list(self.nameDictionary.items()):
             for g in newtu:
                 if tu[1] == g:
                     return tu[0]

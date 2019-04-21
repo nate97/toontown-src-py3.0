@@ -1,7 +1,7 @@
 from direct.directnotify import DirectNotifyGlobal
 from toontown.parties.DistributedPartyActivityAI import DistributedPartyActivityAI
 from direct.task import Task
-import PartyGlobals
+from . import PartyGlobals
 
 class DistributedPartyJukeboxActivityBaseAI(DistributedPartyActivityAI):
     notify = DirectNotifyGlobal.directNotify.newCategory("DistributedPartyJukeboxActivityBaseAI")

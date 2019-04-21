@@ -14,7 +14,7 @@ Index2Spec = {
     0: 'LawOffice_Spec_Tier0_a',
     1: 'LawOffice_Spec_Tier0_b' }
 LawbotFloorSpecs = {}
-for floorIndex, floorSpec in Index2Spec.items():
+for floorIndex, floorSpec in list(Index2Spec.items()):
     LawbotFloorSpecs[floorIndex] = __import__('toontown.coghq.' + floorSpec)
 
 

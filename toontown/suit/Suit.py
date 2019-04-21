@@ -1,6 +1,6 @@
 from direct.actor import Actor
 from otp.avatar import Avatar
-import SuitDNA
+from . import SuitDNA
 from toontown.toonbase import ToontownGlobals
 from panda3d.core import *
 from toontown.battle import SuitBattleGlobals
@@ -185,7 +185,7 @@ Preloaded = {}
 def loadModels():
     global Preloaded
     if not Preloaded:
-        print 'Preloading suits...'
+        print('Preloading suits...')
         for filepath in SuitParts:
             Preloaded[filepath] = loader.loadModel(filepath)
             Preloaded[filepath].flattenMedium()
@@ -202,7 +202,7 @@ def unloadSuits(level):
     unloadDialog(level)
 
 def loadSuitModelsAndAnims(level, flag = 0):
-    for key in ModelDict.keys():
+    for key in list(ModelDict.keys()):
         model, phase = ModelDict[key]
         if flag:
             filepath = 'phase_3.5' + model + 'mod'
@@ -233,7 +233,7 @@ def loadSuitAnims(suit, flag = 1):
             animList = ()
 
     else:
-        print 'Invalid suit name: ', suit
+        print('Invalid suit name: ', suit)
         return -1
     for anim in animList:
         phase = 'phase_' + str(anim[2])
@@ -548,7 +548,7 @@ class Suit(Avatar.Avatar):
         headModel = NodePath('cog_head')
         Preloaded[filepath].copyTo(headModel)
         headReferences = headModel.findAllMatches('**/' + headType)
-        for i in xrange(0, headReferences.getNumPaths()):
+        for i in range(0, headReferences.getNumPaths()):
             headPart = self.instance(headReferences.getPath(i), 'modelRoot', 'joint_head')
             if self.headTexture:
                 headTex = loader.loadTexture('phase_' + str(phase) + '/maps/' + self.headTexture)
@@ -733,7 +733,7 @@ class Suit(Avatar.Avatar):
         self.generateCorporateTie()
         self.setHeight(self.height)
         parts = self.findAllMatches('**/pPlane*')
-        for partNum in xrange(0, parts.getNumPaths()):
+        for partNum in range(0, parts.getNumPaths()):
             bb = parts.getPath(partNum)
             bb.setTwoSided(1)
 

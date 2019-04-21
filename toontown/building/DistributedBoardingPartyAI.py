@@ -2,7 +2,7 @@ from otp.otpbase import OTPGlobals
 from otp.ai.AIBase import *
 from toontown.toonbase import ToontownGlobals
 from direct.distributed.ClockDelta import *
-from ElevatorConstants import *
+from .ElevatorConstants import *
 from direct.distributed import DistributedObjectAI
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State

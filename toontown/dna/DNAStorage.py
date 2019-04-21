@@ -1,8 +1,8 @@
 from panda3d.core import *
-from DNAError import DNAError
-from DNASuitPoint import DNASuitPoint
-from DNASuitPath import DNASuitPath
-from DNASuitEdge import DNASuitEdge
+from .DNAError import DNAError
+from .DNASuitPoint import DNASuitPoint
+from .DNASuitPath import DNASuitPath
+from .DNASuitEdge import DNASuitEdge
 
 class DNAStorage:
     def __init__(self):
@@ -94,7 +94,7 @@ class DNAStorage:
         return self.DNAGroups[node]
 
     def removeDNAGroup(self, dnagroup):
-        for node, group in self.DNAGroups.items():
+        for node, group in list(self.DNAGroups.items()):
             if group == dnagroup:
                 del self.DNAGroups[node]
 

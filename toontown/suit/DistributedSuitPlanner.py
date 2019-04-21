@@ -1,4 +1,4 @@
-import SuitPlannerBase
+from . import SuitPlannerBase
 from direct.distributed import DistributedObject
 from otp.ai.MagicWordGlobal import *
 from panda3d.core import *
@@ -56,7 +56,7 @@ class DistributedSuitPlanner(DistributedObject.DistributedObject, SuitPlannerBas
             self.__doShowPoints(vizNode, lines, None, points)
         cnode = CollisionNode('battleCells')
         cnode.setCollideMask(BitMask32.allOff())
-        for zoneId, cellPos in self.battlePosDict.items():
+        for zoneId, cellPos in list(self.battlePosDict.items()):
             cnode.addSolid(CollisionSphere(LPoint3f(cellPos), 9))
             text = '%s' % zoneId
             self.__makePathVizText(text, cellPos[0], cellPos[1], cellPos[2] + 9, (1, 1, 1, 1))
@@ -98,7 +98,7 @@ class DistributedSuitPlanner(DistributedObject.DistributedObject, SuitPlannerBas
         self.pathViz.attachNewNode(cn)
         adjacent = self.dnaStore.getAdjacentPoints(p)
         numPoints = adjacent.getNumPoints()
-        for i in xrange(numPoints):
+        for i in range(numPoints):
             qi = adjacent.getPointIndex(i)
             q = self.dnaStore.getSuitPointWithIndex(qi)
             pp = p.getPos()
@@ -173,7 +173,7 @@ class DistributedSuitPlanner(DistributedObject.DistributedObject, SuitPlannerBas
 @magicWord(category=CATEGORY_COMMUNITY_MANAGER)
 def suitPaths():
     response = "Couldn't toggle suit path visualization."
-    for do in base.cr.doId2do.values():
+    for do in list(base.cr.doId2do.values()):
         if not isinstance(do, DistributedSuitPlanner):
             continue
         if getattr(do, '_showPaths', False):

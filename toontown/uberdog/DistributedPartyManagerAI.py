@@ -20,7 +20,7 @@ class DistributedPartyManagerAI(DistributedObjectAI):
         self.avId2PartyId = {}
         self.id2Party = {}
         self.pubPartyInfo = {}
-        self.idPool = range(self.air.ourChannel, self.air.ourChannel + 100000)
+        self.idPool = list(range(self.air.ourChannel, self.air.ourChannel + 100000))
         # get 100 ids at the start and top up
         #taskMgr.doMethodLater(0, self.__getIds, 'DistributedPartyManagerAI___getIds')
 
@@ -65,12 +65,12 @@ class DistributedPartyManagerAI(DistributedObjectAI):
         if hostId != simbase.air.getAvatarIdFromSender():
             self.air.writeServerEvent('suspicious',simbase.air.getAvatarIdFromSender(),'Toon tried to create a party as someone else!')
             return
-        print 'party requested: host %s, start %s, end %s, private %s, invitetheme %s, activities omitted, decor omitted, invitees %s' % (hostId, startTime, endTime, isPrivate, inviteTheme, inviteeIds)
+        print('party requested: host %s, start %s, end %s, private %s, invitetheme %s, activities omitted, decor omitted, invitees %s' % (hostId, startTime, endTime, isPrivate, inviteTheme, inviteeIds))
         simbase.air.globalPartyMgr.sendAddParty(hostId, self.host2PartyId[hostId], startTime, endTime, isPrivate, inviteTheme, activities, decorations, inviteeIds)
 
     def addPartyResponseUdToAi(self, partyId, errorCode, partyStruct):
         avId = partyStruct[1]
-        print 'responding to client now that ud got back to us'
+        print('responding to client now that ud got back to us')
         self.sendUpdateToAvatarId(avId, 'addPartyResponse', [avId, errorCode])
         # We also need to remember to update the field on the DToon indicating parties he's hosting
         self.air.doId2do[avId].sendUpdate('setHostedParties', [[partyStruct]])
@@ -120,16 +120,16 @@ class DistributedPartyManagerAI(DistributedObjectAI):
         avId = self.air.getAvatarIdFromSender()
         if isAvAboutToPlanParty:
             partyId = self.idPool.pop()
-            print 'pid %s' % partyId
+            print('pid %s' % partyId)
             self.partyId2Host[partyId] = hostId
             self.partyId2PlanningZone[partyId] = zoneId
             self.host2PartyId[hostId] = partyId
-            print 'Responding to a get party zone when planning, av,party,zone: %s %s %s' % (avId, partyId, zoneId)
+            print('Responding to a get party zone when planning, av,party,zone: %s %s %s' % (avId, partyId, zoneId))
         else:
             if hostId not in self.host2PartyId:
                 # Uhh, we don't know if the host even has a party. Better ask the ud
                 self.air.globalPartyMgr.queryPartyForHost(hostId)
-                print 'querying for details against hostId %s ' % hostId
+                print('querying for details against hostId %s ' % hostId)
                 return
             partyId = self.host2PartyId[hostId]
             # Is the party already running?
@@ -206,7 +206,7 @@ class DistributedPartyManagerAI(DistributedObjectAI):
 
     def exitParty(self, partyZone):
         avId = simbase.air.getAvatarIdFromSender()
-        for partyInfo in self.pubPartyInfo.values():
+        for partyInfo in list(self.pubPartyInfo.values()):
             if partyInfo['zoneId'] == partyZone:
                 party = self.id2Party.get(partyInfo['partyId'])
                 if party:
@@ -251,7 +251,7 @@ class DistributedPartyManagerAI(DistributedObjectAI):
 
     def updateToPublicPartyCountUdToAllAi(self, partyCount, partyId):
         # Update the number of guests at a party
-        if partyId in self.pubPartyInfo.keys():
+        if partyId in list(self.pubPartyInfo.keys()):
             self.pubPartyInfo[partyId]['numGuests'] = partyCount
 
     def getPublicParties(self):
@@ -275,7 +275,7 @@ class DistributedPartyManagerAI(DistributedObjectAI):
         if hostId not in self.host2PartyId:
             # Uhh, we don't know if the host even has a party. Better ask the ud
             self.air.globalPartyMgr.queryPartyForHost(hostId)
-            print 'querying for details against hostId %s ' % hostId
+            print('querying for details against hostId %s ' % hostId)
             return
         partyId = self.host2PartyId[hostId]
         # Is the party already running?

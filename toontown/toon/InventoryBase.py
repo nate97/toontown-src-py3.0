@@ -16,9 +16,9 @@ class InventoryBase(DirectObject.DirectObject):
         self.toon = toon
         if invStr == None:
             self.inventory = []
-            for track in xrange(0, len(Tracks)):
+            for track in range(0, len(Tracks)):
                 level = []
-                for thisLevel in xrange(0, len(Levels[track])):
+                for thisLevel in range(0, len(Levels[track])):
                     level.append(0)
 
                 self.inventory.append(level)
@@ -33,7 +33,7 @@ class InventoryBase(DirectObject.DirectObject):
 
     def __str__(self):
         retStr = 'totalProps: %d\n' % self.totalProps
-        for track in xrange(0, len(Tracks)):
+        for track in range(0, len(Tracks)):
             retStr += Tracks[track] + ' = ' + str(self.inventory[track]) + '\n'
 
         return retStr
@@ -50,8 +50,8 @@ class InventoryBase(DirectObject.DirectObject):
     def makeNetString(self):
         dataList = self.inventory
         datagram = PyDatagram()
-        for track in xrange(0, len(Tracks)):
-            for level in xrange(0, len(Levels[track])):
+        for track in range(0, len(Tracks)):
+            for level in range(0, len(Levels[track])):
                 datagram.addUint8(dataList[track][level])
 
         dgi = PyDatagramIterator(datagram)
@@ -61,9 +61,9 @@ class InventoryBase(DirectObject.DirectObject):
         dataList = []
         dg = PyDatagram(netString)
         dgi = PyDatagramIterator(dg)
-        for track in xrange(0, len(Tracks)):
+        for track in range(0, len(Tracks)):
             subList = []
-            for level in xrange(0, len(Levels[track])):
+            for level in range(0, len(Levels[track])):
                 if dgi.getRemainingSize() > 0:
                     value = dgi.getUint8()
                 else:
@@ -78,9 +78,9 @@ class InventoryBase(DirectObject.DirectObject):
         dataList = []
         dg = PyDatagram(netString)
         dgi = PyDatagramIterator(dg)
-        for track in xrange(0, numTracks):
+        for track in range(0, numTracks):
             subList = []
-            for level in xrange(0, numLevels):
+            for level in range(0, numLevels):
                 if dgi.getRemainingSize() > 0:
                     value = dgi.getUint8()
                 else:
@@ -160,7 +160,7 @@ class InventoryBase(DirectObject.DirectObject):
             return 0
 
     def getTrackAndLevel(self, propName):
-        for track in xrange(0, len(Tracks)):
+        for track in range(0, len(Tracks)):
             if AvProps[track].count(propName):
                 return (tracks, AvProps[track].index(propName))
 
@@ -168,8 +168,8 @@ class InventoryBase(DirectObject.DirectObject):
 
     def calcTotalProps(self):
         self.totalProps = 0
-        for track in xrange(0, len(Tracks)):
-            for level in xrange(0, len(Levels[track])):
+        for track in range(0, len(Tracks)):
+            for level in range(0, len(Levels[track])):
                 if level <= LAST_REGULAR_GAG_LEVEL:
                     self.totalProps += self.numItem(track, level)
 
@@ -177,16 +177,16 @@ class InventoryBase(DirectObject.DirectObject):
 
     def countPropsInList(self, invList):
         totalProps = 0
-        for track in xrange(len(Tracks)):
-            for level in xrange(len(Levels[track])):
+        for track in range(len(Tracks)):
+            for level in range(len(Levels[track])):
                 if level <= LAST_REGULAR_GAG_LEVEL:
                     totalProps += invList[track][level]
 
         return totalProps
 
     def setToMin(self, newInventory):
-        for track in xrange(len(Tracks)):
-            for level in xrange(len(Levels[track])):
+        for track in range(len(Tracks)):
+            for level in range(len(Levels[track])):
                 self.inventory[track][level] = min(self.inventory[track][level], newInventory[track][level])
 
         self.calcTotalProps()
@@ -197,8 +197,8 @@ class InventoryBase(DirectObject.DirectObject):
             tempInv = self.makeFromNetString(newInventory)
         else:
             tempInv = newInventory
-        for track in xrange(len(Tracks)):
-            for level in xrange(len(Levels[track])):
+        for track in range(len(Tracks)):
+            for level in range(len(Levels[track])):
                 if tempInv[track][level] > self.getMax(track, level):
                     return 0
                 if tempInv[track][level] > 0 and not self.toon.hasTrackAccess(track):
@@ -245,9 +245,9 @@ class InventoryBase(DirectObject.DirectObject):
 
     def maxOutInv(self, filterUberGags = 0, filterPaidGags = 0):
         unpaid = self.toon.getGameAccess() != ToontownGlobals.AccessFull
-        for track in xrange(len(Tracks)):
+        for track in range(len(Tracks)):
             if self.toon.hasTrackAccess(track):
-                for level in xrange(len(Levels[track])):
+                for level in range(len(Levels[track])):
                     if level <= LAST_REGULAR_GAG_LEVEL or not filterUberGags:
                         if not filterPaidGags or not (unpaid and gagIsPaidOnly(track, level)):
                             self.addItem(track, level)
@@ -256,7 +256,7 @@ class InventoryBase(DirectObject.DirectObject):
         while addedAnything:
             addedAnything = 0
             result = 0
-            for track in xrange(len(Tracks)):
+            for track in range(len(Tracks)):
                 if self.toon.hasTrackAccess(track):
                     level = len(Levels[track]) - 1
                     if level > LAST_REGULAR_GAG_LEVEL and filterUberGags:
@@ -277,12 +277,12 @@ class InventoryBase(DirectObject.DirectObject):
 
     def NPCMaxOutInv(self, targetTrack=-1, maxLevelIndex=5):
         result = 0
-        for level in xrange(maxLevelIndex, -1, -1):
+        for level in range(maxLevelIndex, -1, -1):
             anySpotsAvailable = 1
             while anySpotsAvailable == 1:
                 anySpotsAvailable = 0
                 trackResults = []
-                for track in xrange(len(Tracks)):
+                for track in range(len(Tracks)):
                     if targetTrack != -1 and targetTrack != track:
                         continue
                     result = self.addItem(track, level)
@@ -301,8 +301,8 @@ class InventoryBase(DirectObject.DirectObject):
         return None
 
     def zeroInv(self, killUber = 0):
-        for track in xrange(len(Tracks)):
-            for level in xrange(UBER_GAG_LEVEL_INDEX):
+        for track in range(len(Tracks)):
+            for level in range(UBER_GAG_LEVEL_INDEX):
                 self.inventory[track][level] = 0
 
             if killUber:

@@ -1,7 +1,7 @@
 from direct.gui.DirectGui import *
 from panda3d.core import *
 
-import ShtikerPage
+from . import ShtikerPage
 from toontown.battle import SuitBattleGlobals
 from toontown.coghq import CogDisguiseGlobals
 from toontown.suit import SuitDNA
@@ -111,12 +111,12 @@ class DisguisePage(ShtikerPage.ShtikerPage):
             text_align=TextNode.ACenter, pos=(-0.91, 0, -1.02))
         self.partFrame = DirectFrame(parent=self.frame, relief=None)
         self.parts = []
-        for partNum in xrange(0, 17):
+        for partNum in range(0, 17):
             self.parts.append(
                 DirectFrame(parent=self.partFrame, relief=None,
                             geom=gui.find('**/robot/' + PartNames[partNum])))
         self.holes = []
-        for partNum in xrange(0, 17):
+        for partNum in range(0, 17):
             self.holes.append(
                 DirectFrame(parent=self.partFrame, relief=None,
                             geom=gui.find('**/robot_hole/' + PartNames[partNum])))
@@ -217,7 +217,7 @@ class DisguisePage(ShtikerPage.ShtikerPage):
     def doTab(self, index):
         self.activeTab = index
         self.tabs[index].reparentTo(self.pageFrame)
-        for i in xrange(len(self.tabs)):
+        for i in range(len(self.tabs)):
             tab = self.tabs[i]
             if i == index:
                 tab['text0_fg'] = (1, 0, 0, 1)

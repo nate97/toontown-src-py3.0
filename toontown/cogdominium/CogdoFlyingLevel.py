@@ -3,12 +3,12 @@ from panda3d.core import CollisionPlane, CollisionNode
 from direct.showbase.RandomNumGen import RandomNumGen
 from direct.showbase.DirectObject import DirectObject
 from direct.showbase.PythonUtil import bound as clamp
-import CogdoUtil
-import CogdoFlyingGameGlobals as Globals
-from CogdoFlyingLevelQuadrant import CogdoFlyingLevelQuadrant
-from CogdoFlyingObjects import CogdoFlyingGatherableFactory, CogdoFlyingPlatform, CogdoFlyingLevelFog
-from CogdoFlyingObstacles import CogdoFlyingObtacleFactory
-from CogdoGameExit import CogdoGameExit
+from . import CogdoUtil
+from . import CogdoFlyingGameGlobals as Globals
+from .CogdoFlyingLevelQuadrant import CogdoFlyingLevelQuadrant
+from .CogdoFlyingObjects import CogdoFlyingGatherableFactory, CogdoFlyingPlatform, CogdoFlyingLevelFog
+from .CogdoFlyingObstacles import CogdoFlyingObtacleFactory
+from .CogdoGameExit import CogdoGameExit
 from otp.otpbase import OTPGlobals
 
 class CogdoFlyingLevel(DirectObject):
@@ -159,7 +159,7 @@ class CogdoFlyingLevel(DirectObject):
         if quadNum >= 0:
             if quadNum > 0:
                 self.quadrants[max(quadNum - self.quadVisibiltyBehind, 0)].onstage()
-            for i in xrange(quadNum, min(quadNum + self.quadVisibiltyAhead + 1, self._numQuads)):
+            for i in range(quadNum, min(quadNum + self.quadVisibiltyAhead + 1, self._numQuads)):
                 self.quadrants[i].onstage()
                 self.visibleQuadIndices.append(i)
                 if i == 0:
@@ -168,7 +168,7 @@ class CogdoFlyingLevel(DirectObject):
                     self.endPlatform.onstage()
 
         self._currentQuadNum = quadNum
-        for i in xrange(0, max(self._currentQuadNum - self.quadVisibiltyBehind, 0)) + range(min(self._currentQuadNum + self.quadVisibiltyAhead + 1, self._numQuads), self._numQuads):
+        for i in range(0, max(self._currentQuadNum - self.quadVisibiltyBehind, 0)) + list(range(min(self._currentQuadNum + self.quadVisibiltyAhead + 1, self._numQuads), self._numQuads)):
             self.quadrants[i].offstage()
             if i == 0:
                 self.startPlatform.offstage()

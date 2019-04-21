@@ -117,7 +117,7 @@ class SuitLegList:
         self.add(self.path.getPoint(0), self.path.getPoint(1), self.getFirstLegType())
 
         # Next, connect each of the points in our path through SuitLegs:
-        for i in xrange(self.path.getNumPoints() - 1):
+        for i in range(self.path.getNumPoints() - 1):
             pointA = self.path.getPoint(i)
             pointB = self.path.getPoint(i + 1)
             pointTypeA = pointA.getPointType()

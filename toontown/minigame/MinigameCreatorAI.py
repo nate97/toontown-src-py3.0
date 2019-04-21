@@ -2,26 +2,26 @@ import copy
 import random
 import time
 
-import DistributedMinigameAI
-import DistributedCannonGameAI
-import DistributedCatchGameAI
-import DistributedCogThiefGameAI
-import DistributedDivingGameAI
-import DistributedIceGameAI
-import DistributedMazeGameAI
-import DistributedMinigameTemplateAI
-import DistributedPairingGameAI
-import DistributedPatternGameAI
-import DistributedPhotoGameAI
-import DistributedRaceGameAI
-import DistributedRingGameAI
-import DistributedTagGameAI
-import DistributedTargetGameAI
-import DistributedTravelGameAI
-import DistributedTugOfWarGameAI
-import DistributedTwoDGameAI
-import DistributedVineGameAI
-import TravelGameGlobals
+from . import DistributedMinigameAI
+from . import DistributedCannonGameAI
+from . import DistributedCatchGameAI
+from . import DistributedCogThiefGameAI
+from . import DistributedDivingGameAI
+from . import DistributedIceGameAI
+from . import DistributedMazeGameAI
+from . import DistributedMinigameTemplateAI
+from . import DistributedPairingGameAI
+from . import DistributedPatternGameAI
+from . import DistributedPhotoGameAI
+from . import DistributedRaceGameAI
+from . import DistributedRingGameAI
+from . import DistributedTagGameAI
+from . import DistributedTargetGameAI
+from . import DistributedTravelGameAI
+from . import DistributedTugOfWarGameAI
+from . import DistributedTwoDGameAI
+from . import DistributedVineGameAI
+from . import TravelGameGlobals
 from otp.ai.MagicWordGlobal import *
 from toontown.minigame.TempMinigameAI import *
 from toontown.toonbase import ToontownGlobals
@@ -35,7 +35,7 @@ DisabledMinigames = []
 
 def getDisabledMinigames():
     if not DisabledMinigames:
-        for name, minigameId in ToontownGlobals.MinigameNames.items():
+        for name, minigameId in list(ToontownGlobals.MinigameNames.items()):
             if not simbase.config.GetBool('want-%s-game' % name, True):
                 if minigameId not in DisabledMinigames:
                     DisabledMinigames.append(minigameId)
@@ -98,13 +98,13 @@ def createMinigame(air, playerArray, trolleyZone, minigameZone=None,
         ToontownGlobals.TravelGameId: DistributedTravelGameAI.DistributedTravelGameAI,
         ToontownGlobals.PhotoGameId: DistributedPhotoGameAI.DistributedPhotoGameAI
     }
-    from TempMinigameAI import TempMgCtors
-    for key, value in TempMgCtors.items():
+    from .TempMinigameAI import TempMgCtors
+    for key, value in list(TempMgCtors.items()):
         mgCtors[key] = value
     try:
         mg = mgCtors[mgId](air, mgId)
     except KeyError:
-        raise Exception, 'unknown minigame ID: %s' % mgId
+        raise Exception('unknown minigame ID: %s' % mgId)
     mg.setExpectedAvatars(playerArray)
     mg.setNewbieIds(newbieIds)
     mg.setTrolleyZone(trolleyZone)
@@ -113,11 +113,11 @@ def createMinigame(air, playerArray, trolleyZone, minigameZone=None,
         for avId in playerArray:
             mg.setStartingVote(avId, TravelGameGlobals.DefaultStartingVotes)
     else:
-        for index in xrange(len(startingVotes)):
+        for index in range(len(startingVotes)):
             avId = playerArray[index]
             votes = startingVotes[index]
             if votes < 0:
-                print 'createMinigame negative votes, avId=%s votes=%s' % (avId, votes)
+                print('createMinigame negative votes, avId=%s votes=%s' % (avId, votes))
                 votes = 0
             mg.setStartingVote(avId, votes)
     mg.setMetagameRound(metagameRound)
@@ -201,7 +201,7 @@ def minigame(command, arg0=None):
         RequestMinigame[invoker.doId] = request[:3] + (arg0,) + request[4:]
         return 'Stored your request for the minigame safezone: ' + str(arg0)
     if command == 'abort':
-        for do in simbase.air.doId2do.values():
+        for do in list(simbase.air.doId2do.values()):
             if not isinstance(do, DistributedMinigameAI.DistributedMinigameAI):
                 continue
             if invoker.doId not in do.avIdList:

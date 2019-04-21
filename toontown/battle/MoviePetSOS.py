@@ -2,12 +2,12 @@ from direct.directnotify import DirectNotifyGlobal
 from direct.interval.IntervalGlobal import *
 import random
 
-import BattleParticles
-from BattleProps import *
-from BattleSounds import *
-import HealJokes
-import MovieCamera
-import MovieUtil
+from . import BattleParticles
+from .BattleProps import *
+from .BattleSounds import *
+from . import HealJokes
+from . import MovieCamera
+from . import MovieUtil
 from toontown.chat.ChatGlobals import *
 from toontown.pets import Pet, PetTricks
 from toontown.toonbase import TTLocalizer

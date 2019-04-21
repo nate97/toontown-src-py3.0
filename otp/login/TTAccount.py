@@ -3,19 +3,19 @@ from panda3d.core import *
 from direct.directnotify import DirectNotifyGlobal
 from direct.showbase import PythonUtil
 from otp.otpbase import OTPLocalizer
-import HTTPUtil
-import RemoteValueSet
+from . import HTTPUtil
+from . import RemoteValueSet
 import copy
 accountServer = ''
 accountServer = launcher.getAccountServer()
-print 'TTAccount: accountServer from launcher: ', accountServer
+print('TTAccount: accountServer from launcher: ', accountServer)
 configAccountServer = base.config.GetString('account-server', '')
 if configAccountServer:
     accountServer = configAccountServer
-    print 'TTAccount: overriding accountServer from config: ', accountServer
+    print('TTAccount: overriding accountServer from config: ', accountServer)
 if not accountServer:
     accountServer = 'https://toontown.go.com'
-    print 'TTAccount: default accountServer: ', accountServer
+    print('TTAccount: default accountServer: ', accountServer)
 accountServer = URLSpec(accountServer, 1)
 
 def getAccountServer():
@@ -55,7 +55,7 @@ class TTAccount:
             if self.response.getInt('errorCode') in (5, 72):
                 return (0, None)
             return (0, errorMsg)
-        except TTAccountException, e:
+        except TTAccountException as e:
             return (0, str(e))
 
         return None
@@ -71,7 +71,7 @@ class TTAccount:
             if self.response.getInt('errorCode') in (5, 72):
                 return (0, None)
             return (0, errorMsg)
-        except TTAccountException, e:
+        except TTAccountException as e:
             return (0, str(e))
 
         return None
@@ -85,7 +85,7 @@ class TTAccount:
             if self.response.getInt('errorCode') in (5, 72):
                 return (0, None)
             return (0, errorMsg)
-        except TTAccountException, e:
+        except TTAccountException as e:
             return (0, str(e))
 
         return None
@@ -117,7 +117,7 @@ class TTAccount:
          'l2': 'addr2',
          'l3': 'addr3'}
         dict = self.accountData.dict
-        for fieldName in dict.keys():
+        for fieldName in list(dict.keys()):
             if fieldName in fieldNameMap:
                 dict[fieldNameMap[fieldName]] = dict[fieldName]
                 del dict[fieldName]
@@ -154,7 +154,7 @@ class TTAccount:
 
     def talk(self, operation, data = {}):
         self.notify.debug('TTAccount.talk()')
-        for key in data.keys():
+        for key in list(data.keys()):
             data[key] = str(data[key])
 
         if operation in ('play', 'get', 'cancel', 'authenticateParentPassword', 'authenticateDelete', 'authenticateParentPasswordNewStyle', 'authenticateDeleteNewStyle'):
@@ -224,14 +224,14 @@ class TTAccount:
          'userid': 'userid'}
         ignoredFields = ('ccType',)
         outBoundFields = {}
-        for fieldName in data.keys():
+        for fieldName in list(data.keys()):
             if fieldName not in serverFields:
                 if fieldName not in ignoredFields:
                     self.notify.error('unknown data field: %s' % fieldName)
             else:
                 outBoundFields[serverFields[fieldName]] = data[fieldName]
 
-        orderedFields = outBoundFields.keys()
+        orderedFields = list(outBoundFields.keys())
         orderedFields.sort()
         for fieldName in orderedFields:
             if len(body):
@@ -274,7 +274,7 @@ class TTAccount:
             if self.response.getInt('errorCode') in (5, 72):
                 return (0, None)
             return (0, errorMsg)
-        except TTAccountException, e:
+        except TTAccountException as e:
             return (0, str(e))
 
         return None

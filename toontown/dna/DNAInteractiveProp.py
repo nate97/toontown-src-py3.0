@@ -1,5 +1,5 @@
 from panda3d.core import ModelNode
-import DNAAnimProp
+from . import DNAAnimProp
 
 class DNAInteractiveProp(DNAAnimProp.DNAAnimProp):
     COMPONENT_CODE = 15

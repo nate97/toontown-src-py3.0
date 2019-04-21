@@ -176,7 +176,7 @@ class DistributedLawnDecor(DistributedNode.DistributedNode, NodePath, ShadowCast
             picker.traverse(render)
             if queue.getNumEntries() > 0:
                 queue.sortEntries()
-                for index in xrange(queue.getNumEntries()):
+                for index in range(queue.getNumEntries()):
                     entry = queue.getEntry(index)
                     if recurseParent(entry.getIntoNode(), 'terrain_DNARoot'):
                         self.movieNode.setZ(entry.getSurfacePoint(self)[2])
@@ -185,7 +185,7 @@ class DistributedLawnDecor(DistributedNode.DistributedNode, NodePath, ShadowCast
         picker.traverse(render)
         if queue.getNumEntries() > 0:
             queue.sortEntries()
-            for index in xrange(queue.getNumEntries()):
+            for index in range(queue.getNumEntries()):
                 entry = queue.getEntry(index)
                 if recurseParent(entry.getIntoNode(), 'terrain_DNARoot'):
                     self.setZ(entry.getSurfacePoint(render)[2] + self.stickUp + 0.1)

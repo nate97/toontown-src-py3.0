@@ -3,7 +3,7 @@ import random
 import string
 import sys, os
 
-import ToonDNA
+from . import ToonDNA
 from toontown.hood import ZoneUtil
 from toontown.nametag import NametagGlobals
 from toontown.toonbase import TTLocalizer
@@ -80,17 +80,17 @@ def getRandomDNA(seed, gender):
 
 
 def createNPC(air, npcId, desc, zoneId, posIndex = 0, questCallback = None):
-    import DistributedNPCToonAI
-    import DistributedNPCClerkAI
-    import DistributedNPCTailorAI
-    import DistributedNPCBlockerAI
-    import DistributedNPCFishermanAI
-    import DistributedNPCPetclerkAI
-    import DistributedNPCKartClerkAI
-    import DistributedNPCPartyPersonAI
-    import DistributedNPCSpecialQuestGiverAI
-    import DistributedNPCFlippyInToonHallAI
-    import DistributedNPCScientistAI
+    from . import DistributedNPCToonAI
+    from . import DistributedNPCClerkAI
+    from . import DistributedNPCTailorAI
+    from . import DistributedNPCBlockerAI
+    from . import DistributedNPCFishermanAI
+    from . import DistributedNPCPetclerkAI
+    from . import DistributedNPCKartClerkAI
+    from . import DistributedNPCPartyPersonAI
+    from . import DistributedNPCSpecialQuestGiverAI
+    from . import DistributedNPCFlippyInToonHallAI
+    from . import DistributedNPCScientistAI
     canonicalZoneId, name, dnaType, gender, protected, type = desc
     if type == NPC_REGULAR:
         npc = DistributedNPCToonAI.DistributedNPCToonAI(air, npcId, questCallback=questCallback)
@@ -117,7 +117,7 @@ def createNPC(air, npcId, desc, zoneId, posIndex = 0, questCallback = None):
     elif type == NPC_SCIENTIST:
         npc = DistributedNPCScientistAI.DistributedNPCScientistAI(air, npcId)
     else:
-        print 'createNPC() error!!!'
+        print('createNPC() error!!!')
     npc.setName(name)
     dna = ToonDNA.ToonDNA()
     if dnaType == 'r':
@@ -169,7 +169,7 @@ def createNpcsInZone(air, zoneId):
     for npcId in npcIdList:
         while npcIdList.count(npcId) > 1:
             npcIdList.remove(npcId)
-    for i in xrange(len(npcIdList)):
+    for i in range(len(npcIdList)):
         npcId = npcIdList[i]
         npcDesc = NPCToonDict.get(npcId)
         if npcDesc[5] == NPC_FISHERMAN:
@@ -183,7 +183,7 @@ def createNpcsInZone(air, zoneId):
 
 
 def createLocalNPC(npcId):
-    import Toon
+    from . import Toon
     if npcId not in NPCToonDict:
         return None
     desc = NPCToonDict[npcId]
@@ -11569,7 +11569,7 @@ BlockerPositions = {TTLocalizer.Flippy: (Point3(207.4, 18.81, -0.475), 90.0)}
 zone2NpcDict = {}
 
 def generateZone2NpcDict():
-    for id, npcDesc in NPCToonDict.items():
+    for id, npcDesc in list(NPCToonDict.items()):
         zoneId = npcDesc[0]
         if zoneId in zone2NpcDict:
             zone2NpcDict[zoneId].append(id)
@@ -11794,7 +11794,7 @@ def getNPCName(npcId):
 
 
 def npcFriendsMinMaxStars(minStars, maxStars):
-    return [ id for id in npcFriends.keys() if getNPCTrackLevelHpRarity(id)[3] >= minStars and getNPCTrackLevelHpRarity(id)[3] <= maxStars ]
+    return [ id for id in list(npcFriends.keys()) if getNPCTrackLevelHpRarity(id)[3] >= minStars and getNPCTrackLevelHpRarity(id)[3] <= maxStars ]
 
 
 def getNPCTrack(npcId):

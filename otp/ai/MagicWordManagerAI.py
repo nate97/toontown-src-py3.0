@@ -46,7 +46,7 @@ class MagicWordManagerAI(DistributedObjectAI):
 
 @magicWord(category=CATEGORY_COMMUNITY_MANAGER, types=[str])
 def help(wordName=None):
-    print 'help called with %s' % (wordName)    
+    print('help called with %s' % (wordName))    
     if not wordName:
         return "What were you interested getting help for?"
     word = spellbook.words.get(wordName.lower())   # look it up by its lower case value

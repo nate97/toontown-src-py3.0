@@ -4,8 +4,8 @@ from direct.showbase import PythonUtil
 from direct.task import Task
 from panda3d.core import *
 
-import DisplaySettingsDialog
-import ShtikerPage
+from . import DisplaySettingsDialog
+from . import ShtikerPage
 from otp.speedchat import SCColorScheme
 from otp.speedchat import SCStaticTextTerminal
 from otp.speedchat import SpeedChat
@@ -640,10 +640,10 @@ class CodesTabPage(DirectFrame):
         return
 
     def __getCodeResult(self, result, awardMgrResult):
-        print 'Run'
+        print('Run')
         self.notify.debug('result = %s' % result)
         self.notify.debug('awardMgrResult = %s' % awardMgrResult)
-        print result, awardMgrResult
+        print(result, awardMgrResult)
         self.__enableCodeEntry()
         if result == 0:
             self.resultPanel['image'] = self.resultPanelSuccessGui

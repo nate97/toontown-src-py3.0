@@ -1,5 +1,5 @@
-import DNAProp
-from DNAUtil import *
+from . import DNAProp
+from .DNAUtil import *
 
 class DNAAnimProp(DNAProp.DNAProp):
     COMPONENT_CODE = 14

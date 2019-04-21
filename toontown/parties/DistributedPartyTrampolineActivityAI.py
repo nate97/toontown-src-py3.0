@@ -4,7 +4,7 @@ from toontown.fsm.FSM import FSM
 from direct.task import Task
 from toontown.parties.DistributedPartyActivityAI import DistributedPartyActivityAI
 from toontown.toonbase import TTLocalizer
-import PartyGlobals
+from . import PartyGlobals
 
 class DistributedPartyTrampolineActivityAI(DistributedPartyActivityAI, FSM):
     notify = DirectNotifyGlobal.directNotify.newCategory("DistributedPartyTrampolineActivityAI")
@@ -59,7 +59,7 @@ class DistributedPartyTrampolineActivityAI(DistributedPartyActivityAI, FSM):
             self.air.writeServerEvent('suspicious',avId,'Toon incorrectly reported height!')
             
     def enterActive(self):
-        self.jellybeans = range(PartyGlobals.TrampolineNumJellyBeans)
+        self.jellybeans = list(range(PartyGlobals.TrampolineNumJellyBeans))
         taskMgr.doMethodLater(PartyGlobals.TrampolineDuration, self.sendUpdate, 'exitTrampoline%d' % self.doId, extraArgs=['leaveTrampoline', []])
         self.sendUpdate('setState', ['Active', globalClockDelta.getRealNetworkTime()])
         self.collected = 0

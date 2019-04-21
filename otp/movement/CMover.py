@@ -3,7 +3,7 @@ from panda3d.core import *
 from otp.movement.PyVec3 import PyVec3
 
 from direct.showbase import PythonUtil
-import __builtin__
+import builtins
 from direct.task import Task
 
 class CMover:
@@ -52,7 +52,7 @@ class CMover:
         self.dtClock = globalClock.getFrameTime()
 
     def addImpulse(self, name, cImpulse):
-        print cImpulse
+        print(cImpulse)
         if not cImpulse:
             return
 
@@ -79,7 +79,7 @@ class CMover:
             self.dt = clockDelta - self.dtClock
             self.dtClock = clockDelta
 
-        for cImpulse in self.cImpulses.values():
+        for cImpulse in list(self.cImpulses.values()):
             cImpulse.process(self.getDt())
 
     def addShove(self, shove):
@@ -99,7 +99,7 @@ class CMover:
             return
 
         self.shove *= self.getDt()
-        print self.shove
+        print(self.shove)
         self.objNodePath.setFluidPos(self.objNodePath, self.shove)
         self.rotShove *= self.getDt()
         self.objNodePath.setHpr(self.objNodePath, self.rotShove)
@@ -120,7 +120,7 @@ class CMover:
         if CMover.Profile and not profile:
             
             def func(doMove = self.move):
-                for i in xrange(10000):
+                for i in range(10000):
                     doMove(dt, profile = 1)
                 
 

@@ -1,11 +1,11 @@
 from otp.ai.AIBase import *
 from direct.distributed.ClockDelta import *
-from BattleBase import *
-from BattleCalculatorAI import *
+from .BattleBase import *
+from .BattleCalculatorAI import *
 from toontown.toonbase.ToontownBattleGlobals import *
-from SuitBattleGlobals import *
+from .SuitBattleGlobals import *
 from panda3d.core import *
-import BattleExperienceAI
+from . import BattleExperienceAI
 from direct.distributed import DistributedObjectAI
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
@@ -126,7 +126,7 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI, BattleBas
             del suit.battleTrap
 
         del self.finishCallback
-        for petProxy in self.pets.values():
+        for petProxy in list(self.pets.values()):
             petProxy.requestDelete()
 
         DistributedObjectAI.DistributedObjectAI.delete(self)
@@ -361,7 +361,7 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI, BattleBas
                 attack = getToonAttack(index)
                 p = p + attack
 
-        for i in xrange(4 - len(self.activeToons)):
+        for i in range(4 - len(self.activeToons)):
             p = p + getToonAttack(-1)
 
         for sa in self.suitAttacks:
@@ -423,7 +423,7 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI, BattleBas
         uberIndex = LAST_REGULAR_GAG_LEVEL + 1
         for toon in self.activeToons:
             toonList = []
-            for trackIndex in xrange(MAX_TRACK_INDEX):
+            for trackIndex in range(MAX_TRACK_INDEX):
                 toonList.append(toon.inventory.numItem(track, uberIndex))
 
             fieldList.append(encodeUber(toonList))
@@ -668,7 +668,7 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI, BattleBas
         if self.activeToons.count(toonId) == 1:
             activeToonIdx = self.activeToons.index(toonId)
             self.notify.debug('removing activeToons[%d], updating suitAttacks SUIT_HP_COL to match' % activeToonIdx)
-            for i in xrange(len(self.suitAttacks)):
+            for i in range(len(self.suitAttacks)):
                 if activeToonIdx < len(self.suitAttacks[i][SUIT_HP_COL]):
                     del self.suitAttacks[i][SUIT_HP_COL][activeToonIdx]
                 else:
@@ -857,7 +857,7 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI, BattleBas
 
     def __addJoinResponse(self, avId, taskName, toon = 0):
         if toon == 1:
-            for jr in self.joinResponses.values():
+            for jr in list(self.joinResponses.values()):
                 jr[avId] = 0
 
         self.joinResponses[avId] = {}
@@ -869,7 +869,7 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI, BattleBas
     def __removeJoinResponses(self, avId):
         self.__removeJoinResponse(avId)
         removedOne = 0
-        for j in self.joinResponses.values():
+        for j in list(self.joinResponses.values()):
             if avId in j:
                 del j[avId]
                 removedOne = 1
@@ -893,7 +893,7 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI, BattleBas
         return 1
 
     def __cleanupJoinResponses(self):
-        for jr in self.joinResponses.values():
+        for jr in list(self.joinResponses.values()):
             taskMgr.remove(jr['taskName'])
             del jr
 
@@ -1359,7 +1359,7 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI, BattleBas
                         self.notify.debug('toon: %d called for help' % toonId)
                     elif track == PETSOS:
                         self.notify.debug('toon: %d called for pet' % toonId)
-                        for i in xrange(len(self.activeToons)):
+                        for i in range(len(self.activeToons)):
                             toon = self.getToon(self.activeToons[i])
                             if toon != None:
                                 if i < len(hps):
@@ -1379,7 +1379,7 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI, BattleBas
 
                     elif track == HEAL:
                         if levelAffectsGroup(HEAL, level):
-                            for i in xrange(len(self.activeToons)):
+                            for i in range(len(self.activeToons)):
                                 at = self.activeToons[i]
                                 if at != toonId or attack[TOON_TRACK_COL] == NPCSOS:
                                     toon = self.getToon(at)
@@ -1476,7 +1476,7 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI, BattleBas
                                         deadSuits.append(target)
 
         self.exitedToons = []
-        for suitKey in trapDict.keys():
+        for suitKey in list(trapDict.keys()):
             attackList = trapDict[suitKey]
             attack = attackList[0]
             target = self.findSuit(attack[TOON_TGT_COL])
@@ -1551,7 +1551,7 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI, BattleBas
         lastActiveSuitDied = 0
         if len(self.activeSuits) == 0 and len(self.pendingSuits) == 0:
             lastActiveSuitDied = 1
-        for i in xrange(4):
+        for i in range(4):
             attack = self.suitAttacks[i][SUIT_ATK_COL]
             if attack != NO_ATTACK:
                 suitId = self.suitAttacks[i][SUIT_ID_COL]
@@ -1668,7 +1668,7 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI, BattleBas
                 eventMsg[msgName] = 1
 
         msgText = ''
-        for msgName, count in eventMsg.items():
+        for msgName, count in list(eventMsg.items()):
             if msgText != '':
                 msgText += ','
             msgText += '%s%s' % (count, msgName)

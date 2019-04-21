@@ -100,9 +100,9 @@ class GardenManagerAI:
 
             #box.constructBox(6, boxType, x, y, header)
             box.setTypeIndex(boxType)
-            print boxType, x, y, header
-            print "??????????????????????????????"
-            print self.house
+            print(boxType, x, y, header)
+            print("??????????????????????????????")
+            print(self.house)
 
             try:
                 box.generateWithRequired(self.house.zoneId)
@@ -143,7 +143,7 @@ class GardenManagerAI:
         dg = PyDatagram(gardenData)
         gardenData = PyDatagramIterator(dg)
         plotCount = gardenData.getUint8()
-        for _ in xrange(plotCount):
+        for _ in range(plotCount):
             occupier = gardenData.getUint8()
             if occupier not in occupier2Class:
                 continue
@@ -270,7 +270,7 @@ class GardenManagerAI:
         if not av:
             return
         trackBonus = [-1] * NUM_GAG_TRACKS
-        treesGrown = {i: [] for i in xrange(NUM_GAG_TRACKS)}
+        treesGrown = {i: [] for i in range(NUM_GAG_TRACKS)}
 
         # Get all the trees that can give organic bonus.
         for plot in self.plots:

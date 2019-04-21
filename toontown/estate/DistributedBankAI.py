@@ -1,7 +1,7 @@
 from direct.directnotify import DirectNotifyGlobal
 from toontown.estate.DistributedFurnitureItemAI import DistributedFurnitureItemAI
 from direct.distributed import ClockDelta
-from BankGlobals import *
+from .BankGlobals import *
 
 class DistributedBankAI(DistributedFurnitureItemAI):
     notify = DirectNotifyGlobal.directNotify.newCategory("DistributedBankAI")

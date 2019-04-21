@@ -9,7 +9,7 @@ from otp.ai.MagicWordGlobal import *
 from toontown.toonbase import ToontownGlobals
 from toontown.parties import PartyGlobals
 
-import FireworkShows
+from . import FireworkShows
 import random
 
 class DistributedFireworkShowAI(DistributedObjectAI):

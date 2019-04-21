@@ -2,7 +2,7 @@ from math import *
 import math
 import random
 
-from StomperGlobals import *
+from .StomperGlobals import *
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed import ClockDelta
 from direct.interval.IntervalGlobal import *
@@ -113,7 +113,7 @@ class DistributedMover(BasicEntities.DistributedNodePathEntity):
             firstIVal = LerpPosHprInterval(self.moverNode, timeJump, Vec3(target.getPos(self)[0], target.getPos(self)[1], target.getPos(self)[2]), Vec3(target.getHpr(self)[0], target.getHpr(self)[1], target.getHpr(self)[2]), blendType=myBlend, fluid=1)
             self.moverIval.append(firstIVal)
             if self.cycleType in 'linear':
-                for linearCycle in xrange(10):
+                for linearCycle in range(10):
                     self.moverIval.append(firstIVal)
 
             if self.cycleType != 'oneWay':

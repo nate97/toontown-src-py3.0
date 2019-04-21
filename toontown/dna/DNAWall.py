@@ -1,8 +1,8 @@
 from panda3d.core import LVector4f
-import DNANode
-import DNAFlatBuilding
-import DNAError
-import DNAUtil
+from . import DNANode
+from . import DNAFlatBuilding
+from . import DNAError
+from . import DNAUtil
 
 class DNAWall(DNANode.DNANode):
     COMPONENT_CODE = 10

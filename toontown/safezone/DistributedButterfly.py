@@ -9,7 +9,7 @@ from panda3d.core import NodePath
 from direct.directutil import Mopath
 from toontown.toonbase import ToontownGlobals
 from direct.actor import Actor
-import ButterflyGlobals
+from . import ButterflyGlobals
 from direct.showbase import RandomNumGen
 import random
 

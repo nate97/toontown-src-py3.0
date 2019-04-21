@@ -1,5 +1,5 @@
 from panda3d.core import PandaNode
-import DNAUtil
+from . import DNAUtil
 
 class DNAGroup:
     COMPONENT_CODE = 1

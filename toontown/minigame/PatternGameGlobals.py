@@ -1,4 +1,4 @@
-import MinigameGlobals
+from . import MinigameGlobals
 
 
 if config.GetBool('want-long-pattern-game', False):

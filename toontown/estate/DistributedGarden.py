@@ -22,7 +22,7 @@ class DistributedGarden(DistributedObject):
         self.gridCells = 20
         self.propTable = [None] * self.gridCells
 
-        for i in xrange(len(self.propTable)):
+        for i in range(len(self.propTable)):
             self.propTable[i] = [None] * self.gridCells
 
         self.dx = 1.0 / self.gridCells

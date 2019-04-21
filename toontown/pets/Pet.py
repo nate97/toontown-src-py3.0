@@ -10,7 +10,7 @@ from panda3d.core import *
 import random
 import types
 
-from PetDNA import HeadParts, EarParts, NoseParts, TailParts, BodyTypes, BodyTextures, AllPetColors, getColors, ColorScales, PetEyeColors, EarTextures, TailTextures, getFootTexture, getEarTexture, GiraffeTail, LeopardTail, PetGenders
+from .PetDNA import HeadParts, EarParts, NoseParts, TailParts, BodyTypes, BodyTextures, AllPetColors, getColors, ColorScales, PetEyeColors, EarTextures, TailTextures, getFootTexture, getEarTexture, GiraffeTail, LeopardTail, PetGenders
 from otp.avatar import Avatar
 from toontown.chat.ChatGlobals import *
 from toontown.nametag import NametagGlobals
@@ -290,7 +290,7 @@ class Pet(Avatar.Avatar):
         self.moodIcons.setScale(2.0)
         self.moodIcons.setZ(3.65)
         moods = moodIcons.findAllMatches('**/+GeomNode')
-        for moodNum in xrange(0, moods.getNumPaths()):
+        for moodNum in range(0, moods.getNumPaths()):
             mood = moods.getPath(moodNum)
             mood.reparentTo(self.moodIcons)
             mood.setBillboardPointEye()
@@ -427,7 +427,7 @@ class Pet(Avatar.Avatar):
 
     def enterNeutral(self):
         anim = 'neutral'
-        self.pose(anim, random.choice(range(0, self.getNumFrames(anim))))
+        self.pose(anim, random.choice(list(range(0, self.getNumFrames(anim)))))
         self.loop(anim, restart=0)
 
     def exitNeutral(self):
@@ -435,7 +435,7 @@ class Pet(Avatar.Avatar):
 
     def enterNeutralHappy(self):
         anim = 'neutralHappy'
-        self.pose(anim, random.choice(range(0, self.getNumFrames(anim))))
+        self.pose(anim, random.choice(list(range(0, self.getNumFrames(anim)))))
         self.loop(anim, restart=0)
 
     def exitNeutralHappy(self):
@@ -443,7 +443,7 @@ class Pet(Avatar.Avatar):
 
     def enterNeutralSad(self):
         anim = 'neutralSad'
-        self.pose(anim, random.choice(range(0, self.getNumFrames(anim))))
+        self.pose(anim, random.choice(list(range(0, self.getNumFrames(anim)))))
         self.loop(anim, restart=0)
 
     def exitNeutralSad(self):
@@ -643,7 +643,7 @@ class Pet(Avatar.Avatar):
 
     def getInteractIval(self, interactId):
         anims = self.InteractAnims[interactId]
-        if type(anims) == types.StringType:
+        if type(anims) == bytes:
             animIval = ActorInterval(self, anims)
         else:
             animIval = Sequence()
@@ -658,19 +658,19 @@ def gridPets():
     offsetX = 0
     offsetY = 0
     startPos = base.localAvatar.getPos()
-    for body in xrange(0, len(BodyTypes)):
+    for body in range(0, len(BodyTypes)):
         colors = getColors(body)
         for color in colors:
             p = Pet()
-            p.setDNA([random.choice(range(-1, len(HeadParts))),
-             random.choice(range(-1, len(EarParts))),
-             random.choice(range(-1, len(NoseParts))),
-             random.choice(range(-1, len(TailParts))),
+            p.setDNA([random.choice(list(range(-1, len(HeadParts)))),
+             random.choice(list(range(-1, len(EarParts)))),
+             random.choice(list(range(-1, len(NoseParts)))),
+             random.choice(list(range(-1, len(TailParts)))),
              body,
              color,
-             random.choice(range(-1, len(ColorScales))),
-             random.choice(range(0, len(PetEyeColors))),
-             random.choice(range(0, len(PetGenders)))])
+             random.choice(list(range(-1, len(ColorScales)))),
+             random.choice(list(range(0, len(PetEyeColors)))),
+             random.choice(list(range(0, len(PetGenders))))])
             p.setPos(startPos[0] + offsetX, startPos[1] + offsetY, startPos[2])
             p.animFSM.request('neutral')
             p.reparentTo(render)

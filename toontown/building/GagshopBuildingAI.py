@@ -1,6 +1,6 @@
-import DistributedDoorAI
-import DistributedGagshopInteriorAI
-import DoorTypes
+from . import DistributedDoorAI
+from . import DistributedGagshopInteriorAI
+from . import DoorTypes
 from panda3d.core import *
 from toontown.toon import NPCToons
 

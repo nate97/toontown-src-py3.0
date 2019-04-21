@@ -1,7 +1,7 @@
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed.ClockDelta import *
 from direct.interval.IntervalGlobal import *
-import HolidayDecorator
+from . import HolidayDecorator
 from toontown.toonbase import ToontownGlobals
 from toontown.safezone import Playground
 from toontown.town import Street
@@ -56,7 +56,7 @@ class HalloweenHolidayDecorator(HolidayDecorator.HolidayDecorator):
             base.cr.playGame.hood.endSpookySky()
 
     def decorate(self):
-        print "???"
+        print("???")
         self.updateHoodDNAStore()
         self.swapIval = self.getSwapVisibleIval()
         if self.swapIval:

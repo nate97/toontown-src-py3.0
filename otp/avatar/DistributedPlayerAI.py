@@ -142,7 +142,7 @@ class DistributedPlayerAI(DistributedAvatarAI.DistributedAvatarAI, PlayerBase.Pl
         return self.adminAccess
 
     def extendFriendsList(self, friendId, friendCode):
-        for i in xrange(len(self.friendsList)):
+        for i in range(len(self.friendsList)):
             friendPair = self.friendsList[i]
             if friendPair[0] == friendId:
                 self.friendsList[i] = (friendId, friendCode)
@@ -236,7 +236,7 @@ def accessLevel(accessLevel, storage='PERSISTENT', showGM=1):
         if accessLevel not in accessName2Id:
             return 'Invalid access level!'
         accessLevel = accessName2Id[accessLevel]
-    if accessLevel not in accessName2Id.values():
+    if accessLevel not in list(accessName2Id.values()):
         return 'Invalid access level!'
     target = spellbook.getTarget()
     invoker = spellbook.getInvoker()

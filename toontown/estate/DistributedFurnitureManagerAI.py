@@ -7,11 +7,11 @@ from toontown.catalog.CatalogMouldingItem import CatalogMouldingItem
 from toontown.catalog.CatalogFlooringItem import CatalogFlooringItem
 from toontown.catalog.CatalogWainscotingItem import CatalogWainscotingItem
 from toontown.toonbase import ToontownGlobals
-from DistributedFurnitureItemAI import DistributedFurnitureItemAI
-from DistributedBankAI import DistributedBankAI
-from DistributedPhoneAI import DistributedPhoneAI
-from DistributedClosetAI import DistributedClosetAI
-from DistributedTrunkAI import DistributedTrunkAI
+from .DistributedFurnitureItemAI import DistributedFurnitureItemAI
+from .DistributedBankAI import DistributedBankAI
+from .DistributedPhoneAI import DistributedPhoneAI
+from .DistributedClosetAI import DistributedClosetAI
+from .DistributedTrunkAI import DistributedTrunkAI
 from otp.ai.MagicWordGlobal import *
 
 class FurnitureError(Exception):

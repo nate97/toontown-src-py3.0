@@ -1,7 +1,7 @@
 from toontown.minigame.DistributedMinigameAI import *
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
-import TravelGameGlobals
+from . import TravelGameGlobals
 from toontown.toonbase import ToontownGlobals
 
 
@@ -25,7 +25,7 @@ class DistributedTravelGameAI(DistributedMinigameAI):
             self.destSwitch = 0
             self.gotBonus = {}
             self.desiredNextGame = -1
-            self.boardIndex = random.choice(range(len(TravelGameGlobals.BoardLayouts)))
+            self.boardIndex = random.choice(list(range(len(TravelGameGlobals.BoardLayouts))))
 
     def generate(self):
         self.notify.debug('generate')
@@ -91,7 +91,7 @@ class DistributedTravelGameAI(DistributedMinigameAI):
 
     def enterProcessChoices(self):
         self.directionVotes = []
-        for dir in xrange(TravelGameGlobals.MaxDirections):
+        for dir in range(TravelGameGlobals.MaxDirections):
             self.directionVotes.append([dir, 0])
 
         for key in self.avatarChoices:
@@ -157,7 +157,7 @@ class DistributedTravelGameAI(DistributedMinigameAI):
 
     def waitClientsChoicesTimeout(self, task):
         self.notify.debug('waitClientsChoicesTimeout: did not hear from all clients')
-        for avId in self.avatarChoices.keys():
+        for avId in list(self.avatarChoices.keys()):
             if self.avatarChoices[avId] == (-1, 0):
                 self.avatarChoices[avId] = (0, 0)
 
@@ -198,7 +198,7 @@ class DistributedTravelGameAI(DistributedMinigameAI):
         return (retVotes, retDir)
 
     def allAvatarsChosen(self):
-        for avId in self.avatarChoices.keys():
+        for avId in list(self.avatarChoices.keys()):
             choice = self.avatarChoices[avId]
             if choice[0] == -1 and not self.stateDict[avId] == EXITED:
                 return False
@@ -214,7 +214,7 @@ class DistributedTravelGameAI(DistributedMinigameAI):
 
     def giveBonusBeans(self, endingSwitch):
         noOneGotBonus = True
-        for avId in self.avIdBonuses.keys():
+        for avId in list(self.avIdBonuses.keys()):
             self.scoreDict[avId] = 0
             if self.avIdBonuses[avId][0] == endingSwitch and not self.stateDict[avId] == EXITED:
                 noOneGotBonus = False
@@ -222,7 +222,7 @@ class DistributedTravelGameAI(DistributedMinigameAI):
                 self.gotBonus[avId] = self.avIdBonuses[avId][1]
 
         if noOneGotBonus:
-            for avId in self.avIdBonuses.keys():
+            for avId in list(self.avIdBonuses.keys()):
                 self.scoreDict[avId] = 1
 
     def checkForEndGame(self):
@@ -258,7 +258,7 @@ class DistributedTravelGameAI(DistributedMinigameAI):
         numPlayers = len(self.avIdList)
         allowedGames = list(ToontownGlobals.MinigamePlayerMatrix[numPlayers])
         self.switchToMinigameDict = {}
-        for switch in TravelGameGlobals.BoardLayouts[self.boardIndex].keys():
+        for switch in list(TravelGameGlobals.BoardLayouts[self.boardIndex].keys()):
             if self.isLeaf(switch):
                 if len(allowedGames) == 0:
                     allowedGames = list(ToontownGlobals.MinigamePlayerMatrix[numPlayers])
@@ -268,7 +268,7 @@ class DistributedTravelGameAI(DistributedMinigameAI):
 
         switches = []
         minigames = []
-        for key in self.switchToMinigameDict.keys():
+        for key in list(self.switchToMinigameDict.keys()):
             switches.append(key)
             minigames.append(self.switchToMinigameDict[key])
 
@@ -276,7 +276,7 @@ class DistributedTravelGameAI(DistributedMinigameAI):
 
     def calcBonusBeans(self):
         possibleLeaves = []
-        for switch in TravelGameGlobals.BoardLayouts[self.boardIndex].keys():
+        for switch in list(TravelGameGlobals.BoardLayouts[self.boardIndex].keys()):
             if self.isLeaf(switch):
                 possibleLeaves.append(switch)
 
@@ -309,7 +309,7 @@ class DistributedTravelGameAI(DistributedMinigameAI):
         self.stateDict[avId] = EXITED
         allExited = True
         for avId in self.avIdList:
-            if avId in self.stateDict.keys() and self.stateDict[avId] != EXITED:
+            if avId in list(self.stateDict.keys()) and self.stateDict[avId] != EXITED:
                 allExited = False
                 break
 

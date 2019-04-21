@@ -1,6 +1,6 @@
 from panda3d.core import NodePath, DecalEffect
-import DNANode
-import DNAWall
+from . import DNANode
+from . import DNAWall
 
 import random
 
@@ -110,7 +110,7 @@ class DNAFlatBuilding(DNANode.DNANode):
             else:
                 child.traverse(node, dnaStorage)
         if DNAFlatBuilding.currentWallHeight == 0:
-            print 'empty flat building with no walls'
+            print('empty flat building with no walls')
         else:
             cameraBarrier = dnaStorage.findNode('wall_camera_barrier')
             if cameraBarrier is None:
@@ -132,7 +132,7 @@ class DNAFlatBuilding(DNANode.DNANode):
             windowCollection.reparentTo(wallDecal)
             doorCollection.reparentTo(wallDecal)
             corniceCollection.reparentTo(wallDecal)
-            for i in xrange(wallHolder.getNumChildren()):
+            for i in range(wallHolder.getNumChildren()):
                 iNode = wallHolder.getChild(i)
                 iNode.clearTag('DNACode')
                 iNode.clearTag('DNARoot')

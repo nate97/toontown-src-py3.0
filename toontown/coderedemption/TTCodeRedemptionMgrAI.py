@@ -43,7 +43,7 @@ class TTCodeRedemptionMgrAI(DistributedObjectAI):
         pass
 
     def redeemCode(self, context, code):
-        print 'Redeem code'
+        print('Redeem code')
         avId = self.air.getAvatarIdFromSender()
         if not avId:
             self.air.writeServerEvent('suspicious', avId=avId, issue='Tried to redeem a code from an invalid avId')
@@ -69,7 +69,7 @@ class TTCodeRedemptionMgrAI(DistributedObjectAI):
 
         # Get our redeemed Codes
         codes = av.getRedeemedCodes()
-        print codes
+        print(codes)
         if not codes:
             codes = [code]
             av.setRedeemedCodes(codes)

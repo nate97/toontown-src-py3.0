@@ -9,10 +9,10 @@ from toontown.toonbase import ToontownGlobals
 from direct.showbase import DirectObject
 from toontown.toon import ToonDNA
 from direct.fsm import ClassicFSM, State, StateData
-import ClosetGUI
+from . import ClosetGUI
 from direct.task.Task import Task
-import ClosetGlobals
-import DistributedFurnitureItem
+from . import ClosetGlobals
+from . import DistributedFurnitureItem
 from toontown.toonbase import TTLocalizer
 
 class DistributedCloset(DistributedFurnitureItem.DistributedFurnitureItem):
@@ -364,15 +364,15 @@ class DistributedCloset(DistributedFurnitureItem.DistributedFurnitureItem):
         return
 
     def printInfo(self):
-        print 'avid: %s, gender: %s' % (self.av.doId, self.av.style.gender)
-        print 'current top = %s,%s,%s,%s and  bot = %s,%s,' % (self.av.style.topTex,
+        print('avid: %s, gender: %s' % (self.av.doId, self.av.style.gender))
+        print('current top = %s,%s,%s,%s and  bot = %s,%s,' % (self.av.style.topTex,
          self.av.style.topTexColor,
          self.av.style.sleeveTex,
          self.av.style.sleeveTexColor,
          self.av.style.botTex,
-         self.av.style.botTexColor)
-        print 'topsList = %s' % self.av.getClothesTopsList()
-        print 'bottomsList = %s' % self.av.getClothesBottomsList()
+         self.av.style.botTexColor))
+        print('topsList = %s' % self.av.getClothesTopsList())
+        print('bottomsList = %s' % self.av.getClothesBottomsList())
 
     def setMovie(self, mode, avId, timestamp):
         self.isLocalToon = avId == base.localAvatar.doId

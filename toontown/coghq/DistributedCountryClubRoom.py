@@ -5,9 +5,9 @@ from direct.interval.IntervalGlobal import *
 import random
 from otp.level import DistributedLevel
 from direct.directnotify import DirectNotifyGlobal
-import CountryClubRoomBase, CountryClubRoom
-import FactoryEntityCreator
-import CountryClubRoomSpecs
+from . import CountryClubRoomBase, CountryClubRoom
+from . import FactoryEntityCreator
+from . import CountryClubRoomSpecs
 from otp.level import LevelSpec, LevelConstants
 from toontown.chat.ChatGlobals import CFThought, CFTimeout
 from toontown.toonbase import TTLocalizer
@@ -153,7 +153,7 @@ class DistributedCountryClubRoom(DistributedLevel.DistributedLevel, CountryClubR
             pos = base.localAvatar.getPos(thisZone)
             h = base.localAvatar.getH(thisZone)
             roomName = CountryClubRoomSpecs.BossbotCountryClubRoomId2RoomName[self.roomId]
-            print 'countryClub pos: %s, h: %s, room: %s' % (repr(pos), h, roomName)
+            print('countryClub pos: %s, h: %s, room: %s' % (repr(pos), h, roomName))
             if self.countryClub is not None:
                 floorNum = self.countryClub.floorNum
             else:

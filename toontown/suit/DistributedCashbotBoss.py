@@ -7,9 +7,9 @@ import math
 from panda3d.core import *
 import random
 
-import DistributedBossCog
-import DistributedCashbotBossGoon
-import SuitDNA
+from . import DistributedBossCog
+from . import DistributedCashbotBossGoon
+from . import SuitDNA
 from otp.otpbase import OTPGlobals
 from toontown.battle import MovieToonVictory
 from toontown.battle import RewardPanel
@@ -118,7 +118,7 @@ class DistributedCashbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         self.resistanceToon.suitType = SuitDNA.getRandomSuitByDept('m')
         random.setstate(state)
         self.fakeGoons = []
-        for i in xrange(self.numFakeGoons):
+        for i in range(self.numFakeGoons):
             goon = DistributedCashbotBossGoon.DistributedCashbotBossGoon(base.cr)
             goon.doId = -1 - i
             goon.setBossCogId(self.doId)
@@ -134,7 +134,7 @@ class DistributedCashbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
             self.resistanceToon.removeActive()
             self.resistanceToon.delete()
             self.resistanceToon = None
-            for i in xrange(self.numFakeGoons):
+            for i in range(self.numFakeGoons):
                 self.fakeGoons[i].disable()
                 self.fakeGoons[i].delete()
                 self.fakeGoons[i] = None
@@ -240,7 +240,7 @@ class DistributedCashbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
                 self.notify.warning('Not a collision node: %s' % repr(cnp))
                 break
             newCollideMask = newCollideMask | cn.getIntoCollideMask()
-            for i in xrange(cn.getNumSolids()):
+            for i in range(cn.getNumSolids()):
                 solid = cn.getSolid(i)
                 if isinstance(solid, CollisionPolygon):
                     plane = Plane(solid.getPlane())
@@ -389,7 +389,7 @@ class DistributedCashbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
           VBase3(231, 0, 0)]]
         mainGoon = self.fakeGoons[0]
         goonLoop = Parallel()
-        for i in xrange(1, self.numFakeGoons):
+        for i in range(1, self.numFakeGoons):
             goon = self.fakeGoons[i]
             goonLoop.append(Sequence(goon.posHprInterval(8, goonPosHprs[i][0], goonPosHprs[i][1]), goon.posHprInterval(8, goonPosHprs[i][2], goonPosHprs[i][3])))
 
@@ -476,7 +476,7 @@ class DistributedCashbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
 
     def moveToonsToBattleThreePos(self, toons):
         track = Parallel()
-        for i in xrange(len(toons)):
+        for i in range(len(toons)):
             toon = base.cr.doId2do.get(toons[i])
             if toon:
                 posHpr = ToontownGlobals.CashbotToonsBattleThreeStartPosHpr[i]
@@ -600,17 +600,17 @@ class DistributedCashbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
                 goon.b_destroyGoon()
 
     def deactivateCranes(self):
-        for crane in self.cranes.values():
+        for crane in list(self.cranes.values()):
             crane.demand('Free')
 
     def hideBattleThreeObjects(self):
         for goon in self.goons:
             goon.demand('Off')
 
-        for safe in self.safes.values():
+        for safe in list(self.safes.values()):
             safe.demand('Off')
 
-        for crane in self.cranes.values():
+        for crane in list(self.cranes.values()):
             crane.demand('Off')
 
     def __doPhysics(self, task):
@@ -634,7 +634,7 @@ class DistributedCashbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         radius = 7
         numToons = len(self.involvedToons)
         center = (numToons - 1) / 2.0
-        for i in xrange(numToons):
+        for i in range(numToons):
             toon = self.cr.doId2do.get(self.involvedToons[i])
             if toon:
                 angle = 90 - 15 * (i - center)

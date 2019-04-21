@@ -2,8 +2,8 @@ import math
 import re
 import time
 
-import OTPGlobals
-import OTPRender
+from . import OTPGlobals
+from . import OTPRender
 from direct.showbase.ShowBase import ShowBase
 from otp.ai.MagicWordGlobal import *
 from panda3d.core import Camera, TPLow, VBase4, ColorWriteAttrib, Filename, getModelPath, NodePath, Vec4
@@ -160,7 +160,7 @@ class OTPBase(ShowBase):
         while self.pixelZoomCamMovedList and self.pixelZoomCamMovedList[0][0] < now - self.pixelZoomCamHistory:
             del self.pixelZoomCamMovedList[0]
 
-        dist = sum(map(lambda pair: pair[1], self.pixelZoomCamMovedList))
+        dist = sum([pair[1] for pair in self.pixelZoomCamMovedList])
         speed = dist / self.pixelZoomCamHistory
         if speed < 5:
             self.backgroundDrawable.setPixelZoom(4)

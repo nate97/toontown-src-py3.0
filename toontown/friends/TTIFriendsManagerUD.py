@@ -102,7 +102,7 @@ class RemoveFriendOperation(OperationFSM):
 
     def enterRetrieved(self, friendsList):
         newList = []
-        for i in xrange(len(friendsList)):
+        for i in range(len(friendsList)):
             if friendsList[i][0] == self.target:
                 continue
             newList.append(friendsList[i])
@@ -268,7 +268,7 @@ class TTIFriendsManagerUD(DistributedObjectGlobalUD):
             moods = [fields.get(x, [0])[0] for x in ("setBoredom", "setRestlessness", "setPlayfulness", "setLoneliness", "setSadness", "setAffection", "setHunger", "setConfusion", "setExcitement", "setFatigue", "setAnger", "setSurprise")]
 
             traits = [fields.get(x, [0])[0] for x in ("setForgetfulness", "setBoredomThreshold", "setRestlessnessThreshold", "setPlayfulnessThreshold", "setLonelinessThreshold", "setSadnessThreshold", "setFatigueThreshold", "setHungerThreshold", "setConfusionThreshold", "setExcitementThreshold", "setAngerThreshold", "setSurpriseThreshold", "setAffectionThreshold")]
-            print str(dna) + '\n' + str(moods) + '\n' + str(traits)
+            print(str(dna) + '\n' + str(moods) + '\n' + str(traits))
 
             self.sendUpdateToAvatarId(senderId, 'petDetails', [avId, fields.get("setOwnerId", [0])[0], fields.get("setPetName", ["???"])[0],
                                                                fields.get("setTraitSeed", [0])[0], fields.get("setSafeZone", [0])[0],
@@ -319,7 +319,7 @@ class TTIFriendsManagerUD(DistributedObjectGlobalUD):
     # -- Teleport and Whispers --
     def routeTeleportQuery(self, toId):
         fromId = self.air.getAvatarIdFromSender()
-        if fromId in self.tpRequests.values():
+        if fromId in list(self.tpRequests.values()):
             return
         self.tpRequests[fromId] = toId
         self.sendUpdateToAvatarId(toId, 'teleportQuery', [fromId])
@@ -399,7 +399,7 @@ class TTIFriendsManagerUD(DistributedObjectGlobalUD):
         avId = self.air.getAvatarIdFromSender()
         allowed = string.lowercase + string.digits
         secret = ''
-        for i in xrange(6):
+        for i in range(6):
             secret += random.choice(allowed)
             if i == 2:
                 secret += ' '

@@ -2,11 +2,11 @@ from panda3d.core import *
 from toontown.toonbase.ToonBaseGlobal import *
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import StateData
-from PriorityCallback import PriorityCallbacks
+from .PriorityCallback import PriorityCallbacks
 from toontown.safezone import PublicWalk
 from toontown.launcher import DownloadForceAcknowledge
-import TrialerForceAcknowledge
-import ZoneUtil
+from . import TrialerForceAcknowledge
+from . import ZoneUtil
 from toontown.friends import FriendsListManager
 from toontown.toonbase import ToontownGlobals
 from toontown.toon.Toon import teleportDebug
@@ -16,7 +16,7 @@ from otp.otpbase import OTPLocalizer
 from otp.avatar import Emote
 from otp.avatar.Avatar import teleportNotify
 from direct.task import Task
-import QuietZoneState
+from . import QuietZoneState
 from toontown.distributed import ToontownDistrictStats
 
 class Place(StateData.StateData, FriendsListManager.FriendsListManager):
@@ -428,7 +428,7 @@ class Place(StateData.StateData, FriendsListManager.FriendsListManager):
             zoneId = 0
             ToontownDistrictStats.refresh('shardInfoUpdated')
             curShardTuples = base.cr.listActiveShards()
-            lowestPop = 100000000000000000L
+            lowestPop = 100000000000000000
             shardId = None
             for shardInfo in curShardTuples:
                 pop = shardInfo[2]
@@ -511,7 +511,7 @@ class Place(StateData.StateData, FriendsListManager.FriendsListManager):
         elif doneStatus['mode'] == 'incomplete':
             self.fsm.request('DFAReject')
         else:
-            Place.notify.error('Unknown done status for DownloadForceAcknowledge: ' + `doneStatus`)
+            Place.notify.error('Unknown done status for DownloadForceAcknowledge: ' + repr(doneStatus))
 
     def enterDFAReject(self):
         self.fsm.request('walk')

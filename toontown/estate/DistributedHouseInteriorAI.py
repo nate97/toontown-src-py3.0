@@ -1,14 +1,14 @@
 from direct.distributed.DistributedObjectAI import DistributedObjectAI
-from DistributedFurnitureManagerAI import *
+from .DistributedFurnitureManagerAI import *
 from toontown.catalog import CatalogItem
 from toontown.catalog.CatalogWindowItem import CatalogWindowItem
 from toontown.catalog.CatalogWallpaperItem import CatalogWallpaperItem
 from toontown.catalog.CatalogMouldingItem import CatalogMouldingItem
 from toontown.catalog.CatalogFlooringItem import CatalogFlooringItem
 from toontown.catalog.CatalogWainscotingItem import CatalogWainscotingItem
-from DNAFurnitureReaderAI import DNAFurnitureReaderAI
+from .DNAFurnitureReaderAI import DNAFurnitureReaderAI
 from toontown.dna.DNAParser import *
-import HouseGlobals
+from . import HouseGlobals
 import random
 
 # The house interior DNA files for each

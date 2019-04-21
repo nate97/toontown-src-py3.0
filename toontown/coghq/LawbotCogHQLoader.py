@@ -1,8 +1,8 @@
-import CogHQLoader
-import LawbotHQBossBattle
-import LawbotHQExterior
-import LawbotOfficeExterior
-import StageInterior
+from . import CogHQLoader
+from . import LawbotHQBossBattle
+from . import LawbotHQExterior
+from . import LawbotOfficeExterior
+from . import StageInterior
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import State
 from direct.fsm import StateData

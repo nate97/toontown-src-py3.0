@@ -1,4 +1,4 @@
-from ElevatorConstants import *
+from .ElevatorConstants import *
 from toontown.toonbase import ToontownGlobals
 
 

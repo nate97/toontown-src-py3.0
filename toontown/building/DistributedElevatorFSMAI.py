@@ -1,4 +1,4 @@
-from ElevatorConstants import *
+from .ElevatorConstants import *
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed import DistributedObjectAI
 from direct.distributed.ClockDelta import *
@@ -46,7 +46,7 @@ class DistributedElevatorFSMAI(DistributedObjectAI.DistributedObjectAI, FSM):
         self.bldg = bldg
         self.bldgDoId = bldg.getDoId()
         self.seats = []
-        for seat in xrange(numSeats):
+        for seat in range(numSeats):
             self.seats.append(None)
         self.accepting = 0
         self.setAntiShuffle(antiShuffle)
@@ -73,12 +73,12 @@ class DistributedElevatorFSMAI(DistributedObjectAI.DistributedObjectAI, FSM):
         return self.bldgDoId
 
     def findAvailableSeat(self):
-        for i in xrange(len(self.seats)):
+        for i in range(len(self.seats)):
             if self.seats[i] == None:
                 return i
 
     def findAvatar(self, avId):
-        for i in xrange(len(self.seats)):
+        for i in range(len(self.seats)):
             if self.seats[i] == avId:
                 return i
 
@@ -91,7 +91,7 @@ class DistributedElevatorFSMAI(DistributedObjectAI.DistributedObjectAI, FSM):
 
     def countOpenSeats(self):
         openSeats = 0
-        for i in xrange(len(self.seats)):
+        for i in range(len(self.seats)):
             if self.seats[i] == None:
                 openSeats += 1
         return openSeats
@@ -195,7 +195,7 @@ class DistributedElevatorFSMAI(DistributedObjectAI.DistributedObjectAI, FSM):
         self.accepting = 0
         self.timeOfBoarding = None
         if hasattr(self, 'doId'):
-            for seatIndex in xrange(len(self.seats)):
+            for seatIndex in range(len(self.seats)):
                 taskMgr.remove(self.uniqueName('clearEmpty-' + str(seatIndex)))
 
     def exitOff(self):
@@ -240,16 +240,16 @@ class DistributedElevatorFSMAI(DistributedObjectAI.DistributedObjectAI, FSM):
 
     def enterClosed(self):
         if hasattr(self, 'doId'):
-            print self.doId
+            print(self.doId)
         self.d_setState('Closed')
 
     def exitClosed(self):
         pass
 
     def enterWaitEmpty(self):
-        for i in xrange(len(self.seats)):
+        for i in range(len(self.seats)):
             self.seats[i] = None
-        print self.seats
+        print(self.seats)
         self.d_setState('WaitEmpty')
         self.accepting = 1
 

@@ -14,7 +14,7 @@ collections.namedtuple = lambda *x: tuple
 # This is included in the package by the prepare_client script. It contains the
 # PRC file data, and (stripped) DC file:
 import game_data
-import __builtin__
+import builtins
 
 # Load all of the packaged PRC config page(s):
 from panda3d.core import *
@@ -34,7 +34,7 @@ for mount in mounts:
     vfs.mount(mountFile, mountPoint, 0)
 
 # Next, let's get the DC stream:
-__builtin__.dcStream = StringStream(game_data.DC)
+builtins.dcStream = StringStream(game_data.DC)
 
 # Finally, start the game:
 import toontown.toonbase.ClientStart

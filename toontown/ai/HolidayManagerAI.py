@@ -59,7 +59,7 @@ class HolidayManagerAI:
         simbase.air.newsManager.d_setHolidayIdList([self.currentHolidays])
 
     def startHoliday(self, holidayId):
-        print "start holiday"
+        print("start holiday")
         if holidayId == TRICK_OR_TREAT:
             for hood in self.air.hoods:
                 hood.startupTrickOrTreat()
@@ -78,7 +78,7 @@ class HolidayManagerAI:
                 for fishingPond in hood.fishingPonds:
                     fishingPond.bingoMgr.b_enableBingo()
 
-            for estate in self.air.estateManager.estate2toons.keys():
+            for estate in list(self.air.estateManager.estate2toons.keys()):
                 if estate.pond:
                     estate.pond.bingoMgr.enableBingo()
 
@@ -118,7 +118,7 @@ class HolidayManagerAI:
                 for fishingPond in hood.fishingPonds:
                     fishingPond.bingoMgr.disableBingo()
 
-            for estate in self.air.estateManager.estate2toons.keys():
+            for estate in list(self.air.estateManager.estate2toons.keys()):
                 if estate.pond:
                     estate.pond.bingoMgr.disableBingo()
 

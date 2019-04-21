@@ -1,12 +1,12 @@
 from panda3d.core import *
 from direct.interval.IntervalGlobal import *
-from BattleBase import *
-from BattleProps import *
+from .BattleBase import *
+from .BattleProps import *
 from toontown.toonbase.ToontownBattleGlobals import *
-from SuitBattleGlobals import *
+from .SuitBattleGlobals import *
 from direct.directnotify import DirectNotifyGlobal
 import random
-import MovieUtil
+from . import MovieUtil
 notify = DirectNotifyGlobal.directNotify.newCategory('MovieCamera')
 
 def chooseHealShot(heals, attackDuration):
@@ -37,7 +37,7 @@ def chooseHealOpenShot(heals, attackDuration, isUber = 0):
     if isUber:
         duration = 5.0
     shotChoices = [toonGroupShot]
-    track = apply(random.choice(shotChoices), [av, duration])
+    track = random.choice(shotChoices)(*[av, duration])
     return track
 
 
@@ -48,7 +48,7 @@ def chooseHealMidShot(heals, attackDuration, isUber = 0):
     if isUber:
         duration = 2.1
     shotChoices = [toonGroupHighShot]
-    track = apply(random.choice(shotChoices), [av, duration])
+    track = random.choice(shotChoices)(*[av, duration])
     return track
 
 
@@ -58,7 +58,7 @@ def chooseHealCloseShot(heals, openDuration, openName, attackDuration, isUber = 
     shotChoices = [toonGroupShot]
     if isUber:
         shotChoices = [allGroupLowShot]
-    track = apply(random.choice(shotChoices), [av, duration])
+    track = random.choice(shotChoices)(*[av, duration])
     return track
 
 
@@ -78,7 +78,7 @@ def chooseTrapOpenShot(traps, attackDuration):
     av = None
     duration = 3.0
     shotChoices = [allGroupLowShot]
-    track = apply(random.choice(shotChoices), [av, duration])
+    track = random.choice(shotChoices)(*[av, duration])
     return track
 
 
@@ -86,7 +86,7 @@ def chooseTrapCloseShot(traps, openDuration, openName, attackDuration):
     av = None
     duration = attackDuration - openDuration
     shotChoices = [allGroupLowShot]
-    track = apply(random.choice(shotChoices), [av, duration])
+    track = random.choice(shotChoices)(*[av, duration])
     return track
 
 
@@ -106,7 +106,7 @@ def chooseLureOpenShot(lures, attackDuration):
     av = None
     duration = 3.0
     shotChoices = [allGroupLowShot]
-    track = apply(random.choice(shotChoices), [av, duration])
+    track = random.choice(shotChoices)(*[av, duration])
     return track
 
 
@@ -124,7 +124,7 @@ def chooseLureCloseShot(lures, openDuration, openName, attackDuration):
         av = lures[0]['toon']
     else:
         shotChoices = [allGroupLowShot]
-    track = apply(random.choice(shotChoices), [av, duration])
+    track = random.choice(shotChoices)(*[av, duration])
     return track
 
 
@@ -159,7 +159,7 @@ def chooseSoundOpenShot(sounds, targets, attackDuration):
         shotChoices = [allGroupLowShot, suitGroupThreeQuarterLeftBehindShot]
     else:
         notify.error('Bad number of sounds: %s' % numSounds)
-    track = apply(random.choice(shotChoices), [av, duration])
+    track = random.choice(shotChoices)(*[av, duration])
     return track
 
 
@@ -177,7 +177,7 @@ def chooseSoundCloseShot(sounds, targets, openDuration, openName, attackDuration
         shotChoices = [allGroupLowShot, suitGroupThreeQuarterLeftBehindShot]
     else:
         notify.error('Bad number of suits: %s' % numSuits)
-    track = apply(random.choice(shotChoices), [av, duration])
+    track = random.choice(shotChoices)(*[av, duration])
     return track
 
 
@@ -205,7 +205,7 @@ def chooseThrowOpenShot(throws, suitThrowsDict, attackDuration):
         shotChoices = [allGroupLowShot, suitGroupThreeQuarterLeftBehindShot]
     else:
         notify.error('Bad number of throws: %s' % numThrows)
-    track = apply(random.choice(shotChoices), [av, duration])
+    track = random.choice(shotChoices)(*[av, duration])
     return track
 
 
@@ -214,7 +214,7 @@ def chooseThrowCloseShot(throws, suitThrowsDict, openDuration, openName, attackD
     av = None
     duration = attackDuration - openDuration
     if numSuits == 1:
-        av = base.cr.doId2do[suitThrowsDict.keys()[0]]
+        av = base.cr.doId2do[list(suitThrowsDict.keys())[0]]
         shotChoices = [avatarCloseUpThrowShot,
          avatarCloseUpThreeQuarterLeftShot,
          allGroupLowShot,
@@ -223,7 +223,7 @@ def chooseThrowCloseShot(throws, suitThrowsDict, openDuration, openName, attackD
         shotChoices = [allGroupLowShot, suitGroupThreeQuarterLeftBehindShot]
     else:
         notify.error('Bad number of suits: %s' % numSuits)
-    track = apply(random.choice(shotChoices), [av, duration])
+    track = random.choice(shotChoices)(*[av, duration])
     return track
 
 
@@ -251,7 +251,7 @@ def chooseSquirtOpenShot(squirts, suitSquirtsDict, attackDuration):
         shotChoices = [allGroupLowShot, suitGroupThreeQuarterLeftBehindShot]
     else:
         notify.error('Bad number of squirts: %s' % numSquirts)
-    track = apply(random.choice(shotChoices), [av, duration])
+    track = random.choice(shotChoices)(*[av, duration])
     return track
 
 
@@ -260,7 +260,7 @@ def chooseSquirtCloseShot(squirts, suitSquirtsDict, openDuration, openName, atta
     av = None
     duration = attackDuration - openDuration
     if numSuits == 1:
-        av = base.cr.doId2do[suitSquirtsDict.keys()[0]]
+        av = base.cr.doId2do[list(suitSquirtsDict.keys())[0]]
         shotChoices = [avatarCloseUpThrowShot,
          avatarCloseUpThreeQuarterLeftShot,
          allGroupLowShot,
@@ -269,7 +269,7 @@ def chooseSquirtCloseShot(squirts, suitSquirtsDict, openDuration, openName, atta
         shotChoices = [allGroupLowShot, suitGroupThreeQuarterLeftBehindShot]
     else:
         notify.error('Bad number of suits: %s' % numSuits)
-    track = apply(random.choice(shotChoices), [av, duration])
+    track = random.choice(shotChoices)(*[av, duration])
     return track
 
 
@@ -299,7 +299,7 @@ def chooseDropOpenShot(drops, suitDropsDict, attackDuration):
         shotChoices = [allGroupLowShot, suitGroupThreeQuarterLeftBehindShot]
     else:
         notify.error('Bad number of drops: %s' % numDrops)
-    track = apply(random.choice(shotChoices), [av, duration])
+    track = random.choice(shotChoices)(*[av, duration])
     return track
 
 
@@ -308,7 +308,7 @@ def chooseDropCloseShot(drops, suitDropsDict, openDuration, openName, attackDura
     av = None
     duration = attackDuration - openDuration
     if numSuits == 1:
-        av = base.cr.doId2do[suitDropsDict.keys()[0]]
+        av = base.cr.doId2do[list(suitDropsDict.keys())[0]]
         shotChoices = [avatarCloseUpThrowShot,
          avatarCloseUpThreeQuarterLeftShot,
          allGroupLowShot,
@@ -326,7 +326,7 @@ def chooseNPCEnterShot(enters, entersDuration):
     av = None
     duration = entersDuration
     shotChoices = [toonGroupShot]
-    track = apply(random.choice(shotChoices), [av, duration])
+    track = random.choice(shotChoices)(*[av, duration])
     return track
 
 
@@ -334,7 +334,7 @@ def chooseNPCExitShot(exits, exitsDuration):
     av = None
     duration = exitsDuration
     shotChoices = [toonGroupShot]
-    track = apply(random.choice(shotChoices), [av, duration])
+    track = random.choice(shotChoices)(*[av, duration])
     return track
 
 
@@ -521,7 +521,7 @@ def chooseSuitCloseShot(attack, openDuration, openName, attackDuration):
             diedTrack = pbpText.getToonsDiedInterval(diedTextList, duration)
     else:
         notify.error('Bad groupStatus: %s' % groupStatus)
-    track = apply(random.choice(shotChoices), [av, duration])
+    track = random.choice(shotChoices)(*[av, duration])
     if diedTrack == None:
         return track
     else:
@@ -567,7 +567,7 @@ def chooseSOSShot(av, duration):
      avatarBehindShot,
      avatarBehindHighShot,
      suitGroupThreeQuarterLeftBehindShot]
-    track = apply(random.choice(shotChoices), [av, duration])
+    track = random.choice(shotChoices)(*[av, duration])
     return track
 
 
@@ -677,7 +677,7 @@ def suitCameraShakeShot(avatar, duration, shakeIntensity, quake = 0):
         vertShakeTrack = Sequence(Wait(shakeWaitInterval), Func(camera.setZ, camera.getZ() + intensity / 2), Wait(shakeDuration / 2), Func(camera.setZ, camera.getZ() - intensity), Wait(shakeDuration / 2), Func(camera.setZ, camera.getZ() + intensity / 2))
         horizShakeTrack = Sequence(Wait(shakeWaitInterval - shakeDuration / 2), Func(camera.setY, camera.getY() + intensity / 4), Wait(shakeDuration / 2), Func(camera.setY, camera.getY() - intensity / 2), Wait(shakeDuration / 2), Func(camera.setY, camera.getY() + intensity / 4), Wait(shakeDuration / 2), Func(camera.lookAt, Point3(0, 0, 0)))
         shakeTrack = Sequence()
-        for i in xrange(0, numShakes):
+        for i in range(0, numShakes):
             if quake == 0:
                 shakeTrack.append(vertShakeTrack)
             else:
@@ -893,7 +893,7 @@ def randomCameraSelection(suit, attack, attackDuration, openShotDuration):
     if openShotDuration > attackDuration:
         openShotDuration = attackDuration
     closeShotDuration = attackDuration - openShotDuration
-    openShot = apply(random.choice(shotChoices), [suit, openShotDuration])
+    openShot = random.choice(shotChoices)(*[suit, openShotDuration])
     closeShot = chooseSuitCloseShot(attack, closeShotDuration, openShot.getName(), attackDuration)
     return Sequence(openShot, closeShot)
 
@@ -945,8 +945,8 @@ def chooseFireOpenShot(throws, suitThrowsDict, attackDuration):
     else:
         notify.error('Bad number of throws: %s' % numThrows)
     shotChoice = random.choice(shotChoices)
-    track = apply(shotChoice, [av, duration])
-    print 'chooseFireOpenShot %s' % shotChoice
+    track = shotChoice(*[av, duration])
+    print('chooseFireOpenShot %s' % shotChoice)
     return track
 
 
@@ -955,7 +955,7 @@ def chooseFireCloseShot(throws, suitThrowsDict, openDuration, openName, attackDu
     av = None
     duration = attackDuration - openDuration
     if numSuits == 1:
-        av = base.cr.doId2do[suitThrowsDict.keys()[0]]
+        av = base.cr.doId2do[list(suitThrowsDict.keys())[0]]
         shotChoices = [avatarCloseUpFireShot,
          avatarCloseUpThreeQuarterLeftFireShot,
          allGroupLowShot,
@@ -965,8 +965,8 @@ def chooseFireCloseShot(throws, suitThrowsDict, openDuration, openName, attackDu
     else:
         notify.error('Bad number of suits: %s' % numSuits)
     shotChoice = random.choice(shotChoices)
-    track = apply(shotChoice, [av, duration])
-    print 'chooseFireOpenShot %s' % shotChoice
+    track = shotChoice(*[av, duration])
+    print('chooseFireOpenShot %s' % shotChoice)
     return track
 
 

@@ -1,5 +1,5 @@
 from panda3d.core import *
-from ToontownAIMsgTypes import *
+from .ToontownAIMsgTypes import *
 from direct.directnotify.DirectNotifyGlobal import *
 from toontown.toon import DistributedToonAI
 from direct.distributed.PyDatagram import PyDatagram
@@ -26,14 +26,14 @@ class DatabaseObject:
     if simbase.wantPets:
 
         def readPet(self):
-            print "READ PET"
+            print("READ PET")
             from toontown.pets import DistributedPetAI
             pet = DistributedPetAI.DistributedPetAI(self.air)
             self.readObject(pet, None)
             return pet
 
         def readPetProxy(self):
-            print "PET PROXY"
+            print("PET PROXY")
             from toontown.pets import DistributedPetProxyAI
             petProxy = DistributedPetProxyAI.DistributedPetProxyAI(self.air)
             self.readObject(petProxy, None)
@@ -72,7 +72,7 @@ class DatabaseObject:
         return
 
     def getFields(self, fields):
-        print "????????????"
+        print("????????????")
         context = self.air.dbObjContext
         self.air.dbObjContext += 1
         self.air.dbObjMap[context] = self
@@ -93,7 +93,7 @@ class DatabaseObject:
             return
         count = di.getUint16()
         fields = []
-        for i in xrange(count):
+        for i in range(count):
             name = di.getString()
             fields.append(name)
 
@@ -102,11 +102,11 @@ class DatabaseObject:
             self.notify.warning('Failed to retrieve data for object %d' % self.doId)
         else:
             values = []
-            for i in xrange(count):
+            for i in range(count):
                 value = di.getString()
                 values.append(value)
 
-            for i in xrange(count):
+            for i in range(count):
                 found = di.getUint8()
                 if not found:
                     self.notify.info('field %s is not found' % fields[i])
@@ -131,7 +131,7 @@ class DatabaseObject:
         dg.addServerHeader(DBSERVER_ID, self.air.ourChannel, DBSERVER_SET_STORED_VALUES)
         dg.addUint32(self.doId)
         dg.addUint16(len(values))
-        items = values.items()
+        items = list(values.items())
         for field, value in items:
             dg.addString(field)
 
@@ -142,7 +142,7 @@ class DatabaseObject:
 
     def getDatabaseFields(self, dclass):
         fields = []
-        for i in xrange(dclass.getNumInheritedFields()):
+        for i in range(dclass.getNumInheritedFields()):
             dcf = dclass.getInheritedField(i)
             af = dcf.asAtomicField()
             if af:
@@ -153,7 +153,7 @@ class DatabaseObject:
 
     def fillin(self, do, dclass):
         do.doId = self.doId
-        for field, value in self.values.items():
+        for field, value in list(self.values.items()):
             if field == 'setZonesVisited' and value.getLength() == 1:
                 self.notify.warning('Ignoring broken setZonesVisited')
             else:
@@ -175,7 +175,7 @@ class DatabaseObject:
 
     def createObject(self, objectType):
         values = {}
-        for key, value in values.items():
+        for key, value in list(values.items()):
             values[key] = PyDatagram(str(value))
 
         context = self.air.dbObjContext
@@ -188,10 +188,10 @@ class DatabaseObject:
         dg.addString('')
         dg.addUint16(objectType)
         dg.addUint16(len(values))
-        for field in values.keys():
+        for field in list(values.keys()):
             dg.addString(field)
 
-        for value in values.values():
+        for value in list(values.values()):
             dg.addString(value.getMessage())
 
         self.air.send(dg)
@@ -212,5 +212,5 @@ class DatabaseObject:
         dg = PyDatagram()
         dg.addServerHeader(DBSERVER_ID, self.air.ourChannel, DBSERVER_DELETE_STORED_OBJECT)
         dg.addUint32(self.doId)
-        dg.addUint32(3735928559L)
+        dg.addUint32(3735928559)
         self.air.send(dg)

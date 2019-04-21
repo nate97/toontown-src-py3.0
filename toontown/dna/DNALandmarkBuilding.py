@@ -1,7 +1,7 @@
 from panda3d.core import LVector4f
-import DNANode
-import DNAUtil
-import DNAError
+from . import DNANode
+from . import DNAUtil
+from . import DNAError
 
 class DNALandmarkBuilding(DNANode.DNANode):
     COMPONENT_CODE = 13

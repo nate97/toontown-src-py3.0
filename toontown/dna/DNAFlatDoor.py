@@ -1,5 +1,5 @@
 from panda3d.core import NodePath, DecalEffect
-import DNADoor
+from . import DNADoor
 
 class DNAFlatDoor(DNADoor.DNADoor):
     COMPONENT_CODE = 18

@@ -7,7 +7,7 @@ from toontown.toonbase.ToonBaseGlobal import *
 from panda3d.core import *
 from toontown.toonbase.ToontownGlobals import *
 import random
-import cPickle
+import pickle
 
 class DistributedLeaderBoard(DistributedObject.DistributedObject):
     notify = DirectNotifyGlobal.directNotify.newCategory('DisributedLeaderBoard')
@@ -53,7 +53,7 @@ class DistributedLeaderBoard(DistributedObject.DistributedObject):
     def setDisplay(self, pData): # NJF
         self.notify.debug('setDisplay: changing leaderboard text on local side')
         
-        boardInfo = cPickle.loads(pData)
+        boardInfo = pickle.loads(pData)
 
         trackName = boardInfo.get("name")
         recordTitle = boardInfo.get("scoreType")
@@ -78,7 +78,7 @@ class DistributedLeaderBoard(DistributedObject.DistributedObject):
         z = zListTop
         self.nameTextNodes = []
         self.timeTextNodes = []
-        for i in xrange(10):
+        for i in range(10):
             row, nameText, timeText, placeText = self.buildLeaderRow()
             self.nameTextNodes.append(nameText)
             placeText.setText(str(len(self.nameTextNodes)) + '.')
@@ -98,7 +98,7 @@ class DistributedLeaderBoard(DistributedObject.DistributedObject):
         self.titleTextNode.setText(pPeriodTitle)
         self.trackNameNode.setText(pTrackTitle)
         self.updateCount += 1
-        for i in xrange(10):
+        for i in range(10):
             if i >= len(pLeaderList):
                 self.nameTextNodes[i].setText('-')
                 self.timeTextNodes[i].setText('-')

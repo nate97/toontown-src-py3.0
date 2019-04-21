@@ -8,9 +8,9 @@ from direct.directnotify import DirectNotifyGlobal
 from direct.gui.DirectGui import *
 from panda3d.core import *
 from otp.chat import ChatManager
-from TTChatInputSpeedChat import TTChatInputSpeedChat
-from TTChatInputNormal import TTChatInputNormal
-from TTChatInputWhiteList import TTChatInputWhiteList
+from .TTChatInputSpeedChat import TTChatInputSpeedChat
+from .TTChatInputNormal import TTChatInputNormal
+from .TTChatInputWhiteList import TTChatInputWhiteList
 
 class HackedDirectRadioButton(DirectCheckButton):
 

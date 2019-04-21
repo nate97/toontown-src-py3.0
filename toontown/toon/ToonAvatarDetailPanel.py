@@ -6,9 +6,9 @@ from direct.showbase import DirectObject
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
 from direct.directnotify import DirectNotifyGlobal
-import DistributedToon
+from . import DistributedToon
 from toontown.friends import FriendInviter
-import ToonTeleportPanel
+from . import ToonTeleportPanel
 from toontown.toonbase import TTLocalizer
 from toontown.hood import ZoneUtil
 from toontown.toonbase.ToontownBattleGlobals import Tracks, Levels
@@ -208,11 +208,11 @@ class ToonAvatarDetailPanel(DirectFrame):
         inventory = self.avatar.inventory
         inventoryModels = loader.loadModel('phase_3.5/models/gui/inventory_gui')
         buttonModel = inventoryModels.find('**/InventoryButtonUp')
-        for track in xrange(0, len(Tracks)):
+        for track in range(0, len(Tracks)):
             DirectLabel(parent=self, relief=None, text=TextEncoder.upper(TTLocalizer.BattleGlobalTracks[track]), text_scale=TTLocalizer.TADPtrackLabel, text_align=TextNode.ALeft, pos=(-0.9, 0, TTLocalizer.TADtrackLabelPosZ + track * ySpacing))
             if self.avatar.hasTrackAccess(track):
                 curExp, nextExp = inventory.getCurAndNextExpValues(track)
-                for item in xrange(0, len(Levels[track])):
+                for item in range(0, len(Levels[track])):
                     level = Levels[track][item]
                     if curExp >= level:
                         numItems = inventory.numItem(track, item)

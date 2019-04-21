@@ -52,7 +52,7 @@ class DisplaySettingsDialog(DirectFrame, StateData.StateData):
             # Okay, we don't have any resolutions that match our native ratio
             # and fit it (besides the native resolution itself, of course).
             # Let's just use the second largest ratio's resolutions:
-            ratios = sorted(base.resDict.keys(), reverse=False)
+            ratios = sorted(list(base.resDict.keys()), reverse=False)
             nativeIndex = ratios.index(base.nativeRatio)
             self.screenSizes = sorted(base.resDict[ratios[nativeIndex - 1]])
 
@@ -227,7 +227,7 @@ class DisplaySettingsDialog(DirectFrame, StateData.StateData):
             self.screenSizeRightArrow.hide()
 
     def chooseClosestScreenSize(self, currentXSize, currentYSize):
-        for i in xrange(len(self.screenSizes)):
+        for i in range(len(self.screenSizes)):
             xSize, ySize = self.screenSizes[i]
             if currentXSize == xSize and currentYSize == ySize:
                 return i
@@ -235,7 +235,7 @@ class DisplaySettingsDialog(DirectFrame, StateData.StateData):
         currentCount = currentXSize * currentYSize
         bestDiff = None
         bestI = None
-        for i in xrange(len(self.screenSizes)):
+        for i in range(len(self.screenSizes)):
             xSize, ySize = self.screenSizes[i]
             diff = abs(xSize * ySize - currentCount)
             if bestI == None or diff < bestDiff:
@@ -315,7 +315,7 @@ class DisplaySettingsDialog(DirectFrame, StateData.StateData):
                     # ratio and fit it (besides the native resolution itself,
                     # of course). Let's just use one of the second largest
                     # ratio's resolutions:
-                    ratios = sorted(base.resDict.keys(), reverse=False)
+                    ratios = sorted(list(base.resDict.keys()), reverse=False)
                     nativeIndex = ratios.index(base.nativeRatio)
                     width, height = sorted(base.resDict[ratios[nativeIndex - 1]])[0]
             properties.setSize(width, height)

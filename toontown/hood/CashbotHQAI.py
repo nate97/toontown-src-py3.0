@@ -38,7 +38,7 @@ class CashbotHQAI(CogHQAI.CogHQAI):
             ToontownGlobals.CashbotMintIntC
         )
         mins = ToontownGlobals.FactoryLaffMinimums[1]
-        for i in xrange(len(destZones)):
+        for i in range(len(destZones)):
             mintElevator = DistributedMintElevatorExtAI(
                 self.air, self.air.mintMgr, destZones[i],
                 antiShuffle=0, minLaff=mins[i])

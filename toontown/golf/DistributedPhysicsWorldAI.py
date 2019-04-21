@@ -2,7 +2,7 @@ from math import *
 import math
 import random, time
 
-import BuildGeometry
+from . import BuildGeometry
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed import DistributedObjectAI
 from panda3d.core import *
@@ -56,11 +56,11 @@ class DistributedPhysicsWorldAI(DistributedObjectAI.DistributedObjectAI, Physics
             self.doAction()
 
     def setupCommonObjects(self):
-        print self.commonHoldData
+        print(self.commonHoldData)
         if not self.commonHoldData:
             return
         elif self.commonHoldData[0][1] == 99:
-            print 'no common objects'
+            print('no common objects')
         else:
             self.useCommonObjectData(self.commonHoldData, 0)
 

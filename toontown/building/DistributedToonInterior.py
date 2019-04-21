@@ -1,8 +1,8 @@
-import cPickle
+import pickle
 import random
 
-import ToonInterior
-import ToonInteriorColors
+from . import ToonInterior
+from . import ToonInteriorColors
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed import DistributedObject
 from direct.distributed.ClockDelta import *
@@ -60,7 +60,7 @@ class DistributedToonInterior(DistributedObject.DistributedObject):
     def replaceRandomInModel(self, model):
         baseTag = 'random_'
         npc = model.findAllMatches('**/' + baseTag + '???_*')
-        for i in xrange(npc.getNumPaths()):
+        for i in range(npc.getNumPaths()):
             np = npc.getPath(i)
             name = np.getName()
             b = len(baseTag)
@@ -147,7 +147,7 @@ class DistributedToonInterior(DistributedObject.DistributedObject):
         self.block = block
 
     def setToonData(self, toonData):
-        savedBy = cPickle.loads(toonData)
+        savedBy = pickle.loads(toonData)
         self.savedBy = savedBy
 
     def buildTrophy(self):
@@ -167,7 +167,7 @@ class DistributedToonInterior(DistributedObject.DistributedObject):
     def buildFrame(self, name, dnaTuple):
         frame = loader.loadModel('phase_3.5/models/modules/trophy_frame')
         dna = ToonDNA.ToonDNA()
-        apply(dna.newToonFromProperties, dnaTuple)
+        dna.newToonFromProperties(*dnaTuple)
         head = ToonHead.ToonHead()
         head.setupHead(dna)
         head.setPosHprScale(0, -0.05, -0.05, 180, 0, 0, 0.55, 0.02, 0.55)

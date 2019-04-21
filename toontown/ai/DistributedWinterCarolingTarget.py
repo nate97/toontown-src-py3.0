@@ -19,7 +19,7 @@ class DistributedWinterCarolingTarget(DistributedObject.DistributedObject):
     def phraseSaid(self, phraseId):
         self.notify.debug('Checking if phrase was said')
         helpPhrases = []
-        for i in xrange(6):
+        for i in range(6):
             helpPhrases.append(30220 + i)
 
         def reset():

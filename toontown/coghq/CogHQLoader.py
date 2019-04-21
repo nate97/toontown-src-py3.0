@@ -1,4 +1,4 @@
-import CogHQLobby
+from . import CogHQLobby
 from direct.directnotify import DirectNotifyGlobal
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State

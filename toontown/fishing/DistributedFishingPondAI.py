@@ -16,7 +16,7 @@ class DistributedFishingPondAI(DistributedObjectAI):
         self.bingoMgr = None
 
     def start(self):
-        for _ in xrange(FishingTargetGlobals.getNumTargets(self.area)):
+        for _ in range(FishingTargetGlobals.getNumTargets(self.area)):
             fishingTarget = DistributedFishingTargetAI(simbase.air)
             fishingTarget.setPondDoId(self.doId)
             fishingTarget.generateWithRequired(self.zoneId)

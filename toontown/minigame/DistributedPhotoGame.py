@@ -1,7 +1,7 @@
 from direct.directnotify import DirectNotifyGlobal
 from panda3d.core import *
 from toontown.toonbase.ToonBaseGlobal import *
-from DistributedMinigame import *
+from .DistributedMinigame import *
 from direct.distributed.ClockDelta import *
 from direct.interval.IntervalGlobal import *
 from direct.fsm import ClassicFSM, State
@@ -11,7 +11,7 @@ from toontown.toonbase import ToontownTimer
 from direct.task.Task import Task
 import math
 from toontown.toon import ToonHead
-import PhotoGameGlobals
+from . import PhotoGameGlobals
 from direct.gui.DirectGui import *
 from panda3d.core import *
 from toontown.toonbase import TTLocalizer
@@ -295,9 +295,9 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
         self.traverser = CollisionTraverser('traverser name')
         self.rayArray = []
         vRange = (GOODROWS - BADROWS) / 2
-        for row in xrange(-(GOODROWS / 2), GOODROWS / 2 + 1):
-            for column in xrange(-(GOODROWS / 2), GOODROWS / 2 + 1):
-                goodRange = range(-((GOODROWS - BADROWS) / 2), (GOODROWS - BADROWS) / 2 + 1)
+        for row in range(-(GOODROWS / 2), GOODROWS / 2 + 1):
+            for column in range(-(GOODROWS / 2), GOODROWS / 2 + 1):
+                goodRange = list(range(-((GOODROWS - BADROWS) / 2), (GOODROWS - BADROWS) / 2 + 1))
                 rayQuality = 'g'
                 if row not in goodRange or column not in goodRange:
                     rayQuality = 'l'
@@ -411,7 +411,7 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
         distDict = {}
         hitDict = {}
         centerDict = {}
-        for i in xrange(self.queue.getNumEntries()):
+        for i in range(self.queue.getNumEntries()):
             entry = self.queue.getEntry(i)
             object = None
             objectIndex = None
@@ -728,7 +728,7 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
         self.scenery.append(self.photoRoot)
         random.seed(time.time())
         namegen = NameGenerator.NameGenerator()
-        for pathIndex in xrange(len(self.data['PATHS'])):
+        for pathIndex in range(len(self.data['PATHS'])):
             path = self.data['PATHS'][pathIndex]
             subject = Toon.Toon()
             gender = random.choice(['m', 'f'])
@@ -988,7 +988,7 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
     def printAD(self):
         for assignment in self.assignmentDataDict:
             data = self.assignmentDataDict[assignment]
-            print 'Key:%s\nData:%s\n' % (str(assignment), data)
+            print('Key:%s\nData:%s\n' % (str(assignment), data))
 
     def updateScorePanel(self):
         teamScore = 0.0
@@ -1016,7 +1016,7 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
             starList = self.starDict[data[1]]
             starParent = self.starParentDict[data[1]]
             score = int(data[2])
-            for index in xrange(NUMSTARS):
+            for index in range(NUMSTARS):
                 if index < score:
                     starList[index].show()
                 else:
@@ -1055,7 +1055,7 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
         starImage = loader.loadModel('phase_4/models/minigames/photogame_star')
         starParent = model.attachNewNode('star parent')
         self.starDict[model] = []
-        for index in xrange(NUMSTARS):
+        for index in range(NUMSTARS):
             star = DirectLabel(parent=starParent, image=starImage, image_color=(1, 1, 1, 1), image_scale=Point3(STARSIZE, 0.0, STARSIZE), relief=None)
             star.setX(STARSIZE * -0.5 * float(NUMSTARS) + float(index + 0.5) * STARSIZE)
             star.setZ(-0.05 - STARSIZE)
@@ -1588,7 +1588,7 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
 
     def makeDictionaries(self, dnaStore):
         self.nodeList = []
-        for i in xrange(dnaStore.getNumDNAVisGroups()):
+        for i in range(dnaStore.getNumDNAVisGroups()):
             groupFullName = dnaStore.getDNAVisGroupName(i)
             groupName = base.cr.hoodMgr.extractGroupName(groupFullName)
             groupNode = self.scene.find('**/' + groupFullName)
@@ -1613,7 +1613,7 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
         for i in nodeList:
             animPropNodes = i.findAllMatches('**/animated_prop_*')
             numAnimPropNodes = animPropNodes.getNumPaths()
-            for j in xrange(numAnimPropNodes):
+            for j in range(numAnimPropNodes):
                 animPropNode = animPropNodes.getPath(j)
                 if animPropNode.getName().startswith('animated_prop_generic'):
                     className = 'GenericAnimatedProp'
@@ -1628,7 +1628,7 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
 
             interactivePropNodes = i.findAllMatches('**/interactive_prop_*')
             numInteractivePropNodes = interactivePropNodes.getNumPaths()
-            for j in xrange(numInteractivePropNodes):
+            for j in range(numInteractivePropNodes):
                 interactivePropNode = interactivePropNodes.getPath(j)
                 className = 'GenericAnimatedProp'
                 symbols = {}

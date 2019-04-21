@@ -3,7 +3,7 @@ from direct.distributed.DistributedObjectAI import DistributedObjectAI
 from toontown.fsm.FSM import FSM
 from toontown.estate.DistributedEstateAI import DistributedEstateAI
 from toontown.estate.DistributedHouseAI import DistributedHouseAI
-import HouseGlobals
+from . import HouseGlobals
 import functools
 
 class LoadHouseFSM(FSM):
@@ -215,7 +215,7 @@ class LoadEstateFSM(FSM):
     def enterLoadHouses(self):
         self.houseFSMs = []
 
-        for houseIndex in xrange(6):
+        for houseIndex in range(6):
             fsm = LoadHouseFSM(self.mgr, self.estate, houseIndex,
                                self.toons[houseIndex], self.__houseDone)
             self.houseFSMs.append(fsm)

@@ -5,11 +5,11 @@ from panda3d.core import *
 from panda3d.core import *
 import random
 
-import CatalogFurnitureItem
-import CatalogInvalidItem
-import CatalogItem
-import CatalogItemPanel
-import CatalogItemTypes
+from . import CatalogFurnitureItem
+from . import CatalogInvalidItem
+from . import CatalogItem
+from . import CatalogItemPanel
+from . import CatalogItemTypes
 
 from toontown.chat.ChatBalloon import ChatBalloon
 from toontown.nametag import NametagGlobals
@@ -314,11 +314,11 @@ class CatalogScreen(DirectFrame):
             pIndex = 0
             randGen = random.Random()
             randGen.seed(base.localAvatar.catalogScheduleCurrentWeek + (self.pageIndex << 8) + (newOrBackOrLoyalty << 16))
-            for i in xrange(NUM_CATALOG_ROWS):
-                for j in xrange(NUM_CATALOG_COLS):
+            for i in range(NUM_CATALOG_ROWS):
+                for j in range(NUM_CATALOG_COLS):
                     if pIndex < len(self.visiblePanels):
                         type = self.visiblePanels[pIndex]['item'].getTypeCode()
-                        self.squares[i][j].setColor(CatalogPanelColors.values()[randGen.randint(0, len(CatalogPanelColors) - 1)])
+                        self.squares[i][j].setColor(list(CatalogPanelColors.values())[randGen.randint(0, len(CatalogPanelColors) - 1)])
                         cs = 0.7 + 0.3 * randGen.random()
                         self.squares[i][j].setColorScale(0.7 + 0.3 * randGen.random(), 0.7 + 0.3 * randGen.random(), 0.7 + 0.3 * randGen.random(), 1)
                     else:
@@ -354,7 +354,7 @@ class CatalogScreen(DirectFrame):
     def adjustForSound(self):
         numEmoteItems = 0
         emotePanels = []
-        for visIndex in xrange(len(self.visiblePanels)):
+        for visIndex in range(len(self.visiblePanels)):
             panel = self.visiblePanels[visIndex]
             item = panel['item']
             catalogType = item.getTypeCode()
@@ -582,7 +582,7 @@ class CatalogScreen(DirectFrame):
             self.__chooseFriend(self.ffList[0][0], self.ffList[0][1])
             self.update()
             self.createdGiftGui = 1
-        for i in xrange(4):
+        for i in range(4):
             self.newCatalogButton.component('text%d' % i).setR(90)
             self.newCatalogButton2.component('text%d' % i).setR(90)
             self.backCatalogButton.component('text%d' % i).setR(90)
@@ -596,8 +596,8 @@ class CatalogScreen(DirectFrame):
          [],
          [],
          []]
-        for i in xrange(NUM_CATALOG_ROWS):
-            for j in xrange(NUM_CATALOG_COLS):
+        for i in range(NUM_CATALOG_ROWS):
+            for j in range(NUM_CATALOG_COLS):
                 square = guiItems.find('**/square%d%db' % (i + 1, j + 1))
                 label = DirectLabel(self.base, image=square, relief=None, state='normal')
                 self.squares[i].append(label)

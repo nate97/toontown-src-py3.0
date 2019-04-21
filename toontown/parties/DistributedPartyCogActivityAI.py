@@ -57,7 +57,7 @@ class DistributedPartyCogActivityAI(DistributedPartyTeamActivityAI):
         self.sendUpdate('setCogDistances', [self.cogDistances])
 
     def calcReward(self):
-        for avId, s in self.scores.items():
+        for avId, s in list(self.scores.items()):
             s = int(s / PartyGlobals.CogPinataPushBodyFactor)
             if s > self.highscore[1]:
                 av = self.air.doId2do.get(avId)

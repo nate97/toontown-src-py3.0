@@ -4,9 +4,9 @@ from direct.interval.IntervalGlobal import *
 from panda3d.core import *
 import random
 
-import FactoryEntityCreator
-import MintRoomBase, MintRoom
-import MintRoomSpecs
+from . import FactoryEntityCreator
+from . import MintRoomBase, MintRoom
+from . import MintRoomSpecs
 from otp.level import DistributedLevel
 from otp.level import LevelSpec, LevelConstants
 from toontown.chat.ChatGlobals import CFThought, CFTimeout
@@ -155,7 +155,7 @@ class DistributedMintRoom(DistributedLevel.DistributedLevel, MintRoomBase.MintRo
             pos = base.localAvatar.getPos(thisZone)
             h = base.localAvatar.getH(thisZone)
             roomName = MintRoomSpecs.CashbotMintRoomId2RoomName[self.roomId]
-            print 'mint pos: %s, h: %s, room: %s' % (repr(pos), h, roomName)
+            print('mint pos: %s, h: %s, room: %s' % (repr(pos), h, roomName))
             if self.mint is not None:
                 floorNum = self.mint.floorNum
             else:

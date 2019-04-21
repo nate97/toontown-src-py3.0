@@ -88,7 +88,7 @@ def checkName(name, otherCheckFuncs = [], font = None):
             tn.setFont(font)
             for c in name:
                 # Define c as unicode
-                if not tn.hasCharacter(unichr(ord(c))):
+                if not tn.hasCharacter(chr(ord(c))):
                     notify.info('name contains bad char: %s' % TextEncoder().encodeWtext(c))
                     return OTPLocalizer.NCBadCharacter % TextEncoder().encodeWtext(c)
 
@@ -225,7 +225,7 @@ def checkName(name, otherCheckFuncs = [], font = None):
         letters = justLetters(name)
         if len(letters) > 2:
             upperLetters = TextEncoder().decodeText(TextEncoder.upper(TextEncoder().encodeWtext(letters)))
-            for i in xrange(len(upperLetters)):
+            for i in range(len(upperLetters)):
                 if not upperLetters[0].isupper():
                     return
 
@@ -243,11 +243,11 @@ def checkName(name, otherCheckFuncs = [], font = None):
                     return OTPLocalizer.NCMixedCase
 
     def checkJapanese(name):
-        asciiSpace = range(32, 33)
-        asciiDigits = range(48, 64)
-        hiragana = range(12353, 12448)
-        katakana = range(12449, 12544)
-        halfwidthKatakana = range(65381, 65440)
+        asciiSpace = list(range(32, 33))
+        asciiDigits = list(range(48, 64))
+        hiragana = list(range(12353, 12448))
+        katakana = list(range(12449, 12544))
+        halfwidthKatakana = list(range(65381, 65440))
         halfwidthCharacter = set(asciiSpace + halfwidthKatakana)
         allowedUtf8 = set(asciiSpace + hiragana + katakana + halfwidthKatakana)
 
@@ -261,7 +261,7 @@ def checkName(name, otherCheckFuncs = [], font = None):
                     return OTPLocalizer.NCNoDigits
                 else:
                     notify.info('name contains not allowed utf8 char: 0x%04x' % char)
-                    return OTPLocalizer.NCBadCharacter % te.encodeWtext(unichr(char))
+                    return OTPLocalizer.NCBadCharacter % te.encodeWtext(chr(char))
             elif char in halfwidthCharacter:
                 dc += 0.5
             else:
@@ -317,7 +317,7 @@ def checkName(name, otherCheckFuncs = [], font = None):
             nName = name[:]
             bName.reverse()
             problem = check(bName)
-            print 'problem = %s' % problem
+            print('problem = %s' % problem)
         if problem:
             return problem
 
@@ -326,7 +326,7 @@ def checkName(name, otherCheckFuncs = [], font = None):
 
 severity = notify.getSeverity()
 notify.setSeverity(NSError)
-for i in xrange(32):
+for i in range(32):
     pass
 
 for c in '!"#$%&()*+/:;<=>?@[\\]^_`{|}~':

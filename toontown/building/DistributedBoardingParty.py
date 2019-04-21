@@ -4,7 +4,7 @@ from direct.gui.DirectGui import *
 from direct.interval.IntervalGlobal import *
 from panda3d.core import *
 
-import BoardingGroupShow
+from . import BoardingGroupShow
 from toontown.building import BoardingPartyBase
 from toontown.chat.ChatGlobals import *
 from toontown.chat.WhisperPopup import *

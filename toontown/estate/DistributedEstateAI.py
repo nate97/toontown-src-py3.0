@@ -49,7 +49,7 @@ class DistributedEstateAI(DistributedObjectAI):
         if self.air.holidayManager.isHolidayRunning(ToontownGlobals.FISH_BINGO_NIGHT):
             self.pond.bingoMgr.enableBingo()
 
-        for i in xrange(FishingTargetGlobals.getNumTargets(ToontownGlobals.MyEstate)):
+        for i in range(FishingTargetGlobals.getNumTargets(ToontownGlobals.MyEstate)):
             target = DistributedFishingTargetAI(self.air)
             target.setPondDoId(self.pond.getDoId())
             target.generateWithRequired(self.zoneId)
@@ -265,7 +265,7 @@ class DistributedEstateAI(DistributedObjectAI):
         return self.toons[5]
 
     def setIdList(self, idList):
-        for i in xrange(len(idList)):
+        for i in range(len(idList)):
             if i >= 6:
                 return
             self.toons[i] = idList[i]

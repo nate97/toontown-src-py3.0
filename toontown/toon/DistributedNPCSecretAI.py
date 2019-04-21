@@ -1,6 +1,6 @@
 from otp.ai.AIBaseGlobal import *
-from DistributedNPCToonBaseAI import *
-from ToonDNA import *
+from .DistributedNPCToonBaseAI import *
+from .ToonDNA import *
 from DistributedBotAI import *
 import random
 

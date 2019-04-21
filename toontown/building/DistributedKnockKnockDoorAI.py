@@ -1,4 +1,4 @@
-import DistributedAnimatedPropAI
+from . import DistributedAnimatedPropAI
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed.ClockDelta import *
 from direct.fsm import ClassicFSM

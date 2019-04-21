@@ -1,7 +1,7 @@
-from BattleBase import *
-from BattleCalculatorAI import *
-import DistributedBattleBaseAI
-from SuitBattleGlobals import *
+from .BattleBase import *
+from .BattleCalculatorAI import *
+from . import DistributedBattleBaseAI
+from .SuitBattleGlobals import *
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed.ClockDelta import *
 from direct.fsm import ClassicFSM, State

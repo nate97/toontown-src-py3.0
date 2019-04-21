@@ -5,7 +5,7 @@ from direct.showbase import PythonUtil
 from direct.task import Task
 from panda3d.core import *
 
-from Avatar import Avatar
+from .Avatar import Avatar
 from otp.ai.MagicWordGlobal import *
 from otp.otpbase import OTPGlobals
 from toontown.battle.BattleProps import globalPropPool

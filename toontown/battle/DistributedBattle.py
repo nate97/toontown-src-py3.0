@@ -3,9 +3,9 @@ from direct.interval.IntervalGlobal import *
 from panda3d.core import *
 import random
 
-from BattleBase import *
-import DistributedBattleBase
-import SuitBattleGlobals
+from .BattleBase import *
+from . import DistributedBattleBase
+from . import SuitBattleGlobals
 from otp.avatar import Emote
 from toontown.chat.ChatGlobals import *
 from toontown.distributed import DelayDelete

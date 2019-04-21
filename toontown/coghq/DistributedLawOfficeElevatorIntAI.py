@@ -25,20 +25,20 @@ class DistributedLawOfficeElevatorIntAI(DistributedElevatorFloorAI.DistributedEl
                 if i not in [None, 0]:
                     players.append(i)
             sittingAvIds = []
-            for seatIndex in xrange(len(self.seats)):
+            for seatIndex in range(len(self.seats)):
                 avId = self.seats[seatIndex]
                 if avId:
                     sittingAvIds.append(avId)
             for avId in self.avIds:
                 if avId not in sittingAvIds:
-                    print 'THIS AV ID %s IS NOT ON BOARD' % avId
+                    print('THIS AV ID %s IS NOT ON BOARD' % avId)
             self.bldg.startNextFloor()
         else:
             self.notify.warning('The elevator left, but was empty.')
         self.fsm.request('closed')
 
     def enterClosed(self):
-        print 'DistributedLawOfficeElevatorIntAI.elevatorClosed %s' % self.doId
+        print('DistributedLawOfficeElevatorIntAI.elevatorClosed %s' % self.doId)
         DistributedElevatorFloorAI.DistributedElevatorFloorAI.enterClosed(self)
         if not (self.hasOpenedLocked) or not (self.isLocked):
             self.fsm.request('opening')

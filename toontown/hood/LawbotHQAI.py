@@ -51,7 +51,7 @@ class LawbotHQAI(CogHQAI.CogHQAI):
             ToontownGlobals.LawbotStageIntD
         )
         mins = ToontownGlobals.FactoryLaffMinimums[2]
-        for i in xrange(len(destZones)):
+        for i in range(len(destZones)):
             lawOfficeElevator = DistributedLawOfficeElevatorExtAI(
                 self.air, self.air.lawOfficeMgr, destZones[i], i,
                 antiShuffle=0, minLaff=mins[i])

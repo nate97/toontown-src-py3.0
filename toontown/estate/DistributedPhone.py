@@ -7,9 +7,9 @@ from direct.showutil import Rope
 from direct.task import Task
 from panda3d.core import *
 
-import DistributedHouseInterior
-import DistributedFurnitureItem
-import PhoneGlobals
+from . import DistributedHouseInterior
+from . import DistributedFurnitureItem
+from . import PhoneGlobals
 import string
 from toontown.catalog import CatalogScreen
 from toontown.catalog import CatalogItem
@@ -289,7 +289,7 @@ class DistributedPhone(DistributedFurnitureItem.DistributedFurnitureItem):
         self.sendUpdate('requestPurchaseMessage', [context, blob, optional])
 
     def requestGiftPurchase(self, item, targetDoID, callback, optional = -1):
-        print 'in the client phone'
+        print('in the client phone')
         blob = item.getBlob(store=CatalogItem.Customization)
         context = self.getCallbackContext(callback, [item])
         self.sendUpdate('requestGiftPurchaseMessage', [context, targetDoID, blob, optional])

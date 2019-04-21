@@ -36,7 +36,7 @@ class BossbotHQAI(CogHQAI.CogHQAI):
         )
         hprList = ((110.815, 0, 0), (61.231, 0, 0), (-105.481, 0, 0))
         mins = ToontownGlobals.FactoryLaffMinimums[3]
-        for cogCourse in xrange(len(posList)):
+        for cogCourse in range(len(posList)):
             pos = posList[cogCourse]
             hpr = hprList[cogCourse]
             cogKart = DistributedCogKartAI.DistributedCogKartAI(

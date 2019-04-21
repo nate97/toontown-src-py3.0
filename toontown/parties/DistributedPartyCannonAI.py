@@ -1,7 +1,7 @@
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed.DistributedObjectAI import DistributedObjectAI
 from direct.task import Task
-import PartyGlobals
+from . import PartyGlobals
 
 class DistributedPartyCannonAI(DistributedObjectAI):
     notify = DirectNotifyGlobal.directNotify.newCategory("DistributedPartyCannonAI")

@@ -4,8 +4,8 @@ from direct.task.Task import Task
 from panda3d.core import *
 import time
 
-from DistributedNPCToonBase import *
-import NPCToons
+from .DistributedNPCToonBase import *
+from . import NPCToons
 from toontown.chat.ChatGlobals import *
 from toontown.fishing import FishSellGUI
 from toontown.nametag.NametagGlobals import *

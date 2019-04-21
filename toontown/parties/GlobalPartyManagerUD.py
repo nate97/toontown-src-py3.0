@@ -2,7 +2,7 @@ from direct.distributed.DistributedObjectGlobalUD import DistributedObjectGlobal
 from direct.distributed.PyDatagram import *
 from direct.directnotify.DirectNotifyGlobal import directNotify
 from direct.task import Task
-from PartyGlobals import *
+from .PartyGlobals import *
 from datetime import datetime, timedelta
 from panda3d.core import *
 
@@ -119,7 +119,7 @@ class GlobalPartyManagerUD(DistributedObjectGlobalUD):
     def __updatePartyInfo(self, partyId):
         # Update all the AIs about this public party
         party = self.party2PubInfo[partyId]
-        for sender in self.senders2Mgrs.keys():
+        for sender in list(self.senders2Mgrs.keys()):
             actIds = []
             for activity in self.id2Party[partyId]['activities']:
                 actIds.append(activity[0]) # First part of activity tuple should be actId
@@ -128,7 +128,7 @@ class GlobalPartyManagerUD(DistributedObjectGlobalUD):
 
     def __updatePartyCount(self, partyId):
         # Update the party guest count
-        for sender in self.senders2Mgrs.keys():
+        for sender in list(self.senders2Mgrs.keys()):
             self.sendToAI('updateToPublicPartyCountUdToAllAi', [self.party2PubInfo[partyId]['numGuests'], partyId], sender=sender)
 
     def partyHasStarted(self, partyId, shardId, zoneId, hostName):
@@ -164,7 +164,7 @@ class GlobalPartyManagerUD(DistributedObjectGlobalUD):
     def partyManagerAIHello(self, channel):
         # Upon AI boot, DistributedPartyManagerAIs are supposed to say hello. 
         # They send along the DPMAI's doId as well, so that I can talk to them later.
-        print 'AI with base channel %s, will send replies to DPM %s' % (simbase.air.getAvatarIdFromSender(), channel)
+        print('AI with base channel %s, will send replies to DPM %s' % (simbase.air.getAvatarIdFromSender(), channel))
         self.senders2Mgrs[simbase.air.getAvatarIdFromSender()] = channel
         self.sendToAI('partyManagerUdStartingUp', [])
         
@@ -175,19 +175,19 @@ class GlobalPartyManagerUD(DistributedObjectGlobalUD):
         try:
             partyId = str(partyId)
             partyId = partyId.split("L")[0]
-            partyId = long(partyId)
+            partyId = int(partyId)
         except:
-            print "Could not remove L from partId" # NJF
+            print("Could not remove L from partId") # NJF
 
         PARTY_TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
-        print 'start time: %s' % start
+        print('start time: %s' % start)
         startTime = datetime.strptime(start, PARTY_TIME_FORMAT)
         endTime = datetime.strptime(end, PARTY_TIME_FORMAT)
-        print 'start year: %s' % startTime.year
+        print('start year: %s' % startTime.year)
         if avId in self.host2PartyId:
             if self.id2Party != {}:
                 # Sorry, one party at a time
-                print self.id2Party
+                print(self.id2Party)
                 self.sendToAI('addPartyResponseUdToAi', [partyId, AddPartyErrorCode.TooManyHostedParties, self._formatParty(self.id2Party[partyId])])
         self.id2Party[partyId] = {'partyId': partyId, 'hostId': avId, 'start': startTime, 'end': endTime, 'isPrivate': isPrivate, 'inviteTheme': inviteTheme, 'activities': activities, 'decorations': decorations, 'inviteeIds': inviteeIds, 'status': PartyStatus.Pending}
         self.host2PartyId[avId] = partyId
@@ -204,7 +204,7 @@ class GlobalPartyManagerUD(DistributedObjectGlobalUD):
             party = self.id2Party[self.host2PartyId[hostId]]
             self.sendToAI('partyInfoOfHostResponseUdToAi', [self._formatParty(party), party.get('inviteeIds', [])])
             return
-        print 'query failed, av %s isnt hosting anything' % hostId
+        print('query failed, av %s isnt hosting anything' % hostId)
 
     def requestPartySlot(self, partyId, avId, gateId):
         if partyId not in self.party2PubInfo:

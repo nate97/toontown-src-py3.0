@@ -2,7 +2,7 @@ from direct.distributed.ClockDelta import *
 from direct.showbase import DirectObject
 from direct.directnotify import DirectNotifyGlobal
 from direct.task import Task
-from DistributedTreasureAI import DistributedTreasureAI
+from .DistributedTreasureAI import DistributedTreasureAI
 import random
 
 class TreasurePlannerAI(DirectObject.DirectObject):

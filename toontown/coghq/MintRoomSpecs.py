@@ -90,7 +90,7 @@ CashbotMintMiddleRoomIDs = (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 1
 CashbotMintFinalRoomIDs = (17, 18, 19, 20, 21, 22, 23, 24, 25)
 CashbotMintConnectorRooms = ('phase_10/models/cashbotHQ/connector_7cubeL2', 'phase_10/models/cashbotHQ/connector_7cubeR2')
 CashbotMintSpecModules = {}
-for roomName, roomId in CashbotMintRoomName2RoomId.items():
+for roomName, roomId in list(CashbotMintRoomName2RoomId.items()):
     CashbotMintSpecModules[roomId] = locals()[roomName]
 
 CogSpecModules = {'CashbotMintBoilerRoom_Battle00': CashbotMintBoilerRoom_Battle00_Cogs,
@@ -109,7 +109,7 @@ CogSpecModules = {'CashbotMintBoilerRoom_Battle00': CashbotMintBoilerRoom_Battle
  'CashbotMintPipeRoom_Battle00': CashbotMintPipeRoom_Battle00_Cogs,
  'CashbotMintPipeRoom_Battle01': CashbotMintPipeRoom_Battle01_Cogs}
 roomId2numBattles = {}
-for roomName, roomId in CashbotMintRoomName2RoomId.items():
+for roomName, roomId in list(CashbotMintRoomName2RoomId.items()):
     if roomName not in CogSpecModules:
         roomId2numBattles[roomId] = 0
     else:

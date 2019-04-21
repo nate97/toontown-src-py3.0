@@ -4,7 +4,7 @@ from otp.otpbase import OTPLocalizer as OL
 
 
 OL.SpeedChatStaticText = OL.SpeedChatStaticTextToontown.copy()
-for key in OL.SpeedChatStaticTextCommon.iterkeys():
+for key in OL.SpeedChatStaticTextCommon.keys():
     OL.SpeedChatStaticText[key] = OL.SpeedChatStaticTextCommon[key]
 
 commitmantst = 'kptmptest - removable'
@@ -5941,7 +5941,7 @@ AccessoryNamePrefix = {0: 'hat unisex ',
  11: 'shoes girl '}
 AwardManagerAccessoryNames = {}
 AccessoryTypeNames = {}
-for accessoryId in CatalogAccessoryItemGlobals.AccessoryTypes.keys():
+for accessoryId in list(CatalogAccessoryItemGlobals.AccessoryTypes.keys()):
     accessoryInfo = CatalogAccessoryItemGlobals.AccessoryTypes[accessoryId]
     if accessoryInfo[0] % 4 == 0:
         accessoryStyleDescription = HatStylesDescriptions
@@ -9142,7 +9142,7 @@ def getRecipeBeanText(beanTuple):
     if not beanTuple:
         return retval
     allTheSame = True
-    for index in xrange(len(beanTuple)):
+    for index in range(len(beanTuple)):
         if index + 1 < len(beanTuple):
             if not beanTuple[index] == beanTuple[index + 1]:
                 allTheSame = False
@@ -9156,7 +9156,7 @@ def getRecipeBeanText(beanTuple):
     else:
         retval += 'a'
         maxBeans = len(beanTuple)
-        for index in xrange(maxBeans):
+        for index in range(maxBeans):
             if index == maxBeans - 1:
                 retval += ' and %s Jellybean' % BeanColorWords[beanTuple[index]]
             elif index == 0:
@@ -9817,7 +9817,7 @@ else:
 
     found = vfs.resolveFilename(filename, searchPath)
     if not found:
-        print 'Error no pet name file'
+        print('Error no pet name file')
 
 
 if __debug__:
@@ -9827,7 +9827,7 @@ else:
 
 
 if not input:
-    print 'Error no pet name file'
+    print('Error no pet name file')
 
 
 currentLine = input.readline()
@@ -9840,7 +9840,7 @@ while currentLine:
 
 
 masterList = [boyFirsts, girlFirsts, neutralFirsts]
-for tu in nameDictionary.values():
+for tu in list(nameDictionary.values()):
     masterList[tu[0]].append(tu[1])
 
 
@@ -9863,7 +9863,7 @@ def getRandomPetName(gender = None, seed = None):
     elif gender == 1:
         firstList += girlFirsts
     else:
-        print 'Must be boy or girl.'
+        print('Must be boy or girl.')
     retString += random.choice(firstList)
     random.setstate(S)
     return retString
@@ -9874,7 +9874,7 @@ def getPetNameId(self, name):
     newtu[0] = (0, name)
     newtu[1] = (1, name)
     newtu[2] = (2, name)
-    for tu in nameDictionary.items():
+    for tu in list(nameDictionary.items()):
         for g in newtu:
             if tu[1] == g:
                 return tu[0]

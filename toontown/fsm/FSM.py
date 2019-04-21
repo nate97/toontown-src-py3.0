@@ -310,7 +310,7 @@ class FSM(DirectObject):
                 self._name, request, str(args)[1:]))
 
             filter = self.getCurrentFilter()
-            result = filter(request, args)
+            result = list(filter(request, args))
             if result:
                 if isinstance(result, str):
                     # If the return value is a string, it's just the name

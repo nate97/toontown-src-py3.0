@@ -1,8 +1,8 @@
 from otp.ai.AIBaseGlobal import *
 from otp.avatar import DistributedAvatarAI
-import SuitPlannerBase
-import SuitBase
-import SuitDNA
+from . import SuitPlannerBase
+from . import SuitBase
+from . import SuitDNA
 from direct.directnotify import DirectNotifyGlobal
 from toontown.battle import SuitBattleGlobals
 

@@ -1,7 +1,7 @@
 from panda3d.core import LVector3f
-import DNAGroup
-import DNABattleCell
-import DNAUtil
+from . import DNAGroup
+from . import DNABattleCell
+from . import DNAUtil
 
 class DNAVisGroup(DNAGroup.DNAGroup):
     COMPONENT_CODE = 2
@@ -55,18 +55,18 @@ class DNAVisGroup(DNAGroup.DNAGroup):
         DNAGroup.DNAGroup.makeFromDGI(self, dgi)
 
         numEdges = dgi.getUint16()
-        for _ in xrange(numEdges):
+        for _ in range(numEdges):
             index = dgi.getUint16()
             endPoint = dgi.getUint16()
             self.addSuitEdge(dnaStorage.getSuitEdge(index, endPoint))
 
         numVisibles = dgi.getUint16()
-        for _ in xrange(numVisibles):
+        for _ in range(numVisibles):
             self.addVisible(DNAUtil.dgiExtractString8(dgi))
 
         numCells = dgi.getUint16()
-        for _ in xrange(numCells):
+        for _ in range(numCells):
             w = dgi.getUint8()
             h = dgi.getUint8()
-            x, y, z = [dgi.getInt32() / 100.0 for i in xrange(3)]
+            x, y, z = [dgi.getInt32() / 100.0 for i in range(3)]
             self.addBattleCell(DNABattleCell.DNABattleCell(w, h, LVector3f(x, y, z)))

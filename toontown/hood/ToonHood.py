@@ -61,7 +61,7 @@ class ToonHood(Hood):
         if color is not None:
             try:
                 self.underwaterColor = Vec4(color['r'], color['g'], color['b'], color['a'])
-            except Exception, e:
+            except Exception as e:
                 raise ContentPackError(e)
         else:
             self.underwaterColor = None

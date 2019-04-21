@@ -2,7 +2,7 @@ from direct.directnotify import DirectNotifyGlobal
 from direct.interval.IntervalGlobal import *
 from panda3d.core import *
 
-import MovieCamera
+from . import MovieCamera
 from toontown.chat.ChatGlobals import *
 from toontown.nametag.NametagGlobals import *
 from toontown.toonbase import TTLocalizer

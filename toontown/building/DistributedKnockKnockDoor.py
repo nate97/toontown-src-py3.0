@@ -3,8 +3,8 @@ from direct.distributed.ClockDelta import *
 from direct.interval.IntervalGlobal import *
 from panda3d.core import *
 
-import DistributedAnimatedProp
-from KnockKnockJokes import *
+from . import DistributedAnimatedProp
+from .KnockKnockJokes import *
 from toontown.chat.ChatGlobals import *
 from toontown.distributed import DelayDelete
 from toontown.nametag.NametagGlobals import *

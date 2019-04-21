@@ -75,7 +75,7 @@ class PMover:
         self.dtClock = globalClock.getFrameTime()
 
     def addImpulse(self, name, cImpulse):
-        print cImpulse
+        print(cImpulse)
         if not cImpulse:
             return
 
@@ -102,7 +102,7 @@ class PMover:
             self.dt = clockDelta - self.dtClock
             self.dtClock = clockDelta
 
-        for cImpulse in self.cImpulses.values():
+        for cImpulse in list(self.cImpulses.values()):
             cImpulse.process(self.getDt())
 
     def addShove(self, shove):
@@ -177,7 +177,7 @@ class PMover:
         y = targetPos[1]
         stopDistance = math.sqrt(x * x + y * y)
         distanceLeft = abs(stopDistance - self.minDist)
-        print distanceLeft
+        print(distanceLeft)
 
         if distanceLeft <= 0.3:
             self.setDoodleMode('stick')

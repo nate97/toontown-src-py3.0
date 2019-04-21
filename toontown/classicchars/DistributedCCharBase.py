@@ -7,8 +7,8 @@ from direct.interval.IntervalGlobal import *
 from panda3d.core import *
 import string
 
-import CCharChatter
-import CCharPaths
+from . import CCharChatter
+from . import CCharPaths
 from otp.avatar import Avatar
 from toontown.char import CharDNA
 from toontown.char import DistributedChar
@@ -98,8 +98,8 @@ class DistributedCCharBase(DistributedChar.DistributedChar):
             DistributedChar.DistributedChar.delete(self)
 
     def generate(self, diffPath = None):
-        print diffPath
-        print "??????"
+        print(diffPath)
+        print("??????")
         DistributedChar.DistributedChar.generate(self)
         if diffPath == None:
             self.setPos(CCharPaths.getNodePos(CCharPaths.startNode, CCharPaths.getPaths(self.getName(), self.getCCLocation())))

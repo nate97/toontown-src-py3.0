@@ -1,4 +1,4 @@
-import PetUtil, PetDNA
+from . import PetUtil, PetDNA
 from toontown.toonbase import ToontownGlobals, TTLocalizer
 import time, random, os
 
@@ -20,7 +20,7 @@ class PetManagerAI:
         
 
     def generateSeeds(self):
-        seeds = range(0, 255)
+        seeds = list(range(0, 255))
         random.shuffle(seeds)
 
         random.Random(getDayId()).shuffle(seeds)
@@ -29,7 +29,7 @@ class PetManagerAI:
         for hood in (ToontownGlobals.ToontownCentral, ToontownGlobals.DonaldsDock, ToontownGlobals.DaisyGardens,
                      ToontownGlobals.MinniesMelodyland, ToontownGlobals.TheBrrrgh, ToontownGlobals.DonaldsDreamland,
                      ToontownGlobals.FunnyFarm):
-            self.seeds[hood] = [seeds.pop() for _ in xrange(self.NUM_DAILY_PETS)]
+            self.seeds[hood] = [seeds.pop() for _ in range(self.NUM_DAILY_PETS)]
 
             numGenders = len(PetDNA.PetGenders)
 
@@ -72,7 +72,7 @@ class PetManagerAI:
             av.b_setPetId(doId)
             
         self.air.dbInterface.createObject(self.air.dbId, self.air.dclassesByName['DistributedPetAI'],
-                                          {k: (v,) for k,v in fields.items()}, response)
+                                          {k: (v,) for k,v in list(fields.items())}, response)
         
     def deleteToonsPet(self, avId):
         av = self.air.doId2do[avId]

@@ -14,7 +14,7 @@ from direct.fsm import State
 from toontown.toontowngui import TTDialog
 import re
 from toontown.toonbase import TTLocalizer
-import NameGenerator
+from . import NameGenerator
 import random
 from otp.distributed import PotentialAvatar
 from otp.namepanel import NameCheck
@@ -154,7 +154,7 @@ class NameShop(StateData.StateData):
                 k = self.allFirsts.index('Von')
                 self.allFirsts[k] = 'von'
             except:
-                print "NameShop: Couldn't find von"
+                print("NameShop: Couldn't find von")
 
             if not self.addedGenderSpecific:
                 nameShopGui = loader.loadModel('phase_3/models/gui/tt_m_gui_mat_nameShop')
@@ -460,7 +460,7 @@ class NameShop(StateData.StateData):
         self.approvalDialog.buttonList[0].setPos(0, 0, -.3)
         self.approvalDialog.buttonList[1].setPos(0, 0, -.43)
         self.approvalDialog['image_scale'] = (0.8, 1, 0.77)
-        for x in xrange(0, 2):
+        for x in range(0, 2):
             self.approvalDialog.buttonList[x]['text_pos'] = (0, -.01)
             self.approvalDialog.buttonList[x]['text_scale'] = (0.04, 0.05999)
             self.approvalDialog.buttonList[x].setScale(1.2, 1, 1)
@@ -477,7 +477,7 @@ class NameShop(StateData.StateData):
             try:
                 x.show()
             except:
-                print 'NameShop: Tried to show already removed object'
+                print('NameShop: Tried to show already removed object')
 
         if base.cr.productName in ['DE', 'BR']:
             self.typeANameButton.hide()
@@ -492,7 +492,7 @@ class NameShop(StateData.StateData):
             try:
                 x.hide()
             except:
-                print 'NameShop: Tried to hide already removed object'
+                print('NameShop: Tried to hide already removed object')
 
     def uberdestroy(self, guiObjectsToDestroy):
         self.notify.debug('uberdestroy %s' % str(guiObjectsToDestroy))
@@ -501,7 +501,7 @@ class NameShop(StateData.StateData):
                 x.destroy()
                 del x
             except:
-                print 'NameShop: Tried to destroy already removed object'
+                print('NameShop: Tried to destroy already removed object')
 
     def getNameIndices(self):
         return self.nameIndices
@@ -539,7 +539,7 @@ class NameShop(StateData.StateData):
             name = name.strip()
             return TextEncoder.upper(npcName) == TextEncoder.upper(name)
 
-        for npcId in NPCToons.NPCToonDict.keys():
+        for npcId in list(NPCToons.NPCToonDict.keys()):
             npcName = NPCToons.NPCToonDict[npcId][1]
             if match(npcName):
                 self.notify.info('name matches NPC name "%s"' % npcName)
@@ -667,16 +667,16 @@ class NameShop(StateData.StateData):
             self.nameIndices[0] = self.nameGen.returnUniqueID(uberReturn[3], 0)
             self.nameFlags[0] = 1
         except:
-            print 'NameShop : Should have found title, uh oh!'
-            print uberReturn
+            print('NameShop : Should have found title, uh oh!')
+            print(uberReturn)
 
         try:
             self.firstIndex = self.allFirsts.index(uberReturn[4])
             self.nameIndices[1] = self.nameGen.returnUniqueID(uberReturn[4], 1)
             self.nameFlags[1] = 1
         except:
-            print 'NameShop : Should have found first name, uh oh!'
-            print uberReturn
+            print('NameShop : Should have found first name, uh oh!')
+            print(uberReturn)
 
         try:
             self.prefixIndex = self.allPrefixes.index(uberReturn[5])
@@ -688,8 +688,8 @@ class NameShop(StateData.StateData):
             else:
                 self.nameFlags[3] = 0
         except:
-            print 'NameShop : Some part of last name not found, uh oh!'
-            print uberReturn
+            print('NameShop : Some part of last name not found, uh oh!')
+            print(uberReturn)
 
         self.updateCheckBoxes()
         self.updateLists()
@@ -896,7 +896,7 @@ class NameShop(StateData.StateData):
             self.fsm.request('PickAName')
             flags = [pattern[0] != -1, pattern[1] != -1, pattern[2] != -1]
             names = []
-            for i in xrange(len(pattern)):
+            for i in range(len(pattern)):
                 if pattern[i] != -1:
                     names.append(pnp.getNamePartString(self.toon.style.gender, i, pattern[i]))
                 else:

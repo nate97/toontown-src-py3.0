@@ -4,7 +4,7 @@ from panda3d.core import *
 ParticleTable = {}
 
 def particle(func):
-    ParticleTable[func.func_name] = func
+    ParticleTable[func.__name__] = func
 
 @particle
 def gearExplosion(self):

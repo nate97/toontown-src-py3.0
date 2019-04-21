@@ -234,7 +234,7 @@ class DistributedCashbotBossCrane(DistributedObject.DistributedObject, FSM.FSM):
             self.physicsActivated = 0
 
     def __straightenCable(self):
-        for linkNum in xrange(self.numLinks):
+        for linkNum in range(self.numLinks):
             an, anp, cnp = self.activeLinks[linkNum]
             an.getPhysicsObject().setVelocity(0, 0, 0)
             z = float(linkNum + 1) / float(self.numLinks) * self.cableLength
@@ -257,7 +257,7 @@ class DistributedCashbotBossCrane(DistributedObject.DistributedObject, FSM.FSM):
         self.links = []
         self.links.append((self.topLink, Point3(0, 0, 0)))
         anchor = self.topLink
-        for linkNum in xrange(self.numLinks):
+        for linkNum in range(self.numLinks):
             anchor = self.__makeLink(anchor, linkNum)
 
         self.collisions.stash()
@@ -575,7 +575,7 @@ class DistributedCashbotBossCrane(DistributedObject.DistributedObject, FSM.FSM):
     def startFlicker(self):
         self.magnetSoundInterval.start()
         self.lightning = []
-        for i in xrange(4):
+        for i in range(4):
             t = float(i) / 3.0 - 0.5
             l = self.boss.lightning.copyTo(self.gripper)
             l.setScale(random.choice([1, -1]), 1, 5)
@@ -709,7 +709,7 @@ class DistributedCashbotBossCrane(DistributedObject.DistributedObject, FSM.FSM):
         self.armSmoother.setPos(self.crane.getPos())
         self.armSmoother.setHpr(self.arm.getHpr())
         self.armSmoother.setPhonyTimestamp()
-        for linkNum in xrange(self.numLinks):
+        for linkNum in range(self.numLinks):
             smoother = self.linkSmoothers[linkNum]
             an, anp, cnp = self.activeLinks[linkNum]
             smoother.clearPositions(0)
@@ -718,7 +718,7 @@ class DistributedCashbotBossCrane(DistributedObject.DistributedObject, FSM.FSM):
 
     def doSmoothTask(self, task):
         self.armSmoother.computeAndApplySmoothPosHpr(self.crane, self.arm)
-        for linkNum in xrange(self.numLinks):
+        for linkNum in range(self.numLinks):
             smoother = self.linkSmoothers[linkNum]
             anp = self.activeLinks[linkNum][1]
             smoother.computeAndApplySmoothPos(anp)
@@ -745,7 +745,7 @@ class DistributedCashbotBossCrane(DistributedObject.DistributedObject, FSM.FSM):
             self.armSmoother.applySmoothPos(self.crane)
             self.armSmoother.applySmoothHpr(self.arm)
         self.armSmoother.clearPositions(1)
-        for linkNum in xrange(self.numLinks):
+        for linkNum in range(self.numLinks):
             smoother = self.linkSmoothers[linkNum]
             an, anp, cnp = self.activeLinks[linkNum]
             if smoother.getLatestPosition():
@@ -764,7 +764,7 @@ class DistributedCashbotBossCrane(DistributedObject.DistributedObject, FSM.FSM):
             self.armSmoother.setH(h)
             self.armSmoother.setTimestamp(local)
             self.armSmoother.markPosition()
-            for linkNum in xrange(self.numLinks):
+            for linkNum in range(self.numLinks):
                 smoother = self.linkSmoothers[linkNum]
                 lp = links[linkNum]
                 smoother.setPos(*lp)
@@ -778,7 +778,7 @@ class DistributedCashbotBossCrane(DistributedObject.DistributedObject, FSM.FSM):
     def d_sendCablePos(self):
         timestamp = globalClockDelta.getFrameNetworkTime()
         links = []
-        for linkNum in xrange(self.numLinks):
+        for linkNum in range(self.numLinks):
             an, anp, cnp = self.activeLinks[linkNum]
             p = anp.getPos()
             links.append((p[0], p[1], p[2]))

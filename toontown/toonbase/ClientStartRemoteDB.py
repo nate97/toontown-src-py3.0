@@ -19,10 +19,10 @@ request = requests.post(
 try:
     response = json.loads(request.text)
 except ValueError:
-    print "Couldn't verify account credentials."
+    print("Couldn't verify account credentials.")
 else:
     if not response['success']:
-        print response['reason']
+        print(response['reason'])
     else:
         os.environ['TTI_PLAYCOOKIE'] = response['token']
 

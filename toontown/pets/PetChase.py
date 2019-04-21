@@ -59,7 +59,7 @@ class PetChase(CImpulse.CImpulse):
         self.rotVel = LVecBase3f(0,0,0)
 
     def process(self, dt):
-        print "Chase"
+        print("Chase")
         CImpulse.CImpulse.process(self, dt)
         me = self.nodePath
         target = self.target

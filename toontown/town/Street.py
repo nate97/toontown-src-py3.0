@@ -311,7 +311,7 @@ class Street(BattlePlace.BattlePlace):
             collNodePaths = i.findAllMatches('**/+CollisionNode')
             numCollNodePaths = collNodePaths.getNumPaths()
             visGroupName = i.node().getName()
-            for j in xrange(numCollNodePaths):
+            for j in range(numCollNodePaths):
                 collNodePath = collNodePaths.getPath(j)
                 bitMask = collNodePath.node().getIntoCollideMask()
                 if bitMask.getBit(1):
@@ -369,7 +369,7 @@ class Street(BattlePlace.BattlePlace):
                 if newZoneId in loader.zoneVisDict:
                     base.cr.sendSetZoneMsg(newZoneId, loader.zoneVisDict[newZoneId])
                 else:
-                    visList = [newZoneId] + loader.zoneVisDict.values()[0]
+                    visList = [newZoneId] + list(loader.zoneVisDict.values())[0]
                     base.cr.sendSetZoneMsg(newZoneId, visList)
             self.zoneId = newZoneId
         geom = base.cr.playGame.getPlace().loader.geom

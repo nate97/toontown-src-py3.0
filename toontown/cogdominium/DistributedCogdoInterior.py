@@ -8,8 +8,8 @@ from direct.interval.IntervalGlobal import *
 from panda3d.core import NodePath
 import random
 
-from CogdoElevatorMovie import CogdoElevatorMovie
-from CogdoExecutiveSuiteMovies import CogdoExecutiveSuiteIntro
+from .CogdoElevatorMovie import CogdoElevatorMovie
+from .CogdoExecutiveSuiteMovies import CogdoExecutiveSuiteIntro
 from toontown.battle import BattleBase
 from toontown.building import ElevatorUtils
 from toontown.building.ElevatorConstants import *
@@ -152,7 +152,7 @@ class DistributedCogdoInterior(DistributedObject.DistributedObject):
 
     def setElevatorLights(self, elevatorModel):
         npc = elevatorModel.findAllMatches('**/floor_light_?;+s')
-        for i in xrange(npc.getNumPaths()):
+        for i in range(npc.getNumPaths()):
             np = npc.getPath(i)
             floor = int(np.getName()[-1:]) - 1
             if floor == self.currentFloor:
@@ -265,7 +265,7 @@ class DistributedCogdoInterior(DistributedObject.DistributedObject):
                 interval.finish()
 
     def __cleanupIntervals(self):
-        for interval in self.activeIntervals.values():
+        for interval in list(self.activeIntervals.values()):
             interval.finish()
 
         self.activeIntervals = {}
@@ -338,7 +338,7 @@ class DistributedCogdoInterior(DistributedObject.DistributedObject):
                 self.notify.warning('setSuits() - no suit: %d' % suitId)
 
         self.reserveSuits = []
-        for index in xrange(len(reserveIds)):
+        for index in range(len(reserveIds)):
             suitId = reserveIds[index]
             if suitId in self.cr.doId2do:
                 suit = self.cr.doId2do[suitId]
@@ -426,7 +426,7 @@ class DistributedCogdoInterior(DistributedObject.DistributedObject):
             self.cageDoor.wrtReparentTo(self.cage)
             if self.FOType:
                 paintingModelName = PAINTING_DICT.get(self.FOType)
-                for i in xrange(4):
+                for i in range(4):
                     paintingModel = loader.loadModel('phase_5/models/cogdominium/%s' % paintingModelName)
                     loc = self.floorModel.find('**/loc_painting%d' % (i + 1))
                     paintingModel.reparentTo(loc)
@@ -470,7 +470,7 @@ class DistributedCogdoInterior(DistributedObject.DistributedObject):
         self.elevIn = elevIn
         self.elevOut = elevOut
         self._haveEntranceElevator.set(True)
-        for index in xrange(len(self.suits)):
+        for index in range(len(self.suits)):
             self.suits[index].setPos(SuitPositions[index])
             if len(self.suits) > 2:
                 self.suits[index].setH(SuitHs[index])
@@ -739,12 +739,12 @@ class DistributedCogdoInterior(DistributedObject.DistributedObject):
             pass
         else:
             self.notify.warning('Invalid floor number for display badges.')
-        for player in xrange(len(self.toons)):
+        for player in range(len(self.toons)):
             goldBadge = loader.loadModel('phase_5/models/cogdominium/tt_m_ara_crg_goldTrophy')
             goldBadge.setScale(1.2)
             goldNode = render.find('**/gold_0' + str(player + 1))
             goldBadge.reparentTo(goldNode)
-            for floor in xrange(numFloors):
+            for floor in range(numFloors):
                 silverBadge = loader.loadModel('phase_5/models/cogdominium/tt_m_ara_crg_silverTrophy.bam')
                 silverBadge.setScale(1.2)
                 silverNode = render.find('**/silver_0' + str(floor * 4 + (player + 1)))

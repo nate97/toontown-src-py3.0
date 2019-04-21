@@ -1,4 +1,4 @@
-from TrolleyConstants import *
+from .TrolleyConstants import *
 from direct.distributed.ClockDelta import *
 from direct.gui.DirectGui import *
 from direct.interval.IntervalGlobal import *

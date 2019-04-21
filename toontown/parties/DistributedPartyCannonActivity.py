@@ -354,7 +354,7 @@ class DistributedPartyCannonActivity(DistributedPartyActivity):
     def _remoteToonFlyTask(self, task = None):
         ids2del = []
         frameTime = globalClock.getFrameTime()
-        for avId, trajInfo in self._avId2trajectoryInfo.iteritems():
+        for avId, trajInfo in self._avId2trajectoryInfo.items():
             trajectory = trajInfo.trajectory
             startTime = trajInfo.startT
             groundTime = trajectory.calcTimeOfImpactOnPlane(0.0) / self.TimeFactor + startTime

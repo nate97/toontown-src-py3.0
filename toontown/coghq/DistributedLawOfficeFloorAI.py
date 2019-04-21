@@ -1,10 +1,10 @@
-import cPickle
+import pickle
 
-import CogDisguiseGlobals
-import FactoryEntityCreatorAI
-import FactorySpecs
-import LawOfficeBase
-import LevelSuitPlannerAI
+from . import CogDisguiseGlobals
+from . import FactoryEntityCreatorAI
+from . import FactorySpecs
+from . import LawOfficeBase
+from . import LevelSuitPlannerAI
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed import DistributedObjectAI
 from direct.task import Task

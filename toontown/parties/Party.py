@@ -174,7 +174,7 @@ class Party(Place.Place):
 
         curframe = inspect.currentframe()
         calframe = inspect.getouterframes(curframe, 2)
-        print('caller name:', calframe[1][3])
+        print(('caller name:', calframe[1][3]))
 
 
         self._partyTiToken = None
@@ -192,9 +192,9 @@ class Party(Place.Place):
 
     def __updateLocalAvatarTeleportIn(self, requestStatus):
 
-        print "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
-        print requestStatus
-        print "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+        print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+        print(requestStatus)
+        print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
 
         #requestStatus.update({'avId': -1})
 

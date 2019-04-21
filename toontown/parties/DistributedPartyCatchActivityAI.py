@@ -4,7 +4,7 @@ from toontown.parties.DistributedPartyCatchActivityBase import DistributedPartyC
 from direct.task import Task
 from direct.distributed.ClockDelta import globalClockDelta
 from toontown.toonbase import TTLocalizer
-import PartyGlobals
+from . import PartyGlobals
 
 class DistributedPartyCatchActivityAI(DistributedPartyActivityAI, DistributedPartyCatchActivityBase):
     notify = DirectNotifyGlobal.directNotify.newCategory("DistributedPartyCatchActivityAI")

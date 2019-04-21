@@ -1,7 +1,7 @@
 from direct.interval.IntervalGlobal import *
 from panda3d.core import *
 
-from DistributedNPCToonBase import *
+from .DistributedNPCToonBase import *
 from toontown.chat.ChatGlobals import *
 from toontown.hood import ZoneUtil
 from toontown.nametag.NametagGlobals import *
