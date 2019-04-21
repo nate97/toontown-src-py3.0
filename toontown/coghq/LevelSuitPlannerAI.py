@@ -40,7 +40,7 @@ class LevelSuitPlannerAI(DirectObject.DirectObject):
         for currChance in range(num):
             joinChances.append(random.randint(1, 100))
 
-        joinChances.sort(cmp)
+        joinChances.sort() # PY3 cmp
         return joinChances
 
     def __genSuitInfos(self, level, track):

@@ -574,13 +574,14 @@ class FriendsListPanel(DirectFrame, StateData.StateData):
             friendButton.destroy()
             del self.friends[friendPair]
 
-        newFriends.sort(compareFriends)
-        petFriends.sort(compareFriends)
-        freeChatOneRef.sort(compareFriends)
-        speedChatOneRef.sort(compareFriends)
-        freeChatDouble.sort(compareFriends)
-        speedChatDouble.sort(compareFriends)
-        offlineFriends.sort(compareFriends)
+        newFriends.sort() # PY3 all had 'compareFriends' in them
+        petFriends.sort()
+        freeChatOneRef.sort()
+        speedChatOneRef.sort()
+        freeChatDouble.sort()
+        speedChatDouble.sort()
+        offlineFriends.sort()
+
         for friendPair in newFriends:
             if friendPair not in self.friends:
                 friendButton = self.makeFriendButton(friendPair)

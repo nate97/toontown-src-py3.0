@@ -86,7 +86,8 @@ class DistributedCCharBaseAI(DistributedAvatarAI.DistributedAvatarAI):
             else:
                 return 1
 
-        self.nearbyAvatars.sort(nAv_compare)
+        self.nearbyAvatars.sort() # PY3
+        #self.nearbyAvatars.sort(nAv_compare)
 
 
     def getNearbyAvatars(self):

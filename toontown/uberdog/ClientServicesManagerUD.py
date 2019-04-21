@@ -119,7 +119,7 @@ class DeveloperAccountDB(AccountDB):
 
         accounts = []
         for acct in self.dbm:
-            acct = str(acct, 'utf-8')
+            acct = str(acct, 'utf-8') # PY3
             accounts.append(acct)
 
         # Let's check if this user's ID is in your account database bridge:

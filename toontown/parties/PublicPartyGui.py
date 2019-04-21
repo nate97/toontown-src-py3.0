@@ -80,7 +80,9 @@ class PublicPartyGui(DirectFrame):
             else:
                 return 1
 
-        sortedList.sort(cmp, reverse=True)
+        #sortedList.sort(cmp, reverse=True)
+        sortedList.sort(reverse=True) # PY3
+
         indexToCut = -1
         for index, partyTuple in enumerate(sortedList):
             numberOfGuests = partyTuple[2]

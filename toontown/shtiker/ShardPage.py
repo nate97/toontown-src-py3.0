@@ -195,7 +195,7 @@ class ShardPage(ShtikerPage.ShtikerPage):
 
     def updateScrollList(self):
         curShardTuples = base.cr.listActiveShards()
-        curShardTuples.sort(compareShardTuples)
+        curShardTuples.sort() # PY3 compareShardTuples
 
         currentShardId = self.getCurrentShardId()
         actualShardId = base.localAvatar.defaultShard
