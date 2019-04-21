@@ -1,0 +1,18 @@
+# Python artifacts:
+*.pyc
+*.pyo
+
+# Eclipse IDE:
+.project
+.pydevproject
+
+# Mac directory info:
+.DS_Store
+
+# Game-specific files and directories:
+preferences.json
+logs/
+screenshots/
+backups/
+contentpacks/
+toondata/

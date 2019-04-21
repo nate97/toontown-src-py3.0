@@ -1,0 +1,31 @@
+daemon:
+    name: Production Cluster
+
+general:
+    eventlogger: 127.0.0.1:7198
+    dc_files:
+        - ../dclass/otp.dc
+        - ../dclass/toon.dc
+
+messagedirector:
+    bind: 127.0.0.1:7100
+
+roles:
+    - type: stateserver
+      control: 4002
+
+    - type: database
+      control: 4003
+      generate:
+        min: 100000000
+        max: 399999999
+      backend:
+        type: mongodb
+        server: 127.0.0.1:21021
+        database: test
+
+    - type: dbss
+      database: 4003
+      ranges:
+        - min: 100000000
+          max: 399999999
