@@ -1,34 +1,35 @@
-from direct.directnotify import DirectNotifyGlobal
+import random
+import math
+import time
+
 from panda3d.core import *
-from toontown.toonbase.ToonBaseGlobal import *
-from .DistributedMinigame import *
+from direct.showbase import PythonUtil
+from direct.directnotify import DirectNotifyGlobal
 from direct.distributed.ClockDelta import *
 from direct.interval.IntervalGlobal import *
+from direct.gui.DirectGui import *
+from direct.task.Task import Task
 from direct.fsm import ClassicFSM, State
 from direct.fsm import State
+
+from toontown.toonbase.ToonBaseGlobal import *
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import ToontownTimer
-from direct.task.Task import Task
-import math
 from toontown.toon import ToonHead
-from . import PhotoGameGlobals
-from direct.gui.DirectGui import *
-from panda3d.core import *
 from toontown.toonbase import TTLocalizer
 from toontown.golf import BuildGeometry
 from toontown.toon import Toon
 from toontown.toon import ToonDNA
 from toontown.dna.DNAParser import *
 from toontown.nametag import NametagGlobals
-from direct.interval.IntervalGlobal import *
-import random
-from direct.showbase import PythonUtil
-import math
-import time
 from toontown.makeatoon import NameGenerator
-from otp.otpbase import OTPGlobals
 from toontown.battle import BattleParticles
 from toontown.minigame import PhotoGameBase
+from otp.otpbase import OTPGlobals
+
+from .DistributedMinigame import *
+from . import PhotoGameGlobals
+
 WORLD_SCALE = 2.0
 FAR_PLANE_DIST = 600 * WORLD_SCALE
 STAGE_Z_OFFSET = 7.0
@@ -294,10 +295,10 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
         self.queue = CollisionHandlerQueue()
         self.traverser = CollisionTraverser('traverser name')
         self.rayArray = []
-        vRange = (GOODROWS - BADROWS) / 2
-        for row in range(-(GOODROWS / 2), GOODROWS / 2 + 1):
-            for column in range(-(GOODROWS / 2), GOODROWS / 2 + 1):
-                goodRange = list(range(-((GOODROWS - BADROWS) / 2), (GOODROWS - BADROWS) / 2 + 1))
+        vRange = (GOODROWS - BADROWS) // 2
+        for row in range(-(GOODROWS // 2), GOODROWS // 2 + 1):
+            for column in range(-(GOODROWS // 2), GOODROWS // 2 + 1):
+                goodRange = list(range(-((GOODROWS - BADROWS) // 2), (GOODROWS - BADROWS) // 2 + 1))
                 rayQuality = 'g'
                 if row not in goodRange or column not in goodRange:
                     rayQuality = 'l'
@@ -570,7 +571,7 @@ class DistributedPhotoGame(DistributedMinigame, PhotoGameBase.PhotoGameBase):
         self.notify.debug(str(angle))
         centering = centerDict[subject]
         if type(subject) == type(self.subjectToon):
-            facing = angle / 180.0
+            facing = angle // 180.0 # PY3
             interest = self.getSubjectTrackState(subject)[3]
             quality = centering[0] - (centering[1] + centering[2] + centering[3] + centering[4])
             tooClose = centering[1] and centering[2] or centering[3] and centering[4]

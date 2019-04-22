@@ -1131,12 +1131,15 @@ class DistributedTargetGame(DistributedMinigame):
         elif self.arrowKeys.rightPressed() and self.canPressRight:
             powerUp = 1
             self.canPressRight = 0
+            print ("pressed")
         if not self.arrowKeys.leftPressed():
             self.canPressLeft = 1
         elif self.arrowKeys.leftPressed() and self.canPressLeft:
             powerUp = 1
             self.canPressLeft = 0
+            print ("pressed")
         if self.lastPressTime:
+            print ("pressed")
             timeDiff = globalClock.getFrameTime() - self.lastPressTime
         if powerUp and not self.lastPressTime:
             self.lastPressTime = globalClock.getFrameTime()

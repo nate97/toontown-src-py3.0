@@ -108,7 +108,12 @@ class DistributedTravelGameAI(DistributedMinigameAI):
             else:
                 return 1
 
-        self.directionVotes.sort(voteCompare, reverse=True)
+        def sortOnSecond(directionVote):
+            return directionVote[1]
+
+        #self.directionVotes.sort(voteCompare, reverse=True)
+        self.directionVotes.sort(key=sortOnSecond, reverse=True) # PY3
+
         winningVotes = self.directionVotes[0][1]
         self.winningDirections = []
         self.notify.debug('self.directionVotes = %s' % self.directionVotes)

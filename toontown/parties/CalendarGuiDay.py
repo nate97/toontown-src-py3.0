@@ -287,7 +287,12 @@ class CalendarGuiDay(DirectFrame):
             else:
                 return 1
 
-        self.timedEvents.sort(cmp=timedEventCompare)
+        def sortOnFirst(val):
+            return val[0]
+
+        #self.timedEvents.sort(cmp=timedEventCompare)
+        self.timedEvents.sort(key=sortOnFirst) # PY3
+
         for timedEvent in self.timedEvents:
             if isinstance(timedEvent[1], PartyInfo):
                 self.addPartyToScrollList(timedEvent[1])
