@@ -137,6 +137,7 @@ class ZeroAnimatedProp(GenericAnimatedProp.GenericAnimatedProp, FSM.FSM):
         return
 
     def getPhaseToRun(self):
+        print ("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
         result = -1
         enoughInfoToRun = False
         if base.cr.newsManager.isHolidayRunning(self.holidayId):

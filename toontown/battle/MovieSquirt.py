@@ -57,7 +57,12 @@ def doSquirts(squirts):
         elif len(a) < len(b):
             return -1
         return 0
-    suitSquirts.sort(compFunc)
+
+    def sortByLength(suit):
+        return (len(suit))
+
+    #suitSquirts.sort(compFunc)
+    suitSquirts.sort(key=sortByLength) # PY3
 
     delay = 0.0
 

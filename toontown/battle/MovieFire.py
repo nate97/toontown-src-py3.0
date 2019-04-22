@@ -45,7 +45,12 @@ def doFires(fires):
         elif len(a) < len(b):
             return -1
         return 0
-    suitFires.sort(compFunc)
+
+    def sortByLength(suit):
+        return (len(suit))
+
+    #suitFires.sort(compFunc)
+    suitFires.sort(key=sortByLength) # PY3 
 
     totalHitDict = {}
     singleHitDict = {}

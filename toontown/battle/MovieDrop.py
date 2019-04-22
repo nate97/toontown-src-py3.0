@@ -68,7 +68,12 @@ def doDrops(drops):
             return -1
         return 0
 
-    suitDrops.sort(compFunc)
+    def sortByLength(suit):
+        return (len(suit))
+
+    #suitDrops.sort(compFunc)
+    suitDrops.sort(key=sortByLength) # PY3
+
     delay = 0.0
     mtrack = Parallel(name='toplevel-drop')
     npcDrops = {}

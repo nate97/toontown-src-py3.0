@@ -785,7 +785,11 @@ class Movie(DirectObject.DirectObject):
                 return -1
             return 0
 
-        self.toonAttackDicts.sort(compFunc)
+        def sortOnLevel(lvl):
+            return lvl['level']
+
+        #self.toonAttackDicts.sort(compFunc)
+        self.toonAttackDicts.sort(key=sortOnLevel) # PY3
         return
 
     def __findToonAttack(self, track):
