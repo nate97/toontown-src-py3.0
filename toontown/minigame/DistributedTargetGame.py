@@ -1125,21 +1125,18 @@ class DistributedTargetGame(DistributedMinigame):
 
     def __updatePowerBarTask(self, task):
         powerUp = 0
-        timeDiff = None
+        timeDiff = 0 # PY3 None was causing issues.
         if not self.arrowKeys.rightPressed():
             self.canPressRight = 1
         elif self.arrowKeys.rightPressed() and self.canPressRight:
             powerUp = 1
             self.canPressRight = 0
-            print ("pressed")
         if not self.arrowKeys.leftPressed():
             self.canPressLeft = 1
         elif self.arrowKeys.leftPressed() and self.canPressLeft:
             powerUp = 1
             self.canPressLeft = 0
-            print ("pressed")
         if self.lastPressTime:
-            print ("pressed")
             timeDiff = globalClock.getFrameTime() - self.lastPressTime
         if powerUp and not self.lastPressTime:
             self.lastPressTime = globalClock.getFrameTime()
@@ -1161,6 +1158,7 @@ class DistributedTargetGame(DistributedMinigame):
                 self.ticker = 0.0
                 powerDiv = 0.05
                 self.power -= 1.0 + 0.2 * (self.power * powerDiv * (self.power * powerDiv))
+
             if timeDiff > 0.5:
                 self.power = self.powerBar['value']
                 self.signalLaunch = 0
