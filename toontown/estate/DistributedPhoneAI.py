@@ -84,6 +84,9 @@ class DistributedPhoneAI(DistributedFurnitureItemAI):
         self.d_setMovie(PhoneGlobals.PHONE_MOVIE_CLEAR, 0, globalClockDelta.getRealNetworkTime(bits=32))
 
     def requestPurchaseMessage(self, context, item, optional):
+
+        print (context, item, optional)
+
         avId = self.air.getAvatarIdFromSender()
         if avId != self.avId:
             self.air.writeServerEvent('suspicious', avId, 'Tried to purchase while not using the phone!')
@@ -95,15 +98,35 @@ class DistributedPhoneAI(DistributedFurnitureItemAI):
             return
 
         item = CatalogItem.getItem(item)
+
+
+        # None of this should be neccessary, but it works as a temporary thing. NEEDS WORK !!!
+        # PY3
+        weeklyCatalog = []
+        monthlyCatalog = []
+        backCatalog = []
+
+        strItem = str(item)
+
+        for wC in av.weeklyCatalog:
+            weeklyCatalog.append(str(wC))
+
+        for mC in av.monthlyCatalog:
+            monthlyCatalog.append(str(mC))
+
+        for bC in av.backCatalog:
+            backCatalog.append(str(bC))
+
+
         if isinstance(item, CatalogInvalidItem):
             self.air.writeServerEvent('suspicious', avId, 'Tried to purchase invalid catalog item.')
             return
         if item.loyaltyRequirement():
             self.air.writeServerEvent('suspicious', avId, 'Tried to purchase an unimplemented loyalty item!')
             return
-        if item in av.backCatalog:
+        if strItem in backCatalog: # PY3
             price = item.getPrice(CatalogItem.CatalogTypeBackorder)
-        elif item in av.weeklyCatalog or item in av.monthlyCatalog:
+        elif strItem in weeklyCatalog or strItem in monthlyCatalog: # PY3
             price = item.getPrice(0)
         else:
             return
@@ -119,7 +142,7 @@ class DistributedPhoneAI(DistributedFurnitureItemAI):
             if not av.takeMoney(price):
                 return
 
-            item.deliveryDate = int(time.time()/60) + item.getDeliveryTime()
+            item.deliveryDate = int(time.time() // 60) + item.getDeliveryTime()
             av.onOrder.append(item)
             av.b_setDeliverySchedule(av.onOrder)
             self.sendUpdateToAvatarId(avId, 'requestPurchaseResponse', [context, ToontownGlobals.P_ItemOnOrder])

@@ -608,8 +608,25 @@ class CatalogScreen(DirectFrame):
             return priceB - priceA
 
         itemList = base.localAvatar.monthlyCatalog + base.localAvatar.weeklyCatalog
-        itemList.sort(lambda a, b: priceSort(a, b, CatalogItem.CatalogTypeWeekly))
-        itemList.reverse()
+
+
+        print (base.localAvatar.monthlyCatalog)
+        print (base.localAvatar.weeklyCatalog)
+
+        for x in itemList:
+            print (x)
+            print (x.getPrice(type))
+
+
+
+        #itemList.sort(lambda a, b: priceSort(a, b, CatalogItem.CatalogTypeWeekly))
+
+        #itemList.sort(key=lambda a: itemList: suitUpdates[0])
+
+
+
+
+        #itemList.reverse()
         allClosetItems = CatalogFurnitureItem.getAllClosets()
         isMaxClosetOfferred = False
         for item in itemList:
@@ -631,8 +648,8 @@ class CatalogScreen(DirectFrame):
                 self.panelList.append(CatalogItemPanel.CatalogItemPanel(parent=hidden, item=item, type=CatalogItem.CatalogTypeWeekly, parentCatalogScreen=self))
 
         itemList = base.localAvatar.backCatalog
-        itemList.sort(lambda a, b: priceSort(a, b, CatalogItem.CatalogTypeBackorder))
-        itemList.reverse()
+        #itemList.sort(lambda a, b: priceSort(a, b, CatalogItem.CatalogTypeBackorder))
+        #itemList.reverse()
         for item in itemList:
             if isinstance(item, CatalogInvalidItem.CatalogInvalidItem):
                 self.notify.warning('skipping catalog invalid item %s' % item)
@@ -774,8 +791,8 @@ class CatalogScreen(DirectFrame):
         self.panelDict = {}
         self.visiblePanels = []
         itemList = base.localAvatar.monthlyCatalog + base.localAvatar.weeklyCatalog
-        itemList.sort(lambda a, b: priceSort(a, b, CatalogItem.CatalogTypeWeekly))
-        itemList.reverse()
+        #itemList.sort(lambda a, b: priceSort(a, b, CatalogItem.CatalogTypeWeekly))
+        #itemList.reverse()
         for item in itemList:
             if item.loyaltyRequirement() != 0:
                 self.loyaltyPanelList.append(CatalogItemPanel.CatalogItemPanel(parent=hidden, item=item, type=CatalogItem.CatalogTypeLoyalty, parentCatalogScreen=self))
@@ -783,8 +800,8 @@ class CatalogScreen(DirectFrame):
                 self.panelList.append(CatalogItemPanel.CatalogItemPanel(parent=hidden, item=item, type=CatalogItem.CatalogTypeWeekly))
 
         itemList = base.localAvatar.backCatalog
-        itemList.sort(lambda a, b: priceSort(a, b, CatalogItem.CatalogTypeBackorder))
-        itemList.reverse()
+        #itemList.sort(lambda a, b: priceSort(a, b, CatalogItem.CatalogTypeBackorder))
+        #itemList.reverse()
         for item in itemList:
             if item.loyaltyRequirement() != 0:
                 self.loyaltyPanelList.append(CatalogItemPanel.CatalogItemPanel(parent=hidden, item=item, type=CatalogItem.CatalogTypeLoyalty, parentCatalogScreen=self))

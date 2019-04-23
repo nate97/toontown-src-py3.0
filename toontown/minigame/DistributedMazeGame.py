@@ -1040,11 +1040,7 @@ class DistributedMazeGame(DistributedMinigame):
             suitUpdates.extend(list(zip(updateTics, [i] * len(updateTics))))
 
         #suitUpdates.sort(lambda a, b: a[0] - b[0])
-
         suitUpdates.sort(key=lambda suitUpdates: suitUpdates[0]) # PY3 # IMPORTANT
-
-        print (suitUpdates)
-
 
 
         if len(suitUpdates) > 0:

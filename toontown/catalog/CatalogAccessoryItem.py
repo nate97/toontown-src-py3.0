@@ -234,7 +234,7 @@ class CatalogAccessoryItem(CatalogItem.CatalogItem):
     def applyColor(self, model, color):
         if model == None or color == None:
             return
-        if isinstance(color, bytes):
+        if isinstance(color, str): # PY3
             tex = loader.loadTexture(color)
             tex.setMinfilter(Texture.FTLinearMipmapLinear)
             tex.setMagfilter(Texture.FTLinear)

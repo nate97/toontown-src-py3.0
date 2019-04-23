@@ -368,17 +368,17 @@ class DistributedTargetGame(DistributedMinigame):
         self.addSound('impact', 'target_impact_grunt1.ogg', 'phase_4/audio/sfx/')
         self.addSound('umbrella', 'target_chute.ogg', 'phase_4/audio/sfx/')
         self.addSound('bounce', 'target_impact_only.ogg', 'phase_4/audio/sfx/')
-        self.flySound = loader.loadSfx('phase_4/audio/sfx/target_wind_fly_loop.ogg')
+        self.flySound = base.loader.loadSfx('phase_4/audio/sfx/target_wind_fly_loop.ogg')
         self.flySound.setVolume(0.0)
         self.flySound.setPlayRate(1.0)
         self.flySound.setLoop(True)
         self.flySound.play()
-        self.rubberSound = loader.loadSfx('phase_4/audio/sfx/target_stretching_aim_loop.ogg')
+        self.rubberSound = base.loader.loadSfx('phase_4/audio/sfx/target_stretching_aim_loop.ogg')
         self.rubberSound.setVolume(0.0)
         self.rubberSound.setPlayRate(1.0)
         self.rubberSound.setLoop(True)
         self.rubberSound.play()
-        self.flutterSound = loader.loadSfx('phase_4/audio/sfx/target_wind_float_clothloop.ogg')
+        self.flutterSound = base.loader.loadSfx('phase_4/audio/sfx/target_wind_float_clothloop.ogg')
         self.flutterSound.setVolume(1.0)
         self.flutterSound.setPlayRate(1.0)
         self.flutterSound.setLoop(True)
@@ -390,7 +390,7 @@ class DistributedTargetGame(DistributedMinigame):
         if path:
             self.soundPath = path
         soundSource = '%s%s' % (self.soundPath, soundName)
-        self.soundTable[name] = loader.loadSfx(soundSource)
+        self.soundTable[name] = base.loader.loadSfx(soundSource)
 
     def playSound(self, name, volume = 1.0):
         if hasattr(self, 'soundTable'):
@@ -1176,6 +1176,8 @@ class DistributedTargetGame(DistributedMinigame):
         stretchDiff = abs(self.stretchY - self.power) * 0.2
         self.bandVolume += stretchDiff
         self.bandVolume -= globalClock.getDt()
+        self.bandVolume = abs(self.bandVolume) # PY3 audio does not like negative values...
+
         self.rubberSound.setVolume(self.bandVolume)
         self.rubberSound.setPlayRate(1.0 + self.stretchY / 120.0)
         return task.cont

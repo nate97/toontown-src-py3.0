@@ -157,7 +157,9 @@ class CatalogItemList:
         if cmpfunc == None:
             self.__list.sort()
         else:
-            self.__list.sort(cmpfunc)
+
+            print (cmpfunc)
+            self.__list.sort(key=cmpfunc)
         self.__blob = None
         return
 

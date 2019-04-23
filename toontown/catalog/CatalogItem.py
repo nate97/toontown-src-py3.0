@@ -319,7 +319,7 @@ class CatalogItem:
             dg.putArg(self.posHpr[4], STInt8, 254.0 / 360.0)
             dg.putArg(self.posHpr[5], STInt8, 254.0 / 360.0)
         if store & GiftTag:
-            dg.addString(self.giftTag)
+            dg.addBlob(self.giftTag)
         dg.addUint8(self.specialEventId)
 
     def getTypeCode(self):
