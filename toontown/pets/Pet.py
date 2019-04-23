@@ -643,7 +643,7 @@ class Pet(Avatar.Avatar):
 
     def getInteractIval(self, interactId):
         anims = self.InteractAnims[interactId]
-        if type(anims) == bytes:
+        if type(anims) == str: # PY3 was bytes
             animIval = ActorInterval(self, anims)
         else:
             animIval = Sequence()

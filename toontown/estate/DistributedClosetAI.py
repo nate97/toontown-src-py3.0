@@ -33,7 +33,8 @@ class DistributedClosetAI(DistributedFurnitureItemAI):
             return
         self.botList = fields['setClothesBottomsList'][0]
         self.topList = fields['setClothesTopsList'][0]
-        dna = ToonDNA(str=fields['setDNAString'][0])
+        #dna = ToonDNA(str=fields['setDNAString'][0])
+        dna = ToonDNA(fields['setDNAString'][0]) # PY3
         self.gender = dna.gender
 
     def getOwnerId(self):

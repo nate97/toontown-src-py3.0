@@ -3,7 +3,6 @@ from direct.gui.DirectGui import *
 from direct.showbase.DirectObject import DirectObject
 from panda3d.core import *
 import random
-import string
 
 from toontown.fishing import FishSellGUI
 from toontown.hood import ZoneUtil
@@ -352,7 +351,7 @@ class PetshopGUI(DirectObject):
                     descList.append('\t%s' % trait)
 
                 descList.append(TTLocalizer.PetshopDescCost % cost)
-                self.petDesc.append(string.join(descList, '\n'))
+                self.petDesc.append(str.join('\n', descList)) # PY3
                 self.petCost.append(cost)
 
         def destroy(self):

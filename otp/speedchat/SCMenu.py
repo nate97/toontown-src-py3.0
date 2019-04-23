@@ -369,7 +369,7 @@ class SCMenu(SCObject, NodePath):
             self.__members = list(self.__members)
         removedMember = self.__members[index]
         self.__members[index] = value
-        self.privMemberListChanged(added=[value], removed=[removedMember])
+        self.privMemberListChanged(added=list(value), removed=removedMember) # PY3 removedMember had brackets around it [removedMember]
 
     def __delitem__(self, index):
         if isinstance(self.__members, tuple):
