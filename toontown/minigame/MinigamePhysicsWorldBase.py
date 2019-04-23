@@ -135,6 +135,10 @@ class MinigamePhysicsWorldBase:
 
     def simulate(self):
         self.colCount = self.space.autoCollide()
+
+        if self.colCount is None: # PY3
+            self.colCount = 0
+
         if self.maxColCount < self.colCount:
             self.maxColCount = self.colCount
             self.notify.debug('New Max Collision Count %s' % self.maxColCount)

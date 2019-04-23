@@ -174,7 +174,12 @@ class DistributedIceGameAI(DistributedMinigameAI.DistributedMinigameAI):
             else:
                 return 0
 
-        sortedByDistance.sort(cmp=compareDistance)
+        def sortBySecond(distance):
+            return distance[1]
+
+        #sortedByDistance.sort(cmp=compareDistance)
+        sortedByDistance.sort(key=sortBySecond) # PY3
+
         self.scoresAsList = []
         totalPointsAdded = 0
         for index in range(len(self.avIdList)):

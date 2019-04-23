@@ -432,7 +432,12 @@ class DistributedIceGame(DistributedMinigame.DistributedMinigame, DistributedIce
             else:
                 return 0
 
-        sortedByDistance.sort(cmp=compareDistance)
+        def sortBySecond(distance):
+            return distance[1]
+
+        #sortedByDistance.sort(cmp=compareDistance)
+        sortedByDistance.sort(key=sortBySecond) # PY3
+
         self.scoreMovie = Sequence()
         curScale = 0.01
         curTime = 0
