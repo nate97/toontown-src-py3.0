@@ -301,6 +301,9 @@ class CatalogItemPanel(DirectFrame):
         self.buyButton.show()
         typeCode = self['item'].getTypeCode()
         orderCount = base.localAvatar.onOrder.count(self['item'])
+
+        print (typeCode, orderCount)
+
         if orderCount > 0:
             if orderCount > 1:
                 auxText = '%d %s' % (orderCount, TTLocalizer.CatalogOnOrderText)
@@ -320,8 +323,8 @@ class CatalogItemPanel(DirectFrame):
             auxText = TTLocalizer.CatalogCurrent
             self.buyButton['state'] = DGG.DISABLED
         elif self['item'].reachedPurchaseLimit(base.localAvatar):
-            max = self['item'].getPurchaseLimit()
-            if max <= 1:
+            maxI = self['item'].getPurchaseLimit()
+            if maxI <= 1:
                 auxText = TTLocalizer.CatalogPurchasedText
                 if self['item'].hasBeenGifted(base.localAvatar):
                     auxText = TTLocalizer.CatalogGiftedText

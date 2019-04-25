@@ -175,7 +175,7 @@ class SuitInvasionManagerAI:
         self.remaining -= 1
         if self.remaining == 0:
             self.stopInvasion()
-        elif self.remaining == (self.total/2):
+        elif self.remaining == (self.total//2):
             self.notifyInvasionUpdate()
         self.sendInvasionStatus()
 

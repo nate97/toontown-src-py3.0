@@ -610,23 +610,12 @@ class CatalogScreen(DirectFrame):
         itemList = base.localAvatar.monthlyCatalog + base.localAvatar.weeklyCatalog
 
 
-        print (base.localAvatar.monthlyCatalog)
-        print (base.localAvatar.weeklyCatalog)
-
-        for x in itemList:
-            print (x)
-            print (x.getPrice(type))
-
-
+        #itemList = sorted()
 
         #itemList.sort(lambda a, b: priceSort(a, b, CatalogItem.CatalogTypeWeekly))
-
-        #itemList.sort(key=lambda a: itemList: suitUpdates[0])
-
-
-
-
         #itemList.reverse()
+
+
         allClosetItems = CatalogFurnitureItem.getAllClosets()
         isMaxClosetOfferred = False
         for item in itemList:
@@ -648,8 +637,10 @@ class CatalogScreen(DirectFrame):
                 self.panelList.append(CatalogItemPanel.CatalogItemPanel(parent=hidden, item=item, type=CatalogItem.CatalogTypeWeekly, parentCatalogScreen=self))
 
         itemList = base.localAvatar.backCatalog
+
         #itemList.sort(lambda a, b: priceSort(a, b, CatalogItem.CatalogTypeBackorder))
         #itemList.reverse()
+
         for item in itemList:
             if isinstance(item, CatalogInvalidItem.CatalogInvalidItem):
                 self.notify.warning('skipping catalog invalid item %s' % item)
@@ -673,17 +664,17 @@ class CatalogScreen(DirectFrame):
         self.setNumEmblemPages(numPages)
         currentWeek = base.localAvatar.catalogScheduleCurrentWeek - 1
         if currentWeek < 57:
-            seriesNumber = currentWeek / ToontownGlobals.CatalogNumWeeksPerSeries + 1
+            seriesNumber = currentWeek // ToontownGlobals.CatalogNumWeeksPerSeries + 1
             weekNumber = currentWeek % ToontownGlobals.CatalogNumWeeksPerSeries + 1
         elif currentWeek < 65:
             seriesNumber = 6
             weekNumber = currentWeek - 56
         else:
-            seriesNumber = currentWeek / ToontownGlobals.CatalogNumWeeksPerSeries + 2
+            seriesNumber = currentWeek // ToontownGlobals.CatalogNumWeeksPerSeries + 2
             weekNumber = currentWeek % ToontownGlobals.CatalogNumWeeksPerSeries + 1
         geom = NodePath('cover')
         cover = guiItems.find('**/cover')
-        maxSeries = ToontownGlobals.CatalogNumWeeks / ToontownGlobals.CatalogNumWeeksPerSeries + 1
+        maxSeries = ToontownGlobals.CatalogNumWeeks // ToontownGlobals.CatalogNumWeeksPerSeries + 1
         coverSeries = (seriesNumber - 1) % maxSeries + 1
         coverPicture = cover.find('**/cover_picture%s' % coverSeries)
         if not coverPicture.isEmpty():
@@ -791,8 +782,10 @@ class CatalogScreen(DirectFrame):
         self.panelDict = {}
         self.visiblePanels = []
         itemList = base.localAvatar.monthlyCatalog + base.localAvatar.weeklyCatalog
+
         #itemList.sort(lambda a, b: priceSort(a, b, CatalogItem.CatalogTypeWeekly))
         #itemList.reverse()
+
         for item in itemList:
             if item.loyaltyRequirement() != 0:
                 self.loyaltyPanelList.append(CatalogItemPanel.CatalogItemPanel(parent=hidden, item=item, type=CatalogItem.CatalogTypeLoyalty, parentCatalogScreen=self))
@@ -800,8 +793,10 @@ class CatalogScreen(DirectFrame):
                 self.panelList.append(CatalogItemPanel.CatalogItemPanel(parent=hidden, item=item, type=CatalogItem.CatalogTypeWeekly))
 
         itemList = base.localAvatar.backCatalog
+
         #itemList.sort(lambda a, b: priceSort(a, b, CatalogItem.CatalogTypeBackorder))
         #itemList.reverse()
+
         for item in itemList:
             if item.loyaltyRequirement() != 0:
                 self.loyaltyPanelList.append(CatalogItemPanel.CatalogItemPanel(parent=hidden, item=item, type=CatalogItem.CatalogTypeLoyalty, parentCatalogScreen=self))
@@ -814,7 +809,7 @@ class CatalogScreen(DirectFrame):
         self.setNumBackPages(numPages)
         numPages = self.packPages(self.loyaltyPanelList, self.loyaltyPageList, 'loyalty')
         self.setNumLoyaltyPages(numPages)
-        seriesNumber = (base.localAvatar.catalogScheduleCurrentWeek - 1) / ToontownGlobals.CatalogNumWeeksPerSeries + 1
+        seriesNumber = (base.localAvatar.catalogScheduleCurrentWeek - 1) // ToontownGlobals.CatalogNumWeeksPerSeries + 1
         self.catalogSeries['text'] = Localizer.CatalogSeriesLabel % seriesNumber
         weekNumber = (base.localAvatar.catalogScheduleCurrentWeek - 1) % ToontownGlobals.CatalogNumWeeksPerSeries + 1
         self.catalogNumber['text'] = '#%d' % weekNumber

@@ -7,6 +7,10 @@ from direct.distributed.PyDatagramIterator import PyDatagramIterator
 class CatalogItemList:
 
     def __init__(self, source = None, store = 0):
+
+
+        print (source, store)
+
         self.store = store
         self.__blob = None
         self.__list = None

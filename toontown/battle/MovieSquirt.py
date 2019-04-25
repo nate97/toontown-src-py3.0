@@ -62,7 +62,7 @@ def doSquirts(squirts):
         return (len(suit))
 
     #suitSquirts.sort(compFunc)
-    suitSquirts.sort(key=sortByLength) # PY3
+    suitSquirts.sort(key=len) # PY3
 
     delay = 0.0
 

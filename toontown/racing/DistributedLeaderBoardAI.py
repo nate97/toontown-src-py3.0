@@ -21,7 +21,8 @@ class DistributedLeaderBoardAI(DistributedObjectAI):
 
 
     def defineLeaderboard(self): # Sends over genre and instance of this leaderboard to the leaderboard manager
-        self.air.leaderBoardMgr.defineBoardInstance(self.genre, self)
+        if self.air.wantLeaderBoardMgr:
+            self.air.leaderBoardMgr.defineBoardInstance(self.genre, self)
 
 
     def setDisplay(self, display=""):

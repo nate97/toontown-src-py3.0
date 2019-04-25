@@ -53,7 +53,7 @@ def doThrows(throws):
         return (len(suit))
 
     #suitThrows.sort(compFunc)
-    suitThrows.sort(key=sortByLength) # PY3
+    suitThrows.sort(key=len) # PY3
 
     totalHitDict = {}
     singleHitDict = {}

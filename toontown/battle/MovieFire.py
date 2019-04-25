@@ -50,7 +50,7 @@ def doFires(fires):
         return (len(suit))
 
     #suitFires.sort(compFunc)
-    suitFires.sort(key=sortByLength) # PY3 
+    suitFires.sort(key=len) # PY3 
 
     totalHitDict = {}
     singleHitDict = {}

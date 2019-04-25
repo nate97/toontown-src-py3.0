@@ -26,7 +26,7 @@ class SuitBase:
         return
 
     def delete(self):
-        if hasattr(self, 'legList'):
+        if getattr(self, 'legList', None): # PY3
             del self.legList
 
     def getStyleName(self):
@@ -87,3 +87,6 @@ class SuitBase:
 
     def makeLegList(self):
         self.legList = SuitLegList(self.path, self.sp.dnaStore)
+
+
+

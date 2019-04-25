@@ -3133,7 +3133,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         elif type == 'building':
             returnCode = self.doBuildingTakeover(suitIndex)
         elif type == 'invasion':
-            suitDeptIndex = suitIndex / SuitDNA.suitsPerDept
+            suitDeptIndex = suitIndex // SuitDNA.suitsPerDept
             suitTypeIndex = suitIndex % SuitDNA.suitsPerDept
             returnCode = self.doCogInvasion(suitDeptIndex, suitTypeIndex)
         if returnCode:
