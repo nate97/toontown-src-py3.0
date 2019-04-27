@@ -532,10 +532,16 @@ class DistributedStartingBlock(DistributedObject.DistributedObject, FSM):
         self.finishMovie()
         self.movieTrack = Sequence(Func(self.kart.kartLoopSfx.stop), jumpTrack, kartTrack, name=self.av.uniqueName('ExitRaceTrack'), autoFinish=1)
         if self.av is not None and self.localToonKarting:
-            cameraTrack = self.generateCameraReturnMoveTrack()
-            self.movieTrack.append(cameraTrack)
-            self.movieTrack.append(Func(self.d_movieFinished))
-        self.movieTrack.start()
+            try:
+                cameraTrack = self.generateCameraReturnMoveTrack()
+                self.movieTrack.append(cameraTrack)
+                self.movieTrack.append(Func(self.d_movieFinished))
+            except:
+                print("Uh, something went wrong with camera track in starting block...")
+        try:
+            self.movieTrack.start()
+        except:
+            print("movie not working in starting block...")
         return
 
     def exitExitMovie(self):
@@ -651,8 +657,9 @@ class DistributedViewingBlock(DistributedStartingBlock):
         if self.timer is not None:
             return
         self.timer = ToontownTimer()
+        self.timer.reparentTo(base.a2dBottomRight)
         self.timer.setScale(0.3)
-        self.timer.setPos(1.16, 0, -.73)
+        self.timer.setPos(-0.133, 0.0, 0.300)
         self.timer.hide()
         DistributedStartingBlock.makeGui(self)
         return

@@ -30,7 +30,7 @@ BTA_OPTIONS = PythonUtil.Enum('Ok', -1)
 KS_TEXT_SIZE_BIG = TTLocalizer.KSGtextSizeBig
 KS_TEXT_SIZE_SMALL = TTLocalizer.KSGtextSizeSmall
 
-class KartShopGuiMgr(object):
+class KartShopGuiMgr(DirectObject.DirectObject):
     notify = DirectNotifyGlobal.directNotify.newCategory('KartShopGuiMgr')
 
     class MainMenuDlg(DirectFrame):
@@ -675,7 +675,7 @@ class KartShopGuiMgr(object):
             self.okButton = DirectButton(parent=self, relief=None, image=(model.find('**/CheckButtonUp'), model.find('**/CheckButtonDown'), model.find('**/CheckButtonRollover')), geom=model.find('**/CheckIcon'), scale=self.modelScale, pressEffect=False, command=lambda : messenger.send(doneEvent, [BTA_OPTIONS.Ok]))
             self.kartView = DirectFrame(parent=self, relief=None, geom=model.find('**/KartViewerFrame'), scale=1.0)
             bounds = self.kartView.getBounds()
-            radius = (bounds[3] - bounds[2]) / 2
+            radius = (bounds[3] - bounds[2]) // 2
             xCenter = self.kartView.getCenter()[0]
             cm = CardMaker('accViewer')
             cm.setFrame(xCenter - radius, xCenter + radius, bounds[2], bounds[3])
@@ -735,7 +735,7 @@ class KartShopGuiMgr(object):
             self.okButton = DirectButton(parent=self, relief=None, image=(model.find('**/CheckButtonUp'), model.find('**/CheckButtonDown'), model.find('**/CheckButtonRollover')), geom=model.find('**/CheckIcon'), scale=self.modelScale, pressEffect=False, command=lambda : messenger.send(doneEvent, [CBA_OPTIONS.BuyAccessory]))
             self.kartView = DirectFrame(parent=self, relief=None, geom=model.find('**/KartViewerFrame'), scale=1.0)
             bounds = self.kartView.getBounds()
-            radius = (bounds[3] - bounds[2]) / 3
+            radius = (bounds[3] - bounds[2]) // 3
             xCenter, yCenter = self.kartView.getCenter()
             cm = CardMaker('accViewer')
             cm.setFrame(xCenter - radius, xCenter + radius, yCenter - radius, yCenter + radius)
