@@ -302,8 +302,6 @@ class CatalogItemPanel(DirectFrame):
         typeCode = self['item'].getTypeCode()
         orderCount = base.localAvatar.onOrder.count(self['item'])
 
-        print (typeCode, orderCount)
-
         if orderCount > 0:
             if orderCount > 1:
                 auxText = '%d %s' % (orderCount, TTLocalizer.CatalogOnOrderText)

@@ -663,7 +663,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         return self.maxAccessories
 
     def isTrunkFull(self, extraAccessories = 0):
-        numAccessories = (len(self.hatList) + len(self.glassesList) + len(self.backpackList) + len(self.shoesList)) / 3
+        numAccessories = (len(self.hatList) + len(self.glassesList) + len(self.backpackList) + len(self.shoesList)) // 3
         return numAccessories + extraAccessories >= self.maxAccessories
 
     def d_setHatList(self, clothesList):
@@ -880,7 +880,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         return self.maxClothes
 
     def isClosetFull(self, extraClothes = 0):
-        numClothes = len(self.clothesTopsList) / 4 + len(self.clothesBottomsList) / 2
+        numClothes = len(self.clothesTopsList) // 4 + len(self.clothesBottomsList) // 2
         return numClothes + extraClothes >= self.maxClothes
 
     def d_setClothesTopsList(self, clothesList):
@@ -2216,7 +2216,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             return
         if doUpdateLater and self.air.doLiveUpdates and hasattr(self, 'name'):
             taskName = 'next-bothDelivery-%s' % self.doId
-            now = int(time.time() / 60 + 0.5)
+            now = int(time.time() // 60 + 0.5)
             nextItem = None
             nextGiftItem = None
             nextTime = None
@@ -2259,7 +2259,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         return
 
     def __deliverBothPurchases(self, task):
-        now = int(time.time() / 60 + 0.5)
+        now = int(time.time() // 60 + 0.5)
         delivered, remaining = self.onOrder.extractDeliveryItems(now)
         deliveredGifts, remainingGifts = self.onGiftOrder.extractDeliveryItems(now)
         #simbase.air.deliveryManager.sendDeliverGifts(self.getDoId(), now)
@@ -2278,7 +2278,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         return self.onGiftOrder.getBlob(store=CatalogItem.Customization | CatalogItem.DeliveryDate)
 
     def __deliverGiftPurchase(self, task):
-        now = int(time.time() / 60 + 0.5)
+        now = int(time.time() // 60 + 0.5)
         delivered, remaining = self.onGiftOrder.extractDeliveryItems(now)
         self.notify.info('Gift Delivery for %s: %s.' % (self.doId, delivered))
         self.b_setMailboxContents(self.mailboxContents + delivered)
@@ -2287,7 +2287,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         return Task.done
 
     def __deliverPurchase(self, task):
-        now = int(time.time() / 60 + 0.5)
+        now = int(time.time() // 60 + 0.5)
         delivered, remaining = self.onOrder.extractDeliveryItems(now)
         self.notify.info('Delivery for %s: %s.' % (self.doId, delivered))
         self.b_setMailboxContents(self.mailboxContents + delivered)
@@ -3988,7 +3988,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
             if doUpdateLater and self.air.doLiveUpdates and hasattr(self, 'air'):
                 taskName = self.uniqueName('next-award-delivery')
                 taskMgr.remove(taskName)
-                now = int(time.time() / 60 + 0.5)
+                now = int(time.time() // 60 + 0.5)
                 nextItem = None
                 nextTime = self.onAwardOrder.getNextDeliveryDate()
                 nextItem = self.onAwardOrder.getNextDeliveryItem()
@@ -4000,7 +4000,7 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
         return
 
     def __deliverAwardPurchase(self, task):
-        now = int(time.time() / 60 + 0.5)
+        now = int(time.time() // 60 + 0.5)
         delivered, remaining = self.onAwardOrder.extractDeliveryItems(now)
         self.notify.info('Award Delivery for %s: %s.' % (self.doId, delivered))
         self.b_setAwardMailboxContents(self.awardMailboxContents + delivered)

@@ -434,7 +434,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
         if nodePath.isEmpty():
             return
         dnaStore = self.cr.playGame.dnaStore
-        level = int(self.difficulty / 2) + 1
+        level = int(self.difficulty // 2) + 1
         suitNP = dnaStore.findNode('suit_landmark_' + chr(self.track) + str(level))
         zoneId = dnaStore.getZoneFromBlockNumber(self.block)
         zoneId = ZoneUtil.getTrueZoneId(zoneId, self.interiorZoneId)
@@ -538,7 +538,7 @@ class DistributedBuilding(DistributedObject.DistributedObject):
 
     def setupCogdo(self, nodePath):
         dnaStore = self.cr.playGame.dnaStore
-        level = int(self.difficulty / 2) + 1
+        level = int(self.difficulty // 2) + 1
         suitNP = dnaStore.findNode(FO_DICT[chr(self.track)])
         zoneId = dnaStore.getZoneFromBlockNumber(self.block)
         zoneId = ZoneUtil.getTrueZoneId(zoneId, self.interiorZoneId)
