@@ -2,6 +2,9 @@ from direct.directnotify import DirectNotifyGlobal
 from direct.distributed.DistributedObjectAI import DistributedObjectAI
 from toontown.racing.KartShopGlobals import KartGlobals
 from toontown.racing import RaceGlobals
+from direct.task import Task
+
+
 
 class DistributedStartingBlockAI(DistributedObjectAI):
     notify = DirectNotifyGlobal.directNotify.newCategory("DistributedStartingBlockAI")
@@ -14,23 +17,30 @@ class DistributedStartingBlockAI(DistributedObjectAI):
         self.avId = 0
         self.posHpr = [0, 0, 0, 0, 0, 0]
 
+
     def setPadDoId(self, padDoId):
         self.pad = self.air.doId2do[padDoId]
         
+
     def getPadDoId(self):
         return self.pad.getDoId()
 
+
     def setPosHpr(self, x, y, z, h, p, r):
         self.posHpr = [x, y, z, h, p, r]
-    
+
+
     def getPosHpr(self):
         return self.posHpr
-    
+
+
     def setPadLocationId(self, padLocationId):
         self.padLocationId = padLocationId
-        
+
+
     def getPadLocationId(self):
         return self.padLocationId
+
 
     def requestEnter(self, isPaid):
         avId = self.air.getAvatarIdFromSender()
@@ -53,9 +63,11 @@ class DistributedStartingBlockAI(DistributedObjectAI):
             return
         self.b_setOccupied(avId)
         self.b_setMovie(KartGlobals.ENTER_MOVIE)
-        
+
+
     def rejectEnter(self, errCode):
         pass
+
 
     def requestExit(self):
         avId = self.air.getAvatarIdFromSender()
@@ -63,27 +75,34 @@ class DistributedStartingBlockAI(DistributedObjectAI):
             self.air.writeServerEvent('suspicious', avId, 'Toon tried to get off a starting block they\'re not on!')
         self.b_setMovie(KartGlobals.EXIT_MOVIE)
 
+
     def setOccupied(self, avId):
         self.avId = avId
         self.pad.updateTimer()
-        
+
+
     def d_setOccupied(self, avId):
         self.sendUpdate('setOccupied', [avId])
-        
+
+
     def b_setOccupied(self, avId):
         self.setOccupied(avId)
         self.d_setOccupied(avId)
-        
+
+
     def setMovie(self, movie):
         self.currentMovie = movie
         self.pad.updateMovieState()
     
+
     def d_setMovie(self, movie):
         self.sendUpdate('setMovie', [movie])
     
+
     def b_setMovie(self, movie):
         self.setMovie(movie)
         self.d_setMovie(movie)
+
 
     def movieFinished(self):
         avId = self.air.getAvatarIdFromSender()
@@ -97,6 +116,8 @@ class DistributedStartingBlockAI(DistributedObjectAI):
             self.b_setOccupied(0)
         self.b_setMovie(0)
 
+
+
 class DistributedViewingBlockAI(DistributedStartingBlockAI):
     notify = DirectNotifyGlobal.directNotify.newCategory("DistributedViewingBlockAI")
     
@@ -104,6 +125,7 @@ class DistributedViewingBlockAI(DistributedStartingBlockAI):
         DistributedStartingBlockAI.__init__(self, air)
         self.air = air
         
+
     def requestEnter(self, isPaid):
         avId = self.air.getAvatarIdFromSender()
         av = self.air.doId2do[avId]
@@ -117,8 +139,35 @@ class DistributedViewingBlockAI(DistributedStartingBlockAI):
             return
         self.b_setOccupied(avId)
         self.b_setMovie(KartGlobals.ENTER_MOVIE)
-        taskMgr.doMethodLater(30, DistributedViewingBlockAI.b_setMovie, 'removePlayer%i' % self.doId, [self, KartGlobals.EXIT_MOVIE])
-        
-    def requestExit(self):
+
+        taskMgr.add(self.removePlayer, 'removePlayer%i' % self.doId)
+
+
+    def removePlayer(self, task):
+        if self.avId not in self.air.doId2do: # Avatar is online, so keep the task going!
+            # If we drop in here, avatar has disconnected.
+            self.purgeAvatarFromBlock() # Remove avatar from everything
+            return task.done # end task
+
+        if task.time < 30.0:
+            # Task is running
+            return task.cont
+
+        # If we drop down here, task has timed out.
+        print ("Task ended after 30 seconds")
+        self.requestExit()
+        return task.done # It has been 30 seconds, end task
+
+
+    def purgeAvatarFromBlock(self):
+        self.b_setOccupied(0)
+        self.b_setMovie(0)
+        taskMgr.remove('removePlayer%i' % self.doId) # Remove disconnection task
+
+
+    def requestExit(self): # Client usually calls this, however I reused this in the task code above.
         DistributedStartingBlockAI.requestExit(self)
-        taskMgr.remove('removePlayer%i' % self.doId)
+        taskMgr.remove('removePlayer%i' % self.doId) # Remove disconnection task
+
+
+

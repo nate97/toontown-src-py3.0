@@ -1,27 +1,31 @@
-from direct.distributed.ClockDelta import *
 from direct.interval.IntervalGlobal import *
+from direct.distributed import DistributedObject
+from direct.distributed import DistributedSmoothNode
+from direct.distributed.ClockDelta import *
+from direct.showbase import PythonUtil
+from direct.actor import Actor
+from direct.fsm import ClassicFSM
+from direct.fsm import State
+from direct.gui import DirectGui
+from direct.task import Task
+
 from toontown.building.ElevatorConstants import *
 from toontown.building.ElevatorUtils import *
 from toontown.building import DistributedElevatorExt
 from toontown.building import DistributedElevator
 from toontown.toonbase import ToontownGlobals
-from direct.fsm import ClassicFSM
-from direct.fsm import State
-from direct.gui import DirectGui
-from toontown.hood import ZoneUtil
 from toontown.toonbase import TTLocalizer
-from toontown.toontowngui import TTDialog
-from direct.distributed import DistributedObject
-from direct.distributed import DistributedSmoothNode
-from direct.actor import Actor
-from toontown.fsm.FSM import FSM
-from direct.showbase import PythonUtil
 from toontown.toonbase.ToontownTimer import ToontownTimer
-from toontown.racing.Kart import Kart
-from toontown.racing.KartShopGlobals import KartGlobals
-from toontown.racing import RaceGlobals
+from toontown.toontowngui import TTDialog
 from toontown.toontowngui.TTDialog import TTGlobalDialog
 from toontown.toontowngui.TeaserPanel import TeaserPanel
+from toontown.racing.KartShopGlobals import KartGlobals
+from toontown.racing.Kart import Kart
+from toontown.racing import RaceGlobals
+from toontown.hood import ZoneUtil
+
+from toontown.fsm.FSM import FSM
+
 if (__debug__):
     import pdb
 
@@ -232,6 +236,7 @@ class DistributedStartingBlock(DistributedObject.DistributedObject, FSM):
 
     def setOccupied(self, avId):
         self.notify.debug('%d setOccupied: %d' % (self.doId, avId))
+
         if self.av != None:
             self.finishMovie()
             if not self.av.isEmpty() and not self.av.isDisabled():
@@ -248,11 +253,14 @@ class DistributedStartingBlock(DistributedObject.DistributedObject, FSM):
             self.placedAvatar = 0
             self.ignore(self.av.uniqueName('disable'))
             self.av = None
+
+
         wasLocalToon = self.localToonKarting
         self.lastAvId = self.avId
         self.lastFrame = globalClock.getFrameCount()
         self.avId = avId
         self.localToonKarting = 0
+
         if self.avId == 0:
             self.collSphere.setTangible(0)
             self.request('Off')
@@ -260,22 +268,31 @@ class DistributedStartingBlock(DistributedObject.DistributedObject, FSM):
             self.collSphere.setTangible(1)
             av = self.cr.doId2do.get(self.avId)
             self.placedAvatar = 0
+
             if self.avId == base.localAvatar.doId:
                 self.localToonKarting = 1
+
             if av != None:
                 self.av = av
                 self.av.stopSmooth()
                 self.placedAvatar = 0
                 self.acceptOnce(self.av.uniqueName('disable'), self.__avatarGone)
+
                 self.kartNode = render.attachNewNode(self.av.uniqueName('KartNode'))
                 self.kartNode.setPosHpr(self.nodePath.getPos(render), self.nodePath.getHpr(render))
-                self.kart = Kart()
+
+                self.kart = Kart() # NJF
                 self.kart.baseScale = 1.6
                 self.kart.setDNA(self.av.getKartDNA())
                 self.kart.generateKart()
                 self.kart.resetGeomPos()
+
+                # Patch job
+                kartParentTask = taskMgr.doMethodLater(2, self.parentCheck, 'parentCheckTask' + str(self.avId)) # Wait two seconds to give us a chance to check and see if the kart is doing a movie or not (In this case checking to see if kart is being reparented to something)
+
                 self.av.wrtReparentTo(self.nodePath)
                 self.av.setAnimState('neutral', 1.0)
+
                 if not self.localToonKarting:
                     av.stopSmooth()
                     self.__placeAvatar()
@@ -283,26 +300,45 @@ class DistributedStartingBlock(DistributedObject.DistributedObject, FSM):
             else:
                 self.notify.warning('Unknown avatar %d in kart block %d ' % (self.avId, self.doId))
                 self.avId = 0
+
         if wasLocalToon and not self.localToonKarting:
             place = base.cr.playGame.getPlace()
             if place:
                 if self.exitRequested:
                     place.setState('walk')
                 else:
-
                     def handleDialogOK(self = self):
                         self.ignore('stoppedAsleep')
                         place.setState('walk')
                         self.dialog.ignoreAll()
                         self.dialog.cleanup()
                         del self.dialog
-
                     doneEvent = 'kickedOutDialog'
                     msg = TTLocalizer.StartingBlock_KickSoloRacer
                     self.dialog = TTGlobalDialog(msg, doneEvent, style=1)
                     self.dialog.accept(doneEvent, handleDialogOK)
                     self.accept('stoppedAsleep', handleDialogOK)
         return
+
+
+    # This task is ran after two seconds, then checks to see if kart is parented to anything or not, if it is *NOT*, we will set the default stance of the kart and player
+    def parentCheck(self, task):
+        if not getattr(self, "kart", None) or not getattr(self, "kartNode", None):
+            return task.done # End task, avatar unexpectedly left
+        else: # We still have a kart!
+            kartParent = str(self.kart.getParent())
+            if self.avId != base.localAvatar.doId and kartParent == '(empty)': # Setup default stance of the kart and avatar!
+                pos = self.nodePath.getPos(render)
+                hpr = self.nodePath.getHpr(render)
+                pos.addZ(1.7)
+                hpr.addX(270)
+                self.kartNode.setPosHpr(pos, hpr)
+                self.kart.reparentTo(self.kartNode)
+                self.av.setPosHpr(0, 0.45, -.25, 0, 0, 0)
+                self.av.reparentTo(self.kart.toonSeat)
+                self.av.loop('sit')
+        return task.done
+
 
     def __avatarGone(self):
         self.notify.debugStateCall(self)
@@ -364,6 +400,7 @@ class DistributedStartingBlock(DistributedObject.DistributedObject, FSM):
                 self.kartNode.setPosHpr(self.nodePath.getPos(render), self.nodePath.getHpr(render))
             self.kart.setScale(0.85)
             self.kart.reparentTo(self.kartNode)
+
             return Parallel()
         self.kart.setScale(0.1)
         kartTrack = Parallel(
@@ -532,16 +569,10 @@ class DistributedStartingBlock(DistributedObject.DistributedObject, FSM):
         self.finishMovie()
         self.movieTrack = Sequence(Func(self.kart.kartLoopSfx.stop), jumpTrack, kartTrack, name=self.av.uniqueName('ExitRaceTrack'), autoFinish=1)
         if self.av is not None and self.localToonKarting:
-            try:
-                cameraTrack = self.generateCameraReturnMoveTrack()
-                self.movieTrack.append(cameraTrack)
-                self.movieTrack.append(Func(self.d_movieFinished))
-            except:
-                print("Uh, something went wrong with camera track in starting block...")
-        try:
-            self.movieTrack.start()
-        except:
-            print("movie not working in starting block...")
+            cameraTrack = self.generateCameraReturnMoveTrack()
+            self.movieTrack.append(cameraTrack)
+            self.movieTrack.append(Func(self.d_movieFinished))
+        self.movieTrack.start()
         return
 
     def exitExitMovie(self):

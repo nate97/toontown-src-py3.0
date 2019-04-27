@@ -303,8 +303,9 @@ class LocalToon(DistributedToon.DistributedToon, LocalAvatar.LocalAvatar):
         pass
 
     def delete(self):
-        try:
-            self.LocalToon_deleted
+        try: # PY3 why is this... like this..?
+            #self.LocalToon_deleted
+            self.LocalToon_deleted = 0 # was set to nothing... PY3 " = 0 "
         except:
             self.LocalToon_deleted = 1
             Toon.unloadDialog()

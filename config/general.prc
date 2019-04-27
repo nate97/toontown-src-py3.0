@@ -64,7 +64,7 @@ texture-power-2 none
 gl-check-errors #f
 #Garbage collect status is currently broken
 #garbage-collect-states #f
-
+gc-save-all 0 # If you turn this on when using Python3, expect major memory leak issues *LEAVE THIS DISABLED*
 
 # Egg object types:
 egg-object-type-barrier <Scalar> collide-mask { 0x01 } <Collide> { Polyset descend }
