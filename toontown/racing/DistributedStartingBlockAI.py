@@ -154,7 +154,6 @@ class DistributedViewingBlockAI(DistributedStartingBlockAI):
             return task.cont
 
         # If we drop down here, task has timed out.
-        print ("Task ended after 30 seconds")
         self.requestExit()
         return task.done # It has been 30 seconds, end task
 
@@ -169,5 +168,20 @@ class DistributedViewingBlockAI(DistributedStartingBlockAI):
         DistributedStartingBlockAI.requestExit(self)
         taskMgr.remove('removePlayer%i' % self.doId) # Remove disconnection task
 
+
+    def movieFinished(self):
+        avId = self.air.getAvatarIdFromSender()
+        if self.avId != avId:
+            self.air.writeServerEvent('suspicious', avId, 'Toon tried to end movie of another toon!')
+            return
+        if not self.currentMovie:
+            self.air.writeServerEvent('suspicious', avId, 'Toon tried to end non-existent movie!')
+            return
+        if self.currentMovie == KartGlobals.EXIT_MOVIE:
+            self.b_setOccupied(0)
+        if self.currentMovie == KartGlobals.ENTER_MOVIE:
+            self.b_setMovie(KartGlobals.WAITING_MOVIE)
+            return
+        self.b_setMovie(0)
 
 

@@ -254,7 +254,6 @@ class DistributedStartingBlock(DistributedObject.DistributedObject, FSM):
             self.ignore(self.av.uniqueName('disable'))
             self.av = None
 
-
         wasLocalToon = self.localToonKarting
         self.lastAvId = self.avId
         self.lastFrame = globalClock.getFrameCount()
@@ -280,15 +279,11 @@ class DistributedStartingBlock(DistributedObject.DistributedObject, FSM):
 
                 self.kartNode = render.attachNewNode(self.av.uniqueName('KartNode'))
                 self.kartNode.setPosHpr(self.nodePath.getPos(render), self.nodePath.getHpr(render))
-
-                self.kart = Kart() # NJF
+                self.kart = Kart()
                 self.kart.baseScale = 1.6
                 self.kart.setDNA(self.av.getKartDNA())
                 self.kart.generateKart()
                 self.kart.resetGeomPos()
-
-                # Patch job
-                kartParentTask = taskMgr.doMethodLater(2, self.parentCheck, 'parentCheckTask' + str(self.avId)) # Wait two seconds to give us a chance to check and see if the kart is doing a movie or not (In this case checking to see if kart is being reparented to something)
 
                 self.av.wrtReparentTo(self.nodePath)
                 self.av.setAnimState('neutral', 1.0)
@@ -320,26 +315,6 @@ class DistributedStartingBlock(DistributedObject.DistributedObject, FSM):
                     self.accept('stoppedAsleep', handleDialogOK)
         return
 
-
-    # This task is ran after two seconds, then checks to see if kart is parented to anything or not, if it is *NOT*, we will set the default stance of the kart and player
-    def parentCheck(self, task):
-        if not getattr(self, "kart", None) or not getattr(self, "kartNode", None):
-            return task.done # End task, avatar unexpectedly left
-        else: # We still have a kart!
-            kartParent = str(self.kart.getParent())
-            if self.avId != base.localAvatar.doId and kartParent == '(empty)': # Setup default stance of the kart and avatar!
-                pos = self.nodePath.getPos(render)
-                hpr = self.nodePath.getHpr(render)
-                pos.addZ(1.7)
-                hpr.addX(270)
-                self.kartNode.setPosHpr(pos, hpr)
-                self.kart.reparentTo(self.kartNode)
-                self.av.setPosHpr(0, 0.45, -.25, 0, 0, 0)
-                self.av.reparentTo(self.kart.toonSeat)
-                self.av.loop('sit')
-        return task.done
-
-
     def __avatarGone(self):
         self.notify.debugStateCall(self)
         self.setOccupied(0)
@@ -356,11 +331,21 @@ class DistributedStartingBlock(DistributedObject.DistributedObject, FSM):
             return
         self.finishMovie()
         if mode == 0:
-            pass
+            self.defaultKartToonStance()
         elif mode == KartGlobals.ENTER_MOVIE:
             self.request('EnterMovie')
         elif mode == KartGlobals.EXIT_MOVIE:
             self.request('ExitMovie')
+        elif mode == KartGlobals.WAITING_MOVIE:
+            self.request('Waiting')
+
+    def defaultKartToonStance(self):
+        pos = self.nodePath.getPos(render)
+        self.kartNode.setPos(pos)
+        self.kart.reparentTo(self.kartNode)
+        self.av.setPosHpr(0, 0.45, -.25, 0, 0, 0)
+        self.av.reparentTo(self.kart.toonSeat)
+        self.av.loop('sit')
 
     def makeGui(self):
         self.notify.debugStateCall(self)
@@ -713,6 +698,23 @@ class DistributedViewingBlock(DistributedStartingBlock):
         countdownTime = KartGlobals.COUNTDOWN_TIME - globalClockDelta.localElapsedTime(self.kartPad.getTimestamp(self.avId))
         self.timer.countdown(countdownTime)
 
+
+    def enterWaiting(self):
+        self.notify.debug('%d enterWaiting: Entering the Waiting State.' % self.doId)
+        pos = self.nodePath.getPos(render)
+        hpr = self.nodePath.getHpr(render)
+        pos.addZ(1.7)
+        hpr.addX(270)
+        self.kartNode.setPosHpr(pos, hpr)
+        self.kart.reparentTo(self.kartNode)
+        self.av.setPosHpr(0, 0.45, -.25, 0, 0, 0)
+        self.av.reparentTo(self.kart.toonSeat)
+        self.av.loop('sit')
+
+    def exitWaiting(self):
+        self.notify.debug('%d exitWaiting: Exiting the Waiting State.' % self.doId)
+
+
     def enterEnterMovie(self):
         self.notify.debug('%d enterEnterMovie: Entering the Enter Movie State.' % self.doId)
         if base.config.GetBool('want-qa-regression', 0):
@@ -737,3 +739,6 @@ class DistributedViewingBlock(DistributedStartingBlock):
         self.movieTrack.start()
         self.exitRequested = True
         return
+
+
+

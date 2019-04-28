@@ -1,11 +1,12 @@
 from direct.directnotify import DirectNotifyGlobal
+from direct.distributed.ClockDelta import *
+from direct.task import *
+
+from toontown.racing.KartShopGlobals import KartGlobals
 from toontown.racing.DistributedKartPadAI import DistributedKartPadAI
 from toontown.racing.DistributedRaceAI import DistributedRaceAI
 from toontown.racing import RaceGlobals
 from toontown.fsm.FSM import FSM
-from direct.distributed.ClockDelta import *
-from direct.task import *
-from toontown.racing.KartShopGlobals import KartGlobals
 
 #TODO - change race type
 
@@ -45,13 +46,40 @@ class DistributedRacePadAI(DistributedKartPadAI, FSM):
             block.b_setOccupied(0)
         self.shouldStart = False
         taskMgr.doMethodLater(30, DistributedRacePadAI.changeTrack, 'changeTrack%i' % self.doId, [self])
-    
+
     def exitWaitEmpty(self):
         taskMgr.remove('changeTrack%i' % self.doId)
         
     def enterWaitCountdown(self):
-        taskMgr.doMethodLater(30, DistributedRacePadAI.startRace, 'startRace%i' % self.doId, [self])
-    
+        taskMgr.add(self.startRacePlayerChecker, 'startRaceCheck%i' % self.doId)
+
+    def startRacePlayerChecker(self, task):
+        avatars = []
+        for block in self.startingBlocks:
+            if block.avId != 0:
+
+                if block.avId in self.air.doId2do: # Avatar is online, so keep the task going!
+                    avatars.append(block.avId)
+                else:
+                    block.avId = 0
+
+        if len(avatars) == 0: # If we have no players... kill the task
+            self.cleanupRacePads()
+            return task.done # end task
+
+        if task.time < 30.0:
+            # Task is running
+            return task.cont
+        else:
+            self.startRace() # Woo!!!
+
+        # If we drop down here, task has timed out successfully
+        return task.done # It has been 30 seconds, end task
+
+    def cleanupRacePads(self):
+        self.b_setState('WaitEmpty', globalClockDelta.getRealNetworkTime())
+        taskMgr.remove('startRaceCheck%i' % self.doId) # Remove disconnection check task
+
     def exitWaitCountdown(self):
         taskMgr.remove('startRace%i' % self.doId)
         
@@ -96,6 +124,7 @@ class DistributedRacePadAI(DistributedKartPadAI, FSM):
                     self.runningMovie = True
                     return
                 self.runningMovie = False
+
     def startRace(self):
         if self.runningMovie:
             self.request('WaitBoarding')
@@ -169,4 +198,6 @@ class DistributedRacePadAI(DistributedKartPadAI, FSM):
     def b_setTrackInfo(self, trackInfo):
         self.setTrackInfo(trackInfo)
         self.d_setTrackInfo(trackInfo)
+
+
 
