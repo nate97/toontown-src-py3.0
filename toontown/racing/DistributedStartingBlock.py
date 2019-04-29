@@ -336,8 +336,6 @@ class DistributedStartingBlock(DistributedObject.DistributedObject, FSM):
             self.request('EnterMovie')
         elif mode == KartGlobals.EXIT_MOVIE:
             self.request('ExitMovie')
-        elif mode == KartGlobals.WAITING_MOVIE:
-            self.request('Waiting')
 
     def defaultKartToonStance(self):
         pos = self.nodePath.getPos(render)
@@ -698,9 +696,7 @@ class DistributedViewingBlock(DistributedStartingBlock):
         countdownTime = KartGlobals.COUNTDOWN_TIME - globalClockDelta.localElapsedTime(self.kartPad.getTimestamp(self.avId))
         self.timer.countdown(countdownTime)
 
-
-    def enterWaiting(self):
-        self.notify.debug('%d enterWaiting: Entering the Waiting State.' % self.doId)
+    def defaultKartToonStance(self):
         pos = self.nodePath.getPos(render)
         hpr = self.nodePath.getHpr(render)
         pos.addZ(1.7)
@@ -710,10 +706,6 @@ class DistributedViewingBlock(DistributedStartingBlock):
         self.av.setPosHpr(0, 0.45, -.25, 0, 0, 0)
         self.av.reparentTo(self.kart.toonSeat)
         self.av.loop('sit')
-
-    def exitWaiting(self):
-        self.notify.debug('%d exitWaiting: Exiting the Waiting State.' % self.doId)
-
 
     def enterEnterMovie(self):
         self.notify.debug('%d enterEnterMovie: Entering the Enter Movie State.' % self.doId)

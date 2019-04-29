@@ -13,7 +13,6 @@ class KartShopGlobals:
 class KartGlobals:
     ENTER_MOVIE = 1
     EXIT_MOVIE = 2
-    WAITING_MOVIE = 3
     COUNTDOWN_TIME = 30
     BOARDING_TIME = 10.0
     ENTER_RACE_TIME = 6.0

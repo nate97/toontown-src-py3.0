@@ -169,19 +169,4 @@ class DistributedViewingBlockAI(DistributedStartingBlockAI):
         taskMgr.remove('removePlayer%i' % self.doId) # Remove disconnection task
 
 
-    def movieFinished(self):
-        avId = self.air.getAvatarIdFromSender()
-        if self.avId != avId:
-            self.air.writeServerEvent('suspicious', avId, 'Toon tried to end movie of another toon!')
-            return
-        if not self.currentMovie:
-            self.air.writeServerEvent('suspicious', avId, 'Toon tried to end non-existent movie!')
-            return
-        if self.currentMovie == KartGlobals.EXIT_MOVIE:
-            self.b_setOccupied(0)
-        if self.currentMovie == KartGlobals.ENTER_MOVIE:
-            self.b_setMovie(KartGlobals.WAITING_MOVIE)
-            return
-        self.b_setMovie(0)
-
 

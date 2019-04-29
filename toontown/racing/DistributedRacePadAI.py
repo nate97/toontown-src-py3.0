@@ -81,7 +81,7 @@ class DistributedRacePadAI(DistributedKartPadAI, FSM):
         taskMgr.remove('startRaceCheck%i' % self.doId) # Remove disconnection check task
 
     def exitWaitCountdown(self):
-        taskMgr.remove('startRace%i' % self.doId)
+        taskMgr.remove('startRaceCheck%i' % self.doId)
         
     def enterWaitBoarding(self):
         pass
