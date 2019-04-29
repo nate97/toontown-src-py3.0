@@ -722,7 +722,7 @@ class DistributedCannon(DistributedObject.DistributedObject):
             self.cannonMoving = 0
             self.sndCannonMove.stop()
             self.__broadcastLocalCannonPosition()
-            print('Cannon Rot:%s Angle:%s' % (pos[0], pos[1]))
+            print(('Cannon Rot:%s Angle:%s' % (pos[0], pos[1])))
         return Task.cont
 
     def __broadcastLocalCannonPosition(self):
@@ -803,7 +803,7 @@ class DistributedCannon(DistributedObject.DistributedObject):
         head.reparentTo(hidden)
         av = self.toonModel
         av.reparentTo(render)
-        print('start Pos%s Hpr%s' % (startPos, startHpr))
+        print(('start Pos%s Hpr%s' % (startPos, startHpr)))
         av.setPos(startPos)
         barrelHpr = self.barrel.getHpr(render)
         place = base.cr.playGame.getPlace()
