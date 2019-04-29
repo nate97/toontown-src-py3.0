@@ -31,7 +31,7 @@ GROUND_SCALE = 1.4 * WORLD_SCALE
 CANNON_SCALE = 1.0
 FAR_PLANE_DIST = 600 * WORLD_SCALE
 GROUND_PLANE_MIN = -15
-CANNON_Y = -int(CannonGameGlobals.TowerYRange // 2 * 1.3)
+CANNON_Y = -int(CannonGameGlobals.TowerYRange / 2 * 1.3)
 CANNON_X_SPACING = 12
 CANNON_Z = 20
 CANNON_ROTATION_MIN = -55
@@ -50,7 +50,7 @@ TOWER_HEIGHT = 43.85
 TOWER_RADIUS = 10.5
 BUCKET_HEIGHT = 36
 TOWER_Y_RANGE = CannonGameGlobals.TowerYRange
-TOWER_X_RANGE = int(TOWER_Y_RANGE // 2.0)
+TOWER_X_RANGE = int(TOWER_Y_RANGE / 2.0)
 INITIAL_VELOCITY = 80.0
 WHISTLE_SPEED = INITIAL_VELOCITY * 0.35
 
@@ -338,7 +338,8 @@ class DistributedCannon(DistributedObject.DistributedObject):
             return
         guiModel = 'phase_4/models/gui/cannon_game_gui'
         cannonGui = loader.loadModel(guiModel)
-        self.aimPad = DirectFrame(image=cannonGui.find('**/CannonFire_PAD'), relief=None, pos=(0.7, 0, -0.553333), scale=0.8)
+        self.aimPad = DirectFrame(image=cannonGui.find('**/CannonFire_PAD'), relief=None, pos=(-0.320, 0.0, 0.300), scale=0.8) #0.7, 0, -0.553333
+
         cannonGui.removeNode()
         self.fireButton = DirectButton(parent=self.aimPad, image=((guiModel, '**/Fire_Btn_UP'), (guiModel, '**/Fire_Btn_DN'), (guiModel, '**/Fire_Btn_RLVR')), relief=None, pos=(0.0115741, 0, 0.00505051), scale=1.0, command=self.__firePressed)
         self.upButton = DirectButton(parent=self.aimPad, image=((guiModel, '**/Cannon_Arrow_UP'), (guiModel, '**/Cannon_Arrow_DN'), (guiModel, '**/Cannon_Arrow_RLVR')), relief=None, pos=(0.0115741, 0, 0.221717))
@@ -346,6 +347,7 @@ class DistributedCannon(DistributedObject.DistributedObject):
         self.leftButton = DirectButton(parent=self.aimPad, image=((guiModel, '**/Cannon_Arrow_UP'), (guiModel, '**/Cannon_Arrow_DN'), (guiModel, '**/Cannon_Arrow_RLVR')), relief=None, pos=(-0.199352, 0, -0.000505269), image_hpr=(0, 0, -90))
         self.rightButton = DirectButton(parent=self.aimPad, image=((guiModel, '**/Cannon_Arrow_UP'), (guiModel, '**/Cannon_Arrow_DN'), (guiModel, '**/Cannon_Arrow_RLVR')), relief=None, pos=(0.219167, 0, -0.00101024), image_hpr=(0, 0, 90))
         self.aimPad.setColor(1, 1, 1, 0.9)
+        self.aimPad.reparentTo(base.a2dBottomRight)
 
         def bindButton(button, upHandler, downHandler):
             button.bind(DGG.B1PRESS, lambda x, handler = upHandler: handler())
@@ -461,7 +463,7 @@ class DistributedCannon(DistributedObject.DistributedObject):
         toon.useLOD(1000)
         toonParent = render.attachNewNode('toonOriginChange')
         toon.wrtReparentTo(toonParent)
-        toon.setPosHpr(0, 0, -(toon.getHeight() // 2.0), 0, -90, 0)
+        toon.setPosHpr(0, 0, -(toon.getHeight() / 2.0), 0, -90, 0)
         self.toonModel = toonParent
         self.toonHead = ToonHead.ToonHead()
         self.toonHead.setupHead(self.av.style)
@@ -812,7 +814,7 @@ class DistributedCannon(DistributedObject.DistributedObject):
         av.setHpr(startHpr)
         avatar = self.av
         avatar.loop('swim')
-        avatar.setPosHpr(0, 0, -(avatar.getHeight() // 2.0), 0, 0, 0)
+        avatar.setPosHpr(0, 0, -(avatar.getHeight() / 2.0), 0, 0, 0)
         info = {}
         info['avId'] = avId
         info['trajectory'] = trajectory
@@ -827,7 +829,7 @@ class DistributedCannon(DistributedObject.DistributedObject):
             base.camera.reparentTo(self.av)
             base.camera.setP(45.0)
             base.camera.setZ(-10.0)
-        self.flyColSphere = CollisionSphere(0, 0, self.av.getHeight() // 2.0, 1.0)
+        self.flyColSphere = CollisionSphere(0, 0, self.av.getHeight() / 2.0, 1.0)
         self.flyColNode = CollisionNode(self.uniqueName('flySphere'))
         self.flyColNode.setCollideMask(ToontownGlobals.WallBitmask | ToontownGlobals.FloorBitmask)
         self.flyColNode.addSolid(self.flyColSphere)
@@ -1066,11 +1068,11 @@ class DistributedCannon(DistributedObject.DistributedObject):
         self.notify.debug('hitGround pos = %s, hitP = %s' % (pos, hitP))
         self.notify.debug('avatar hpr = %s' % avatar.getHpr())
         h = self.barrel.getH(render)
-        avatar.setPos(pos[0], pos[1], pos[2] + avatar.getHeight() // 3.0)
+        avatar.setPos(pos[0], pos[1], pos[2] + avatar.getHeight() / 3.0)
         avatar.setHpr(h, -135, 0)
         self.notify.debug('parent = %s' % avatar.getParent())
         self.notify.debug('pos = %s, hpr = %s' % (avatar.getPos(render), avatar.getHpr(render)))
-        self.dustCloud.setPos(render, pos[0], pos[1], pos[2] + avatar.getHeight() // 3.0)
+        self.dustCloud.setPos(render, pos[0], pos[1], pos[2] + avatar.getHeight() / 3.0)
         self.dustCloud.setScale(0.35)
         self.dustCloud.play()
         base.playSfx(self.sndHitGround)
@@ -1295,7 +1297,7 @@ class DistributedCannon(DistributedObject.DistributedObject):
             vel = task.info['trajectory'].getVel(t)
             run = math.sqrt(vel[0] * vel[0] + vel[1] * vel[1])
             rise = vel[2]
-            theta = self.__toDegrees(math.atan(rise // run))
+            theta = self.__toDegrees(math.atan(rise / run))
             toon.setHpr(self.cannon.getH(render), -90 + theta, 0)
             view = 2
         if pos.getZ() < -20 or pos.getZ() > 1000:
