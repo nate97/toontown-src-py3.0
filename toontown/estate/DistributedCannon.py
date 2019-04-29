@@ -1,3 +1,4 @@
+from panda3d.core import *
 from direct.controls.ControlManager import CollisionHandlerRayStart
 from direct.distributed import DistributedObject
 from direct.distributed.ClockDelta import *
@@ -6,23 +7,22 @@ from direct.fsm import State
 from direct.gui.DirectGui import *
 from direct.interval.IntervalGlobal import *
 from direct.task.Task import Task
-import math
-from panda3d.core import *
-from panda3d.core import *
 
-from . import CannonGlobals
+from toontown.toon import ToonHead
 from toontown.effects import DustCloud
 from toontown.effects import Splash
 from toontown.effects import Wake
 from toontown.minigame import CannonGameGlobals
 from toontown.minigame import Trajectory
 from toontown.nametag.NametagFloat3d import NametagFloat3d
-from toontown.toon import ToonHead
+from . import CannonGlobals
+
 from toontown.toonbase import TTLocalizer
-from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import ToontownGlobals
 from toontown.toonbase import ToontownTimer
 from toontown.toonbase.ToonBaseGlobal import *
+
+import math
 
 
 LAND_TIME = 2
@@ -31,7 +31,7 @@ GROUND_SCALE = 1.4 * WORLD_SCALE
 CANNON_SCALE = 1.0
 FAR_PLANE_DIST = 600 * WORLD_SCALE
 GROUND_PLANE_MIN = -15
-CANNON_Y = -int(CannonGameGlobals.TowerYRange / 2 * 1.3)
+CANNON_Y = -int(CannonGameGlobals.TowerYRange // 2 * 1.3)
 CANNON_X_SPACING = 12
 CANNON_Z = 20
 CANNON_ROTATION_MIN = -55
@@ -50,7 +50,7 @@ TOWER_HEIGHT = 43.85
 TOWER_RADIUS = 10.5
 BUCKET_HEIGHT = 36
 TOWER_Y_RANGE = CannonGameGlobals.TowerYRange
-TOWER_X_RANGE = int(TOWER_Y_RANGE / 2.0)
+TOWER_X_RANGE = int(TOWER_Y_RANGE // 2.0)
 INITIAL_VELOCITY = 80.0
 WHISTLE_SPEED = INITIAL_VELOCITY * 0.35
 
@@ -258,8 +258,8 @@ class DistributedCannon(DistributedObject.DistributedObject):
                 base.cr.playGame.getPlace().setState('fishing')
                 base.localAvatar.setTeleportAvailable(0)
                 base.localAvatar.collisionsOff()
-                base.setCellsActive([base.bottomCells[3], base.bottomCells[4]], 0)
-                base.setCellsActive([base.rightCells[1]], 0)
+                #base.setCellsActive([base.bottomCells[3], base.bottomCells[4]], 0)
+                #base.setCellsActive([base.rightCells[1]], 0)
                 self.localToonShooting = 1
                 self.__makeGui()
                 base.camera.reparentTo(self.barrel)
@@ -274,9 +274,9 @@ class DistributedCannon(DistributedObject.DistributedObject):
                 self.__createToonModels()
             else:
                 self.notify.warning('Unknown avatar %d in cannon %d' % (self.avId, self.doId))
-        if wasLocalToon and not self.localToonShooting:
-            base.setCellsActive([base.bottomCells[3], base.bottomCells[4]], 1)
-            base.setCellsActive([base.rightCells[1]], 1)
+        #if wasLocalToon and not self.localToonShooting:
+            #base.setCellsActive([base.bottomCells[3], base.bottomCells[4]], 1)
+            #base.setCellsActive([base.rightCells[1]], 1)
 
     def __avatarGone(self):
         self.setMovie(CannonGlobals.CANNON_MOVIE_CLEAR, 0)
@@ -461,7 +461,7 @@ class DistributedCannon(DistributedObject.DistributedObject):
         toon.useLOD(1000)
         toonParent = render.attachNewNode('toonOriginChange')
         toon.wrtReparentTo(toonParent)
-        toon.setPosHpr(0, 0, -(toon.getHeight() / 2.0), 0, -90, 0)
+        toon.setPosHpr(0, 0, -(toon.getHeight() // 2.0), 0, -90, 0)
         self.toonModel = toonParent
         self.toonHead = ToonHead.ToonHead()
         self.toonHead.setupHead(self.av.style)
@@ -472,7 +472,7 @@ class DistributedCannon(DistributedObject.DistributedObject):
         tag.setBillboardOffset(0)
         tag.setAvatar(self.toonHead)
         toon.nametag.add(tag)
-        tagPath = self.toonHead.attachNewNode(tag.upcastToPandaNode())
+        tagPath = self.toonHead.attachNewNode(tag)
         tagPath.setPos(0, 0, 1)
         self.toonHead.tag = tag
         self.__loadToonInCannon()
@@ -812,7 +812,7 @@ class DistributedCannon(DistributedObject.DistributedObject):
         av.setHpr(startHpr)
         avatar = self.av
         avatar.loop('swim')
-        avatar.setPosHpr(0, 0, -(avatar.getHeight() / 2.0), 0, 0, 0)
+        avatar.setPosHpr(0, 0, -(avatar.getHeight() // 2.0), 0, 0, 0)
         info = {}
         info['avId'] = avId
         info['trajectory'] = trajectory
@@ -827,7 +827,7 @@ class DistributedCannon(DistributedObject.DistributedObject):
             base.camera.reparentTo(self.av)
             base.camera.setP(45.0)
             base.camera.setZ(-10.0)
-        self.flyColSphere = CollisionSphere(0, 0, self.av.getHeight() / 2.0, 1.0)
+        self.flyColSphere = CollisionSphere(0, 0, self.av.getHeight() // 2.0, 1.0)
         self.flyColNode = CollisionNode(self.uniqueName('flySphere'))
         self.flyColNode.setCollideMask(ToontownGlobals.WallBitmask | ToontownGlobals.FloorBitmask)
         self.flyColNode.addSolid(self.flyColSphere)
@@ -1066,11 +1066,11 @@ class DistributedCannon(DistributedObject.DistributedObject):
         self.notify.debug('hitGround pos = %s, hitP = %s' % (pos, hitP))
         self.notify.debug('avatar hpr = %s' % avatar.getHpr())
         h = self.barrel.getH(render)
-        avatar.setPos(pos[0], pos[1], pos[2] + avatar.getHeight() / 3.0)
+        avatar.setPos(pos[0], pos[1], pos[2] + avatar.getHeight() // 3.0)
         avatar.setHpr(h, -135, 0)
         self.notify.debug('parent = %s' % avatar.getParent())
         self.notify.debug('pos = %s, hpr = %s' % (avatar.getPos(render), avatar.getHpr(render)))
-        self.dustCloud.setPos(render, pos[0], pos[1], pos[2] + avatar.getHeight() / 3.0)
+        self.dustCloud.setPos(render, pos[0], pos[1], pos[2] + avatar.getHeight() // 3.0)
         self.dustCloud.setScale(0.35)
         self.dustCloud.play()
         base.playSfx(self.sndHitGround)
@@ -1295,7 +1295,7 @@ class DistributedCannon(DistributedObject.DistributedObject):
             vel = task.info['trajectory'].getVel(t)
             run = math.sqrt(vel[0] * vel[0] + vel[1] * vel[1])
             rise = vel[2]
-            theta = self.__toDegrees(math.atan(rise / run))
+            theta = self.__toDegrees(math.atan(rise // run))
             toon.setHpr(self.cannon.getH(render), -90 + theta, 0)
             view = 2
         if pos.getZ() < -20 or pos.getZ() > 1000:

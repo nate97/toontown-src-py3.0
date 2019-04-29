@@ -14,7 +14,7 @@ from direct.gui import DirectGuiGlobals
 from direct.gui.DirectGui import *
 from direct.showbase.PythonUtil import *
 from direct.showbase.Transitions import Transitions
-from direct.task import *
+from direct.task.Task import Task
 from panda3d.core import *
 
 from . import ToontownGlobals

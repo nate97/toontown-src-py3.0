@@ -49,7 +49,7 @@ class PartyEditorGridElement(DirectButton):
         self.bind(DirectGuiGlobals.EXIT, self.mouseExit)
         self.uprightNodePath = NodePath('%sUpright' % self.name_)
         self.uprightNodePath.reparentTo(self)
-        rollOverZOffset = self.getGridSize()[1] / 30.0
+        rollOverZOffset = self.getGridSize()[1] // 30.0
         self.rolloverTitle = DirectLabel(relief=None, parent=self.uprightNodePath, pos=Point3(0.0, 0.0, rollOverZOffset), text=self.name_, text_fg=(1.0, 1.0, 1.0, 1.0), text_shadow=(0.0, 0.0, 0.0, 1.0), text_scale=0.075)
         self.rolloverTitle.stash()
         self.stash()
@@ -95,11 +95,18 @@ class PartyEditorGridElement(DirectButton):
         self.setPosHprToDefault()
 
     def elementDragTask(self, state):
+        if base.camLens.getAspectRatio() >= 1.6:
+            gridBound = PartyGlobals.PartyEditorGridBoundsWS
+        else:
+            gridBound = PartyGlobals.PartyEditorGridBounds
+
         mwn = base.mouseWatcherNode
         if mwn.hasMouse():
             vMouse2render2d = Point3(mwn.getMouse()[0], 0, mwn.getMouse()[1])
             newPos = vMouse2render2d
             if newPos[0] > PartyGlobals.PartyEditorGridBounds[0][0] and newPos[0] < PartyGlobals.PartyEditorGridBounds[1][0] and newPos[2] < PartyGlobals.PartyEditorGridBounds[0][1] and newPos[2] > PartyGlobals.PartyEditorGridBounds[1][1]:
+             if newPos[0] > gridBound[0][0] and newPos[0] < gridBound[1][0] and newPos[2] < gridBound[0][1] and newPos[2] > gridBound[1][1]:
+
                 centerGridSquare = self.snapToGrid(newPos)
                 if centerGridSquare is not None:
                     self.centerGridSquare = centerGridSquare
@@ -109,6 +116,7 @@ class PartyEditorGridElement(DirectButton):
                         self.setOverTrash(False)
                     return Task.cont
             if self.id != PartyGlobals.ActivityIds.PartyClock and newPos[0] > PartyGlobals.PartyEditorTrashBounds[0][0] and newPos[0] < PartyGlobals.PartyEditorTrashBounds[1][0] and newPos[2] < PartyGlobals.PartyEditorTrashBounds[0][1] and newPos[2] > PartyGlobals.PartyEditorTrashBounds[1][1]:
+
                 if not self.mouseOverTrash:
                     self.setOverTrash(True)
             elif self.mouseOverTrash:
@@ -165,19 +173,27 @@ class PartyEditorGridElement(DirectButton):
         self.uprightNodePath.setR(0.0)
 
     def setPosHprBasedOnGridSquare(self, gridSquare):
+
+        if base.camLens.getAspectRatio() >= 1.6:
+            gridCenter = PartyGlobals.PartyEditorGridCenterWS
+            gridSize = PartyGlobals.PartyEditorGridSquareSizeWS
+        else:
+            gridCenter = PartyGlobals.PartyEditorGridCenter
+            gridSize = PartyGlobals.PartyEditorGridSquareSize
+
         gridPos = gridSquare.getPos()
         if self.getGridSize()[0] % 2 == 0:
-            gridPos.setX(gridPos[0] + PartyGlobals.PartyEditorGridSquareSize[0] / 2.0)
+            gridPos.setX(gridPos[0] + gridSize[0] // 2.0)
         if self.getGridSize()[1] % 2 == 0:
-            gridPos.setZ(gridPos[2] + PartyGlobals.PartyEditorGridSquareSize[1] / 2.0)
+            gridPos.setZ(gridPos[2] + gridSize[1] // 2.0)
         if self.id != PartyGlobals.ActivityIds.PartyFireworks:
-            if gridPos[0] > PartyGlobals.PartyEditorGridCenter[0] + PartyGlobals.PartyEditorGridRotateThreshold:
+            if gridPos[0] > gridCenter[0] + PartyGlobals.PartyEditorGridRotateThreshold:
                 self.setR(90.0)
                 self.uprightNodePath.setR(-90.0)
-            elif gridPos[0] < PartyGlobals.PartyEditorGridCenter[0] - PartyGlobals.PartyEditorGridRotateThreshold:
+            elif gridPos[0] < gridCenter[0] - PartyGlobals.PartyEditorGridRotateThreshold:
                 self.setR(270.0)
                 self.uprightNodePath.setR(-270.0)
-            elif gridPos[2] < PartyGlobals.PartyEditorGridCenter[1] - PartyGlobals.PartyEditorGridRotateThreshold:
+            elif gridPos[2] < gridCenter[1] - PartyGlobals.PartyEditorGridRotateThreshold:
                 self.setR(180.0)
                 self.uprightNodePath.setR(-180.0)
             else:
@@ -190,10 +206,16 @@ class PartyEditorGridElement(DirectButton):
         self.lastValidPosition = gridPos
 
     def getGridSquareFromPosition(self, newPos):
-        localX = newPos[0] - PartyGlobals.PartyEditorGridBounds[0][0]
-        localY = newPos[2] - PartyGlobals.PartyEditorGridBounds[1][1]
-        x = int(localX / PartyGlobals.PartyEditorGridSquareSize[0])
-        y = int(localY / PartyGlobals.PartyEditorGridSquareSize[1])
+        if base.camLens.getAspectRatio() >= 1.6:
+            gridBound = PartyGlobals.PartyEditorGridBoundsWS
+            gridSize = PartyGlobals.PartyEditorGridSquareSizeWS
+        else:
+            gridBound = PartyGlobals.PartyEditorGridBounds
+            gridSize = PartyGlobals.PartyEditorGridSquareSize
+        tempX = newPos[0] - gridBound[0][0]
+        tempY = newPos[2] - gridBound[1][1]
+        x = int(tempX // gridSize[0])
+        y = int(tempY // gridSize[1])
         y = PartyGlobals.PartyEditorGridSize[1] - 1 - y
         return self.partyEditor.partyEditorGrid.getGridSquare(x, y)
 

@@ -10,6 +10,7 @@ TreasureOZ = 6
 TreasureE  = 7
 TreasureV  = 8
 
+
 TreasureModels = {
     TreasureTT: (
         'phase_4/models/props/icecream',
@@ -46,7 +47,7 @@ TreasureModels = {
     TreasureV: (
         'phase_4/models/props/tt_m_ara_ext_heart',
         'phase_4/audio/sfx/SZ_DD_treasure.ogg',
-    ),
+    )
 }
 
 SafeZoneTreasureSpawns = {

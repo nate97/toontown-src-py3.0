@@ -27,7 +27,7 @@ class GlobalPartyManagerUD(DistributedObjectGlobalUD):
         self.runAtNextInterval()
 
     # GPMUD -> PartyManagerAI messaging
-    def _makeAIMsg(self, field, values, recipient): # NJF
+    def _makeAIMsg(self, field, values, recipient): # issue
         return self.air.dclassesByName['DistributedPartyManagerUD'].getFieldByName(field).aiFormatUpdate(recipient, recipient, simbase.air.ourChannel, values)
 
     def sendToAI(self, field, values, sender=None):
@@ -238,7 +238,7 @@ class GlobalPartyManagerUD(DistributedObjectGlobalUD):
         hostId = self.id2Party[party['partyId']]['hostId']
         # send update to client's gate
         recipient = self.GetPuppetConnectionChannel(avId)
-        sender = simbase.air.getAvatarIdFromSender() # try to pretend the AI sent it. ily2 cfsworks
+        sender = simbase.air.getAvatarIdFromSender() # try to pretend the AI sent it
         dg = self.air.dclassesByName['DistributedPartyGateAI'].getFieldByName('setParty').aiFormatUpdate(gateId, recipient, sender, [info, hostId])
         self.air.send(dg)
         

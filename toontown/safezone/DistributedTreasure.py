@@ -185,3 +185,6 @@ class DistributedTreasure(DistributedObject.DistributedObject):
         holidayIds = base.cr.newsManager.getHolidayIdList()
         if ToontownGlobals.VALENTINES_DAY in holidayIds:
             self.treasureType = TreasureGlobals.TreasureV
+
+
+

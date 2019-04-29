@@ -37,6 +37,7 @@ class PartyPlanner(DirectFrame, FSM):
     def __init__(self, doneEvent = None):
         FSM.__init__(self, 'PartyPlannerFSM')
         DirectFrame.__init__(self)
+        self.totalCost = 0 # Why do we even need this???
         self.doneEvent = doneEvent
         self.state_Array = ['Off',
          'Welcome',
@@ -654,6 +655,7 @@ class PartyPlanner(DirectFrame, FSM):
         self.partyEditor.request('Cleanup')
         self.partyEditor = None
         self.destroy()
+        del self.totalCost
         del self
         return
 
