@@ -18,6 +18,7 @@ from toontown.estate import HouseGlobals
 import random
 import time
 
+
 class Rental:
     def __init__(self, estate):
         self.estate = estate
@@ -30,7 +31,6 @@ class Rental:
                 object.requestDelete()
                 taskMgr.remove(object.uniqueName('delete'))
         self.objects = set()
-
 
 
 class CannonRental(Rental):
@@ -92,7 +92,6 @@ class CannonRental(Rental):
 
         av.toonUp(3)
         return 1
-
 
 
 class DistributedEstateAI(DistributedObjectAI):

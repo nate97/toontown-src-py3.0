@@ -5,9 +5,9 @@ from .ElevatorConstants import *
 from .ElevatorUtils import *
 from direct.showbase import PythonUtil
 from direct.directnotify import DirectNotifyGlobal
-from toontown.fsm import ClassicFSM
+from direct.fsm import ClassicFSM
 from direct.distributed import DistributedObject
-from toontown.fsm import State
+from direct.fsm import State
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
 from direct.task.Task import Task
