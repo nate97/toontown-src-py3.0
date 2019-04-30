@@ -2,7 +2,7 @@ from panda3d.core import *
 from direct.interval.IntervalGlobal import *
 from toontown.battle.BattleProps import *
 from .GoonGlobals import *
-from direct.fsm import FSM
+from toontown.fsm import FSM
 from direct.distributed import ClockDelta
 from otp.level import BasicEntities
 from otp.level import DistributedEntity

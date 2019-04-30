@@ -1,10 +1,8 @@
 from direct.distributed.DistributedObjectAI import DistributedObjectAI
-
 from toontown.fishing.DistributedFishingPondAI import DistributedFishingPondAI
 from toontown.fishing.DistributedFishingTargetAI import DistributedFishingTargetAI
 from toontown.fishing.DistributedPondBingoManagerAI import DistributedPondBingoManagerAI
 from toontown.fishing import FishingTargetGlobals
-
 from toontown.safezone.DistributedFishingSpotAI import DistributedFishingSpotAI
 from toontown.safezone.SZTreasurePlannerAI import SZTreasurePlannerAI
 from toontown.safezone.DistributedTreasureAI import DistributedTreasureAI
@@ -13,15 +11,12 @@ from toontown.safezone import TreasureGlobals
 from toontown.estate.DistributedCannonAI import DistributedCannonAI
 from toontown.estate.DistributedTargetAI import DistributedTargetAI
 
-
 from toontown.toonbase import ToontownGlobals
 from toontown.estate import CannonGlobals
 from toontown.estate import HouseGlobals
 
 import random
 import time
-
-
 
 class Rental:
     def __init__(self, estate):

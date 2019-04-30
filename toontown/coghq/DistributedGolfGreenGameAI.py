@@ -284,7 +284,7 @@ class DistributedGolfGreenGameAI(BattleBlockerAI.BattleBlockerAI, NodePath, Basi
 
     def registerBlocker(self):
         BattleBlockerAI.BattleBlockerAI.registerBlocker(self)
-        if hasattr(self, 'hideSuits'):
+        if getattr(self, 'hideSuits', None):
             self.hideSuits()
 
     def delete(self):

@@ -5,9 +5,9 @@ from .ElevatorConstants import *
 from .ElevatorUtils import *
 from direct.showbase import PythonUtil
 from direct.directnotify import DirectNotifyGlobal
-from direct.fsm import ClassicFSM
+from toontown.fsm import ClassicFSM
 from direct.distributed import DistributedObject
-from direct.fsm import State
+from toontown.fsm import State
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
 from direct.task.Task import Task
@@ -159,11 +159,11 @@ class DistributedElevatorFSM(DistributedObject.DistributedObject, FSM):
         else:
             self.notify.error('gotToon: already had got toon in slot %s.' % index)
 
-    def setState(self, state, timestamp):
+    def setState(self, state_, timestamp):
         if self.isSetup:
-            self.request(state, globalClockDelta.localElapsedTime(timestamp))
+            self.request(state_, globalClockDelta.localElapsedTime(timestamp))
         else:
-            self.__preSetupState = state
+            self.__preSetupState = state_
 
     def fillSlot0(self, avId):
         self.fillSlot(0, avId)
@@ -350,7 +350,7 @@ class DistributedElevatorFSM(DistributedObject.DistributedObject, FSM):
         self.elevatorSphereNodePath.unstash()
         self.accept(self.uniqueName('enterelevatorSphere'), self.handleEnterSphere)
         self.accept('elevatorExitButton', self.handleExitButton)
-        self.lastState = self.state
+        self.lastState = self.state_
 
     def exitWaitCountdown(self):
         self.elevatorSphereNodePath.stash()
@@ -400,20 +400,20 @@ class DistributedElevatorFSM(DistributedObject.DistributedObject, FSM):
         closeDoors(self.leftDoor, self.rightDoor)
 
     def enterOff(self):
-        self.lastState = self.state
+        self.lastState = self.state_
 
     def exitOff(self):
         pass
 
     def enterWaitEmpty(self, ts):
-        self.lastState = self.state
+        self.lastState = self.state_
 
     def exitWaitEmpty(self):
         pass
 
     def enterOpening(self, ts):
         self.openDoors.start(ts)
-        self.lastState = self.state
+        self.lastState = self.state_
 
     def exitOpening(self):
         pass
@@ -454,7 +454,7 @@ class DistributedElevatorFSM(DistributedObject.DistributedObject, FSM):
     def getPlaceElevator(self):
         place = self.cr.playGame.getPlace()
         if not hasattr(place, 'elevator'):
-            self.notify.warning("Place was in state '%s' instead of Elevator." % place.state)
+            self.notify.warning("Place was in state '%s' instead of Elevator." % place.state_)
             place.detectedElevatorCollision(self)
             return None
         return place.elevator

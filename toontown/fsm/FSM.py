@@ -150,7 +150,7 @@ class FSM(DirectObject):
     def __init__(self, name):
         self.fsmLock = RLock()
         self._name = name
-        self.state_Array = []
+        self.stateArray = []
         self._serialNum = FSM.SerialNum
         FSM.SerialNum += 1
         self._broadcastStateChanges = False
@@ -310,7 +310,7 @@ class FSM(DirectObject):
                 self._name, request, str(args)[1:]))
 
             filter = self.getCurrentFilter()
-            result = list(filter(request, args))
+            result = filter(request, args)
             if result:
                 if isinstance(result, str):
                     # If the return value is a string, it's just the name
@@ -400,7 +400,7 @@ class FSM(DirectObject):
         """array of unique states to iterate through"""
         self.fsmLock.acquire()
         try:
-            self.state_Array = stateArray
+            self.stateArray = stateArray
         finally:
             self.fsmLock.release()
 
@@ -409,13 +409,13 @@ class FSM(DirectObject):
         """Request the 'next' state in the predefined state array."""
         self.fsmLock.acquire()
         try:
-            if self.state_Array:
-                if not self.state_ in self.state_Array:
-                    self.request(self.state_Array[0])
+            if self.stateArray:
+                if not self.state_ in self.stateArray:
+                    self.request(self.stateArray[0])
                 else:
-                    cur_index = self.state_Array.index(self.state_)
-                    new_index = (cur_index + 1) % len(self.state_Array)
-                    self.request(self.state_Array[new_index], args)
+                    cur_index = self.stateArray.index(self.state_)
+                    new_index = (cur_index + 1) % len(self.stateArray)
+                    self.request(self.stateArray[new_index], args)
             else:
                 assert self.notifier.debug(
                                     "stateArray empty. Can't switch to next.")
@@ -427,13 +427,13 @@ class FSM(DirectObject):
         """Request the 'previous' state in the predefined state array."""
         self.fsmLock.acquire()
         try:
-            if self.state_Array:
-                if not self.state_ in self.state_Array:
-                    self.request(self.state_Array[0])
+            if self.stateArray:
+                if not self.state_ in self.stateArray:
+                    self.request(self.stateArray[0])
                 else:
-                    cur_index = self.state_Array.index(self.state_)
-                    new_index = (cur_index - 1) % len(self.state_Array)
-                    self.request(self.state_Array[new_index], args)
+                    cur_index = self.stateArray.index(self.state_)
+                    new_index = (cur_index - 1) % len(self.stateArray)
+                    self.request(self.stateArray[new_index], args)
             else:
                 assert self.notifier.debug(
                                     "stateArray empty. Can't switch to next.")

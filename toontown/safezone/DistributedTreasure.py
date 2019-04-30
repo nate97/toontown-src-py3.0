@@ -1,10 +1,13 @@
 from panda3d.core import *
 from direct.interval.IntervalGlobal import *
+from direct.interval.LerpInterval import LerpPosInterval
 from toontown.toonbase.ToontownGlobals import *
 from direct.distributed import DistributedObject
 from direct.directnotify import DirectNotifyGlobal
 from toontown.safezone import TreasureGlobals
 from toontown.toonbase import ToontownGlobals
+
+import random
 
 class DistributedTreasure(DistributedObject.DistributedObject):
     notify = DirectNotifyGlobal.directNotify.newCategory('DistributedTreasure')
@@ -12,7 +15,6 @@ class DistributedTreasure(DistributedObject.DistributedObject):
     def __init__(self, cr):
         DistributedObject.DistributedObject.__init__(self, cr)
         self.av = None
-        self.treasureFlyTrack = None
         self.nodePath = None
         self.dropShadow = None
         self.rejectSoundPath = 'phase_4/audio/sfx/ring_miss.ogg'
@@ -24,6 +26,7 @@ class DistributedTreasure(DistributedObject.DistributedObject):
         self.billboard = 0
         self.treasureType = None
 
+        self.flyingSeq = None
         # Vday holiday
         self.heartThrobIval = None
         return
@@ -35,6 +38,7 @@ class DistributedTreasure(DistributedObject.DistributedObject):
 
     def delete(self):
         self.stopAnimation()
+        self.stopFloat()
         if self.treasureFlyTrack:
             self.treasureFlyTrack.finish()
             self.treasureFlyTrack = None
@@ -46,6 +50,7 @@ class DistributedTreasure(DistributedObject.DistributedObject):
         DistributedObject.DistributedObject.announceGenerate(self)
         self.loadModel()
         self.startAnimation()
+        self.startFloat()
         self.nodePath.wrtReparentTo(render)
         self.accept(self.uniqueName('entertreasureSphere'), self.handleEnterSphere)
 
@@ -80,7 +85,7 @@ class DistributedTreasure(DistributedObject.DistributedObject):
             self.nodePath.setBillboardPointEye()
         self.nodePath.setScale(0.9 * self.scale)
         self.treasure = self.nodePath.attachNewNode('treasure')
-        if self.shadow:
+        if self.shadow and self.treasureType != TreasureGlobals.TreasureE:
             if not self.dropShadow:
                 self.dropShadow = loader.loadModel('phase_3/models/props/drop_shadow')
                 self.dropShadow.setColor(0, 0, 0, 0.5)
@@ -187,4 +192,27 @@ class DistributedTreasure(DistributedObject.DistributedObject):
             self.treasureType = TreasureGlobals.TreasureV
 
 
+    def startFloat(self):
+        if self.treasureType == TreasureGlobals.TreasureE:
+            defaultPos = self.nodePath.getPos()
+
+            randValue = random.random() - 6
+
+            startPos = (defaultPos[0], defaultPos[1], defaultPos[2] - randValue)
+            endPos = (defaultPos[0], defaultPos[1], defaultPos[2])
+
+            floatUp = LerpPosInterval(self.nodePath, 2, Point3(startPos), blendType='easeInOut')
+            floatDown = LerpPosInterval(self.nodePath, 2, Point3(endPos), blendType='easeInOut')
+            
+            delayTime = random.uniform(0, 0.3)
+
+            self.flyingSeq = Sequence(floatUp, Wait(delayTime), floatDown, Wait(delayTime), name=self.uniqueName('floatingIcecream'))
+            self.flyingSeq.loop()
+
+
+    def stopFloat(self):
+        if getattr(self, 'flyingSeq', None):
+            self.flyingSeq.finish()
+            self.flyingSeq = None
+        return
 

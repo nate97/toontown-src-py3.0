@@ -59,7 +59,6 @@ class HolidayManagerAI:
         simbase.air.newsManager.d_setHolidayIdList([self.currentHolidays])
 
     def startHoliday(self, holidayId):
-        print("start holiday")
         if holidayId == TRICK_OR_TREAT:
             for hood in self.air.hoods:
                 hood.startupTrickOrTreat()
