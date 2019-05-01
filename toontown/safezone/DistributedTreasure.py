@@ -14,6 +14,7 @@ class DistributedTreasure(DistributedObject.DistributedObject):
 
     def __init__(self, cr):
         DistributedObject.DistributedObject.__init__(self, cr)
+        self.treasureFlyTrack = None
         self.av = None
         self.nodePath = None
         self.dropShadow = None

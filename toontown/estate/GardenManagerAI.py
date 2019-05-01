@@ -40,12 +40,9 @@ class GardenManagerAI:
             self.createBlankGarden()
             return
 
-
-
         gardenData = self.house.getGardenData()
 
-        self.createFlowerBoxes()
-
+        #self.createFlowerBoxes()
         self.createGardenFromData(gardenData)
 
 

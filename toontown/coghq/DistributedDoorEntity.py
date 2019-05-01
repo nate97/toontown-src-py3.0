@@ -419,17 +419,6 @@ class DistributedDoorEntity(DistributedDoorEntityBase.DistributedDoorEntityBase,
         duration = self.duration
         slideSfx = base.loader.loadSfx('phase_9/audio/sfx/CHQ_FACT_door_open_sliding.ogg')
         finalSfx = base.loader.loadSfx('phase_9/audio/sfx/CHQ_FACT_door_open_final.ogg')
-        self.setTrack(Sequence(Wait(duration * 0.1),
-                               Func(self.closeInnerDoors),
-                               Wait(duration * 0.4),
-                               Func(self.doorTop.unstash),
-                               Func(self.doorBottom.unstash),
-                               Parallel(SoundInterval(slideSfx, node=self.node, duration=duration*0.4, volume=0.8),
-                                        LerpPosInterval(nodePath=self.doorTop, duration=duration*0.4, pos=Vec3(0.0), blendType='easeIn'),
-                                        LerpPosInterval(nodePath=self.doorBottom, duration=duration*0.4, pos=Vec3(0.0), blendType='easeIn'),
-                                        Sequence(Wait(duration*0.375),
-                                                 SoundInterval(finalSfx, node=self.node, duration=duration*0.4, volume=0.8))),
-                               Func(self.setisOuterDoorOpen, 0)))
 
     def enterState4(self):
         FourState.FourState.enterState4(self)
