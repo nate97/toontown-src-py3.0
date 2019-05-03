@@ -37,6 +37,7 @@ class CatalogScreen(DirectFrame):
     def __init__(self, parent = aspect2d, **kw):
         guiItems = loader.loadModel('phase_5.5/models/gui/catalog_gui')
         background = guiItems.find('**/catalog_background')
+        background.setBin('background', 10)
         guiButton = loader.loadModel('phase_3/models/gui/quit_button')
         guiBack = loader.loadModel('phase_5.5/models/gui/package_delivery_panel')
         optiondefs = (('scale', 0.667, None),
@@ -699,12 +700,19 @@ class CatalogScreen(DirectFrame):
         self.catalogSeries.setShxz(0.4)
         self.rings = DirectLabel(self.base, relief=None, geom=guiItems.find('**/rings'))
         self.clarabelleFrame = DirectLabel(self, relief=None, image=guiItems.find('**/clarabelle_frame'))
+
         hangupGui = guiItems.find('**/hangup')
         hangupRolloverGui = guiItems.find('**/hangup_rollover')
+
+
         self.hangup = DirectButton(base.a2dBottomRight, relief=None, pos=(-0.158, 0, 0.14), scale=(0.7, 0.7, 0.7), image=[hangupGui,
          hangupRolloverGui,
          hangupRolloverGui,
          hangupGui], text=['', TTLocalizer.CatalogHangUp, TTLocalizer.CatalogHangUp], text_fg=Vec4(1), text_scale=0.07, text_pos=(0.0, 0.14), command=self.hangUp)
+
+
+
+
         self.beanBank = DirectLabel(self, relief=None, image=guiItems.find('**/bean_bank'), text=str(base.localAvatar.getMoney() + base.localAvatar.getBankMoney()), text_align=TextNode.ARight, text_scale=0.11, text_fg=(0.95, 0.95, 0, 1), text_shadow=(0, 0, 0, 1), text_pos=(0.75, -0.81), text_font=ToontownGlobals.getSignFont())
         nextUp = guiItems.find('**/arrow_up')
         nextRollover = guiItems.find('**/arrow_Rollover')
@@ -730,7 +738,7 @@ class CatalogScreen(DirectFrame):
         self.cCamera = self.cRender.attachNewNode('cCamera')
         self.cCamNode = Camera('cCam')
         self.cLens = PerspectiveLens()
-        self.cLens.setFov(40, 40)
+        self.cLens.setFov(45, 45)
         self.cLens.setNear(0.1)
         self.cLens.setFar(100.0)
         self.cCamNode.setLens(self.cLens)
@@ -742,6 +750,7 @@ class CatalogScreen(DirectFrame):
         self.cDr.setClearColorActive(1)
         self.cDr.setClearColor(Vec4(0.3, 0.3, 0.3, 1))
         self.cDr.setCamera(self.cCam)
+
         self.clarabelle = Actor.Actor('phase_5.5/models/char/Clarabelle-zero', {'listen': 'phase_5.5/models/char/Clarabelle-listens'})
         self.clarabelle.loop('listen')
         self.clarabelle.find('**/eyes').setBin('fixed', 0)
@@ -756,6 +765,14 @@ class CatalogScreen(DirectFrame):
         self.clarabelle.reparentTo(self.cRender)
         self.clarabelle.setPosHprScale(-0.52, 6.13, -3.81, 85, 0.0, 0.0, 1.0, 1.0, 1.0)
         self.clarabelleFrame.setPosHprScale(-0.01, 0.0, -0.01, 0.0, 0.0, 0.0, 1.02, 1.0, 1.02)
+        taskMgr.add(self.updateAspect, 'updateAspect')
+
+    def updateAspect(self, task):
+        if getattr(self, 'cLens', None):
+            self.cLens.setAspectRatio(float(self.cDr.getPixelWidth()) / float(self.cDr.getPixelHeight()))
+        else:
+            task.done
+        return task.cont 
 
     def reload(self):
         for panel in self.panelList + self.backPanelList + self.loyaltyPanelList + self.emblemPanelList:
@@ -819,6 +836,7 @@ class CatalogScreen(DirectFrame):
         self.showPageItems()
 
     def unload(self):
+        taskMgr.remove('updateAspect')
         taskMgr.remove('clearClarabelleChat')
         taskMgr.remove('postGoodbyeHangUp')
         taskMgr.remove('clarabelleGreeting')

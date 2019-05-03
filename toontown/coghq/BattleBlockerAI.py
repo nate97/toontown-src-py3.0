@@ -19,7 +19,7 @@ class BattleBlockerAI(DistributedEntityAI.DistributedEntityAI):
         self.accept('plannerCreated-' + str(self.level.doId), self.registerBlocker)
 
     def registerBlocker(self):
-        if getattr(self.level, 'planner', None):
+        if hasattr(self.level, 'planner'):
             self.level.planner.battleMgr.addBattleBlocker(self, self.cellId)
 
     def deactivate(self):
@@ -77,7 +77,4 @@ class BattleBlockerAI(DistributedEntityAI.DistributedEntityAI):
             else:
                 self.notify.warning("Couldn't find battle cell id %d in battleCellId2suits" % self.cellId)
             self.d_setSuits()
-            if getattr(self.level, 'planner', None):
-                self.registerBlocker()
-
-
+            self.registerBlocker()

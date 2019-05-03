@@ -55,6 +55,7 @@ from toontown.hood import StreetSign
 import random
 
 
+
 class ToontownClientRepository(OTPClientRepository.OTPClientRepository):
     SupportTutorial = 1
     GameGlobalsId = OTP_DO_ID_TOONTOWN

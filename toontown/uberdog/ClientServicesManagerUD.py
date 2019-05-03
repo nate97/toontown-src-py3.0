@@ -920,6 +920,25 @@ class LoadAvatarFSM(AvatarOperationFSM):
         self.demand('Off')
         return task.done
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     def enterSetAvatar(self):
         channel = self.csm.GetAccountConnectionChannel(self.target)
 
@@ -953,6 +972,12 @@ class LoadAvatarFSM(AvatarOperationFSM):
         datagram.addChannel(self.csm.GetPuppetConnectionChannel(self.avId))
         self.csm.air.send(datagram)
 
+        # Then, set the avatar as the client's session object:
+        datagram = PyDatagram()
+        datagram.addServerHeader(channel, self.csm.air.ourChannel, CLIENTAGENT_ADD_SESSION_OBJECT)
+        datagram.addUint32(self.avId)
+        self.csm.air.send(datagram)
+
         # Now set their sender channel to represent their account affiliation:
         datagram = PyDatagram()
         datagram.addServerHeader(
@@ -966,6 +991,20 @@ class LoadAvatarFSM(AvatarOperationFSM):
         taskMgr.doMethodLater(0.2, self.enterSetAvatarTask,
                               'avatarTask-%s' % self.avId, extraArgs=[channel],
                               appendTask=True)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 class UnloadAvatarFSM(OperationFSM):
     notify = directNotify.newCategory('UnloadAvatarFSM')
@@ -1006,6 +1045,12 @@ class UnloadAvatarFSM(OperationFSM):
             self.csm.air.ourChannel,
             CLIENTAGENT_SET_CLIENT_ID)
         datagram.addChannel(self.target<<32)
+        self.csm.air.send(datagram)
+
+        # Reset session object:
+        datagram = PyDatagram()
+        datagram.addServerHeader(channel, self.csm.air.ourChannel, CLIENTAGENT_REMOVE_SESSION_OBJECT)
+        datagram.addUint32(self.avId)
         self.csm.air.send(datagram)
 
         # Unload avatar object:

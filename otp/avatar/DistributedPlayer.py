@@ -18,6 +18,7 @@ from toontown.chat.ChatGlobals import *
 from toontown.chat.WhisperPopup import WhisperPopup
 
 
+
 if base.config.GetBool('want-chatfilter-hacks', 0):
     from otp.switchboard import badwordpy
     import os

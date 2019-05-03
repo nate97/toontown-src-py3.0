@@ -7,6 +7,7 @@ from direct.distributed.PyDatagramIterator import PyDatagramIterator
 class CatalogItemList:
 
     def __init__(self, source = None, store = 0):
+
         self.store = store
         self.__blob = None
         self.__list = None
@@ -157,7 +158,7 @@ class CatalogItemList:
         if cmpfunc == None:
             self.__list.sort()
         else:
-
+            print ("wat")
             print (cmpfunc)
             self.__list.sort(key=cmpfunc)
         self.__blob = None
