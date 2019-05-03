@@ -295,7 +295,7 @@ class CatalogItemPanel(DirectFrame):
 
     def updateBuyButton(self):
 
-        print ("update buy button")
+
 
         if not self.loaded:
             return
@@ -303,9 +303,26 @@ class CatalogItemPanel(DirectFrame):
         if not base.cr.isPaid():
             self.buyButton['command'] = self.getTeaserPanel()
 
-
-
         self.buyButton.show()
+
+
+
+
+        print (self['item'])
+        print (base.localAvatar.onOrder.count)
+        print (base.localAvatar.onOrder.count(self['item']))
+
+        itemList = base.localAvatar.onOrder
+        #print (itemList, "yes")
+
+        #for x in itemList:
+            #print (x)
+            #print (self['item'])
+
+        if self['item'] in itemList:
+            print ('yes', self['item'])
+
+
 
         typeCode = self['item'].getTypeCode()
         #orderCount = base.localAvatar.onOrder.count(self['item'])
@@ -323,8 +340,8 @@ class CatalogItemPanel(DirectFrame):
 
 
      
-        print (typeCode)
-        print (orderCount, 'order count')
+        #print (typeCode)
+        #print (orderCount, 'order count')
 
         if orderCountLen > 0:
             if orderCountLen > 1:

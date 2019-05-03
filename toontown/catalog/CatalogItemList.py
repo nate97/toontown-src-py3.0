@@ -114,7 +114,20 @@ class CatalogItemList:
     def count(self, item):
         if self.__list == None:
             self.__decodeList()
-        return self.__list.count(item)
+        
+        strItem = str(item) # PY3
+        #indexVar = self.index(item)
+        #print (indexVar)
+
+        patchList = []
+        for patchItem in self.__list:
+            patchList.append(str(patchItem))
+
+        patchCount = patchList.count(strItem)
+        print ("patch count", patchCount)
+
+        #return self.__list.count(item)
+        return patchCount
 
     def index(self, item):
         if self.__list == None:
