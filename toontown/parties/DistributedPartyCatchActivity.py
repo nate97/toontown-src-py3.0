@@ -254,9 +254,9 @@ class DistributedPartyCatchActivity(DistributedPartyActivity, DistributedPartyCa
             toonSD = PartyCatchActivityToonSD(toonId, self)
             self.toonSDs[toonId] = toonSD
             toonSD.load()
-        self.notify.debug('handleToonJoined : currentState = %s' % self.activityFSM.state_ )
+        self.notify.debug('handleToonJoined : currentState = %s' % self.activityFSM.state )
         self.cr.doId2do[toonId].useLOD(500)
-        if self.activityFSM.state_  == 'Active':
+        if self.activityFSM.state  == 'Active':
             if toonId in self.toonSDs:
                 self.toonSDs[toonId].enter()
             if base.localAvatar.doId == toonId:
@@ -316,13 +316,13 @@ class DistributedPartyCatchActivity(DistributedPartyActivity, DistributedPartyCa
 
     def _toonEnteredTree(self, collEntry):
         self.notify.debug('_toonEnteredTree : avid = %s' % base.localAvatar.doId)
-        self.notify.debug('_toonEnteredTree : currentState = %s' % self.activityFSM.state_ )
+        self.notify.debug('_toonEnteredTree : currentState = %s' % self.activityFSM.state )
         if self.isLocalToonInActivity():
             return
-        if self.activityFSM.state_  == 'Active':
+        if self.activityFSM.state  == 'Active':
             base.cr.playGame.getPlace().fsm.request('activity')
             self.d_toonJoinRequest()
-        elif self.activityFSM.state_  == 'Idle':
+        elif self.activityFSM.state  == 'Idle':
             base.cr.playGame.getPlace().fsm.request('activity')
             self.d_toonJoinRequest()
         self._enteredTree = True
@@ -330,7 +330,7 @@ class DistributedPartyCatchActivity(DistributedPartyActivity, DistributedPartyCa
     def _toonExitedTree(self, collEntry):
         self.notify.debug('_toonExitedTree : avid = %s' % base.localAvatar.doId)
         self._enteredTree = False
-        if hasattr(base.cr.playGame.getPlace(), 'fsm') and self.activityFSM.state_  == 'Active' and self.isLocalToonInActivity():
+        if hasattr(base.cr.playGame.getPlace(), 'fsm') and self.activityFSM.state  == 'Active' and self.isLocalToonInActivity():
             if base.localAvatar.doId in self.toonSDs:
                 self.takeLocalAvatarOutOfActivity()
                 self.toonSDs[base.localAvatar.doId].fsm.request('notPlaying')
@@ -566,7 +566,7 @@ class DistributedPartyCatchActivity(DistributedPartyActivity, DistributedPartyCa
 
     def setObjectCaught(self, avId, generation, objNum):
         self.notify.info('setObjectCaught(%s, %s, %s)' % (avId, generation, objNum))
-        if self.activityFSM.state_  != 'Active':
+        if self.activityFSM.state  != 'Active':
             DistributedPartyCatchActivity.notify.warning('ignoring msg: object %s caught by %s' % (objNum, avId))
             return
         isLocal = avId == base.localAvatar.doId

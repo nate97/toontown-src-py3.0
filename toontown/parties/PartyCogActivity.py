@@ -400,7 +400,7 @@ class PartyCogActivity(DirectObject):
     def playPlayerEnterIval(self):
 
         def conditionallyShowSwitchButton(self = self, enable = True):
-            if enable and self.activity.activityFSM.state_ in ['WaitForEnough', 'WaitToStart']:
+            if enable and self.activity.activityFSM.state in ['WaitForEnough', 'WaitToStart']:
                 self.activity.teamActivityGui.enableSwitchButton()
             else:
                 self.activity.teamActivityGui.disableSwitchButton()

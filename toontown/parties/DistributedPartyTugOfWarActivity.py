@@ -576,7 +576,7 @@ class DistributedPartyTugOfWarActivity(DistributedPartyTeamActivity):
             self.setAnimState(toonId, keyRate)
 
     def setAnimState(self, toonId, keyRate):
-        if self.activityFSM.state_ != 'Active':
+        if self.activityFSM.state != 'Active':
             return
         toon = self.getAvatar(toonId)
         if toonId not in self.toonIdsToIsPullingFlags:
@@ -629,7 +629,7 @@ class DistributedPartyTugOfWarActivity(DistributedPartyTeamActivity):
             self.arrows[index].setColor(PartyGlobals.TugOfWarEnabledArrowColor)
 
     def updateToonPositions(self, offset):
-        if self.activityFSM.state_ != 'Active':
+        if self.activityFSM.state != 'Active':
             return
         if self.isLocalToonPlaying:
             camera.lookAt(self.root, offset, 0.0, PartyGlobals.TugOfWarCameraLookAtHeightOffset)

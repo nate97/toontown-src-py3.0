@@ -66,7 +66,7 @@ class DistributedPartyTeamActivity(DistributedPartyActivity):
     def d_toonJoinRequest(self, team):
         if self.isLocalToonInActivity():
             return
-        if self.activityFSM.state_  in ['WaitForEnough', 'WaitToStart'] and self._localToonRequestStatus is None:
+        if self.activityFSM.state  in ['WaitForEnough', 'WaitToStart'] and self._localToonRequestStatus is None:
             base.cr.playGame.getPlace().fsm.request('activity')
             self.localToonJoining()
             self.sendUpdate('toonJoinRequest', [team])
@@ -167,7 +167,7 @@ class DistributedPartyTeamActivity(DistributedPartyActivity):
             self.teamActivityGui.enableExitButton()
             if self._canSwitchTeams:
                 self.teamActivityGui.enableSwitchButton()
-            if self.activityFSM.state_  == 'WaitToStart':
+            if self.activityFSM.state  == 'WaitToStart':
                 self.showWaitToStartCountdown()
             else:
                 self.showStatus()
@@ -178,7 +178,7 @@ class DistributedPartyTeamActivity(DistributedPartyActivity):
             self.teamActivityGui.disableExitButton()
             if self._canSwitchTeams:
                 self.teamActivityGui.disableSwitchButton()
-            if self.activityFSM.state_  == 'WaitToStart':
+            if self.activityFSM.state  == 'WaitToStart':
                 self.hideWaitToStartCountdown()
             self.teamActivityGui.unload()
             self.isLocalToonPlaying = False

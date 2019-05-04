@@ -50,7 +50,7 @@ class DistributedPartyTugOfWarActivityAI(DistributedPartyTeamActivityAI):
             self.sendUpdate('updateToonPositions', [self.pos])
 
     def reportFallIn(self, losingTeam):
-        if self.fsm.state_ != 'Active' or self._hasFall:
+        if self.fsm.state != 'Active' or self._hasFall:
             return
 
         # Basic sanity check

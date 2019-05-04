@@ -25,7 +25,7 @@ class DistributedPartyTeamActivityAI(DistributedPartyActivityAI):
         if not av:
             return
 
-        if not self.fsm.state_ in ('WaitForEnough', 'WaitToStart'):
+        if not self.fsm.state in ('WaitForEnough', 'WaitToStart'):
             self.sendUpdateToAvatarId(av.doId, 'joinRequestDenied', [PartyGlobals.DenialReasons.Default])
             return
 
@@ -49,7 +49,7 @@ class DistributedPartyTeamActivityAI(DistributedPartyActivityAI):
         if not av:
             return
 
-        if not self.fsm.state_ in ('WaitForEnough', 'WaitToStart'):
+        if not self.fsm.state in ('WaitForEnough', 'WaitToStart'):
             self.sendUpdateToAvatarId(av.doId, 'exitRequestDenied', [PartyGlobals.DenialReasons.Default])
             return
 
@@ -105,7 +105,7 @@ class DistributedPartyTeamActivityAI(DistributedPartyActivityAI):
         raise NotImplementedError('getDuration() -- pure virtual')
 
     def getCanSwitchTeams(self):
-        return self.fsm.state_ in ('Off', 'WaitForEnough', 'WaitToStart') and not self.forbidTeamChanges
+        return self.fsm.state in ('Off', 'WaitForEnough', 'WaitToStart') and not self.forbidTeamChanges
 
     def updateToonsPlaying(self):
         self.sendUpdate('setToonsPlaying', self.getToonsPlaying())
@@ -134,11 +134,11 @@ class DistributedPartyTeamActivityAI(DistributedPartyActivityAI):
     def __update(self):
         self.updateToonsPlaying()
 
-        if self.fsm.state_ == 'WaitForEnough':
+        if self.fsm.state == 'WaitForEnough':
             if self.__areTeamsCorrect():
                 self.b_setState('WaitToStart')
 
-        elif self.fsm.state_ == 'WaitToStart':
+        elif self.fsm.state == 'WaitToStart':
             if not self.__areTeamsCorrect():
                 self.b_setState('WaitForEnough')
 
