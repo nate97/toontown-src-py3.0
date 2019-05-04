@@ -44,7 +44,7 @@ class GameServerTestSuite(DirectObject.DirectObject, TaskThreaded.TaskThreaded):
         class TestGetAvatars(TaskThreaded.TaskThread, TimeoutTest, MsgHandlerTest):
 
             def setUp(self):
-                self.state_ = 'request'
+                self.state = 'request'
                 self.installMsgHandler()
 
             def handleMsg(self, msgType, di):
@@ -54,10 +54,10 @@ class GameServerTestSuite(DirectObject.DirectObject, TaskThreaded.TaskThreaded):
                     MsgHandlerTest.handleMsg(self, msgType, di)
 
             def run(self):
-                if self.state_ == 'request':
+                if self.state == 'request':
                     self.parent.cr.sendGetAvatarsMsg()
                     self.startTimeout('getAvatarList')
-                    self.state_ = 'waitForList'
+                    self.state = 'waitForList'
 
             def tearDown(self):
                 self.stopTimeout('getAvatarList')
@@ -66,14 +66,14 @@ class GameServerTestSuite(DirectObject.DirectObject, TaskThreaded.TaskThreaded):
         class TestInterestOpenAndClose(TaskThreaded.TaskThread, TimeoutTest):
 
             def setUp(self):
-                self.state_ = 'open'
+                self.state = 'open'
 
             def run(self):
-                if self.state_ == 'open':
+                if self.state == 'open':
 
                     def openInterestDone():
                         self.stopTimeout(self.timeoutName)
-                        self.state_ = 'modify'
+                        self.state = 'modify'
 
                     doneEvent = uniqueName('openInterest')
                     self.acceptOnce(doneEvent, openInterestDone)
@@ -81,12 +81,12 @@ class GameServerTestSuite(DirectObject.DirectObject, TaskThreaded.TaskThreaded):
                     self.timeoutName = 'openInterest'
                     self.startTimeout(self.timeoutName)
                     self.handle = self.parent.cr.addInterest(self.parent.cr.GameGlobalsId, 91504, 'testInterest', doneEvent)
-                    self.state_ = 'waitOpenComplete'
-                elif self.state_ == 'modify':
+                    self.state = 'waitOpenComplete'
+                elif self.state == 'modify':
 
                     def modifyInterestDone():
                         self.stopTimeout(self.timeoutName)
-                        self.state_ = 'close'
+                        self.state = 'close'
 
                     doneEvent = uniqueName('openInterest')
                     self.acceptOnce(doneEvent, modifyInterestDone)
@@ -94,12 +94,12 @@ class GameServerTestSuite(DirectObject.DirectObject, TaskThreaded.TaskThreaded):
                     self.timeoutName = 'modifyInterest'
                     self.startTimeout(self.timeoutName)
                     self.parent.cr.alterInterest(self.handle, self.parent.cr.GameGlobalsId, 91506, 'testInterest', doneEvent)
-                    self.state_ = 'waitModifyComplete'
-                elif self.state_ == 'close':
+                    self.state = 'waitModifyComplete'
+                elif self.state == 'close':
 
                     def closeInterestDone():
                         self.stopTimeout(self.timeoutName)
-                        self.state_ = 'done'
+                        self.state = 'done'
 
                     doneEvent = uniqueName('closeInterest')
                     self.acceptOnce(doneEvent, closeInterestDone)
@@ -107,8 +107,8 @@ class GameServerTestSuite(DirectObject.DirectObject, TaskThreaded.TaskThreaded):
                     self.timeoutName = 'closeInterest'
                     self.startTimeout(self.timeoutName)
                     self.handle = self.parent.cr.removeInterest(self.handle, doneEvent)
-                    self.state_ = 'waitCloseComplete'
-                elif self.state_ == 'done':
+                    self.state = 'waitCloseComplete'
+                elif self.state == 'done':
                     self.finished()
                 return
 

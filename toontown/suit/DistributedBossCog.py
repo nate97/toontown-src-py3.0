@@ -305,7 +305,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar, BossCog.BossCog):
         self.request(state)
 
     def gotToon(self, toon):
-        stateName = self.state_
+        stateName = self.state
 
     def __gotAllToons(self, toons):
         self.gotAllToons = 1
@@ -747,7 +747,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar, BossCog.BossCog):
         zapTrack.append(toonTrack)
         if toon == localAvatar:
             zapTrack.append(Func(self.disableLocalToonSimpleCollisions))
-            currentState = self.state_
+            currentState = self.state
             if currentState == 'BattleThree':
                 zapTrack.append(Func(self.toFinalBattleMode))
             elif hasattr(self, 'chairs'):
@@ -1034,7 +1034,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar, BossCog.BossCog):
 
     def __clickedNameTag(self, avatar):
         self.notify.debug('__clickedNameTag')
-        if not (self.state_ == 'BattleThree' or self.state_ == 'BattleFour'):
+        if not (self.state == 'BattleThree' or self.state == 'BattleFour'):
             return
         if not self.allowClickedNameTag:
             return
@@ -1045,7 +1045,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar, BossCog.BossCog):
 
     def __handleFriendAvatar(self, avId, avName, avDisableName):
         self.notify.debug('__handleFriendAvatar')
-        if not (self.state_ == 'BattleThree' or self.state_ == 'BattleFour'):
+        if not (self.state == 'BattleThree' or self.state == 'BattleFour'):
             return
         if not self.allowClickedNameTag:
             return
@@ -1056,7 +1056,7 @@ class DistributedBossCog(DistributedAvatar.DistributedAvatar, BossCog.BossCog):
 
     def __handleAvatarDetails(self, avId, avName, playerId = None):
         self.notify.debug('__handleAvatarDetails')
-        if not (self.state_ == 'BattleThree' or self.state_ == 'BattleFour'):
+        if not (self.state == 'BattleThree' or self.state == 'BattleFour'):
             return
         if not self.allowClickedNameTag:
             return

@@ -14,7 +14,7 @@ class DistributedLiftAI(DistributedEntityAI.DistributedEntityAI):
         self.name = 'Lift%s:%s' % (self.levelDoId, self.entId)
         self.startMoveTaskName = '%s-StartMove' % self.name
         self.moveDoneTaskName = '%s-MoveDone' % self.name
-        self.state_ = initialState
+        self.state = initialState
         self.fromState = initialState
         self.stateTimestamp = globalClock.getFrameTime()
         self.boardedAvs = []
@@ -42,12 +42,12 @@ class DistributedLiftAI(DistributedEntityAI.DistributedEntityAI):
         self.sendUpdate('setStateTransition', [toState, fromState, arrivalTimestamp])
 
     def setStateTransition(self, toState, fromState, arrivalTimestamp):
-        self.state_ = toState
+        self.state = toState
         self.fromState = fromState
         self.stateTimestamp = arrivalTimestamp
 
     def getStateTransition(self):
-        return (self.state_, self.fromState, self.stateTimestamp)
+        return (self.state, self.fromState, self.stateTimestamp)
 
     def setAvatarEnter(self):
         avId = self.air.getAvatarIdFromSender()
@@ -86,7 +86,7 @@ class DistributedLiftAI(DistributedEntityAI.DistributedEntityAI):
     def setMoveLater(self, delay):
 
         def startMoving(task, self = self):
-            targetState = LiftConstants.oppositeState(self.state_)
+            targetState = LiftConstants.oppositeState(self.state)
             self.fsm.request('moving', [targetState])
             return Task.done
 
@@ -111,11 +111,11 @@ class DistributedLiftAI(DistributedEntityAI.DistributedEntityAI):
 
     def enterMoving(self, targetState):
         self.notify.debug('enterMoving, target=%s' % targetState)
-        if self.state_ == targetState:
+        if self.state == targetState:
             self.notify.warning('already in state %s' % targetState)
             return
         arriveDelay = 1.0 + self.duration
-        self.b_setStateTransition(targetState, self.state_, globalClockDelta.localToNetworkTime(globalClock.getFrameTime() + arriveDelay, bits=32))
+        self.b_setStateTransition(targetState, self.state, globalClockDelta.localToNetworkTime(globalClock.getFrameTime() + arriveDelay, bits=32))
 
         def doneMoving(task, self = self):
             self.fsm.request('waiting')

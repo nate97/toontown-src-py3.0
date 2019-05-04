@@ -185,7 +185,7 @@ class DistributedCashbotBossGoonAI(DistributedGoonAI.DistributedGoonAI, Distribu
         avId = self.air.getAvatarIdFromSender()
         if avId not in self.boss.involvedToons:
             return
-        if self.state_ == 'Stunned' or self.state_ == 'Grabbed':
+        if self.state == 'Stunned' or self.state == 'Grabbed':
             return
         self.__stopWalk(pauseTime)
         self.boss.makeTreasure(self)
@@ -196,7 +196,7 @@ class DistributedCashbotBossGoonAI(DistributedGoonAI.DistributedGoonAI, Distribu
         self.validate(avId, impact <= 1.0, 'invalid hitBoss impact %s' % impact)
         if avId not in self.boss.involvedToons:
             return
-        if self.state_ == 'Dropped' or self.state_ == 'Grabbed':
+        if self.state == 'Dropped' or self.state == 'Grabbed':
             if not self.boss.heldObject:
                 damage = int(impact * 25 * self.scale)
                 self.boss.recordHit(max(damage, 2))

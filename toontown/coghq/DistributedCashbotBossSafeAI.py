@@ -27,7 +27,7 @@ class DistributedCashbotBossSafeAI(DistributedCashbotBossObjectAI.DistributedCas
         self.validate(avId, impact <= 1.0, 'invalid hitBoss impact %s' % impact)
         if avId not in self.boss.involvedToons:
             return
-        if self.state_ != 'Dropped' and self.state_ != 'Grabbed':
+        if self.state != 'Dropped' and self.state != 'Grabbed':
             return
         if self.avoidHelmet or self == self.boss.heldObject:
             return

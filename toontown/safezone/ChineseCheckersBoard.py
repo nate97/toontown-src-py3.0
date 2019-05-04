@@ -782,12 +782,12 @@ class CheckersSquare:
 
     def __init__(self, tileNu):
         self.tileNum = tileNu
-        self.state_ = 0
+        self.state = 0
         self.adjacent = []
 
     def delete(self):
         del self.tileNum
-        del self.state_
+        del self.state
         del self.adjacent
 
     def setAdjacent(self, adjList):
@@ -798,10 +798,10 @@ class CheckersSquare:
         return self.adjacent
 
     def setState(self, newState):
-        self.state_ = newState
+        self.state = newState
 
     def getState(self):
-        return self.state_
+        return self.state
 
     def getNum(self):
         return self.tileNum

@@ -23,7 +23,7 @@ class DistributedPondBingoManagerAI(DistributedObjectAI):
         self.bingoCard = None
         self.tileSeed = None
         self.typeId = None
-        self.state_ = 'Off'
+        self.state = 'Off'
         self.canCall = False
         self.shouldStop = False
         self.lastUpdate = globalClockDelta.getRealNetworkTime()
@@ -58,7 +58,7 @@ class DistributedPondBingoManagerAI(DistributedObjectAI):
         if cardId != self.cardId:
             self.air.writeServerEvent('suspicious', avId, 'Toon tried to update expired bingo card!')
             return
-        if self.state_ != 'Playing':
+        if self.state != 'Playing':
             self.air.writeServerEvent('suspicious', avId, 'Toon tried to update while the game is not running!')
             return
         spot.lastFish = [None, None, None, None]
@@ -71,13 +71,13 @@ class DistributedPondBingoManagerAI(DistributedObjectAI):
             self.sendGameStateUpdate(cellId)
 
     def enableBingo(self):
-        if self.state_ != 'Off':
+        if self.state != 'Off':
             return
         self.createGame()
         self.blockoutBingoTask()
 
     def disableBingo(self):
-        if self.state_ != 'Off':
+        if self.state != 'Off':
             self.shouldStop = True
 
     def d_enableBingo(self):
@@ -115,7 +115,7 @@ class DistributedPondBingoManagerAI(DistributedObjectAI):
 
     def activateBingoForPlayer(self, avId):
         self.sendUpdateToAvatarId(avId, 'setCardState', [self.cardId, self.typeId, self.tileSeed, self.bingoCard.getGameState()])
-        self.sendUpdateToAvatarId(avId, 'setState', [self.state_, self.lastUpdate])
+        self.sendUpdateToAvatarId(avId, 'setState', [self.state, self.lastUpdate])
         self.canCall = True
 
     def sendStateUpdate(self):
@@ -124,7 +124,7 @@ class DistributedPondBingoManagerAI(DistributedObjectAI):
             if self.pond.spots[spot].avId is None or self.pond.spots[spot].avId == 0:
                 continue
             avId = self.pond.spots[spot].avId
-            self.sendUpdateToAvatarId(avId, 'setState', [self.state_, self.lastUpdate])
+            self.sendUpdateToAvatarId(avId, 'setState', [self.state, self.lastUpdate])
 
     def sendCardStateUpdate(self):
         for spot in self.pond.spots:
@@ -148,7 +148,7 @@ class DistributedPondBingoManagerAI(DistributedObjectAI):
             self.sendUpdateToAvatarId(avId, 'enableBingo', [])
 
     def rewardAll(self):
-        self.state_ = 'Reward'
+        self.state = 'Reward'
         self.sendStateUpdate()
         for spot in self.pond.spots:
             if self.pond.spots[spot].avId is None or self.pond.spots[spot].avId == 0:
@@ -162,7 +162,7 @@ class DistributedPondBingoManagerAI(DistributedObjectAI):
         taskMgr.remove('finishGame%d' % self.getDoId())
 
     def finishGame(self):
-        self.state_ = 'GameOver'
+        self.state = 'GameOver'
         self.sendStateUpdate()
         if self.shouldStop:
             self.stopGame()
@@ -177,23 +177,23 @@ class DistributedPondBingoManagerAI(DistributedObjectAI):
         taskMgr.doMethodLater(5, DistributedPondBingoManagerAI.startWait, 'startWait%d' % self.getDoId(), [self])
 
     def stopGame(self):
-        self.state_ = 'CloseEvent'
+        self.state = 'CloseEvent'
         self.sendStateUpdate()
         taskMgr.doMethodLater(10, DistributedPondBingoManagerAI.turnOff, 'turnOff%d' % self.getDoId(), [self])
 
     def turnOff(self):
-        self.state_ = 'Off'
+        self.state = 'Off'
         self.shouldStop = False
         taskMgr.remove('blockoutTask%d' % self.getDoId())
         self.sendStateUpdate()
 
     def startIntermission(self):
-        self.state_ = 'Intermission'
+        self.state = 'Intermission'
         self.sendStateUpdate()
         taskMgr.doMethodLater(300, DistributedPondBingoManagerAI.startWait, 'startWait%d' % self.getDoId(), [self])
 
     def startWait(self):
-        self.state_ = 'WaitCountdown'
+        self.state = 'WaitCountdown'
         self.sendStateUpdate()
         taskMgr.doMethodLater(15, DistributedPondBingoManagerAI.createGame, 'createGame%d' % self.getDoId(), [self])
 
@@ -231,7 +231,7 @@ class DistributedPondBingoManagerAI(DistributedObjectAI):
         self.bingoCard.generateCard(self.tileSeed, self.pond.getArea())
         self.sendCardStateUpdate()
         self.b_setJackpot(BingoGlobals.getJackpot(self.typeId))
-        self.state_ = 'Playing'
+        self.state = 'Playing'
         self.sendStateUpdate()
         taskMgr.doMethodLater(
             BingoGlobals.getGameTime(self.typeId), DistributedPondBingoManagerAI.finishGame,

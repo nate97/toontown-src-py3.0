@@ -635,7 +635,7 @@ class ItemSelector(DirectFrame):
                 self.setViewerText(TTLocalizer.KartShtikerNo % getattr(TTLocalizer, AccessoryTypeNameDict[self.currAccessoryType]))
 
     def __init__(self, avatar, parent = aspect2d):
-        self.state_ = InvalidEntry
+        self.state = InvalidEntry
         self.avatar = avatar
         self.itemViewers = {}
         self.buttonDict = {}
@@ -716,7 +716,7 @@ class ItemSelector(DirectFrame):
             self.itemViewers['main'].disable()
             self.itemViewers['main'].setViewerText(TTLocalizer.KartShtikerNoAccessories)
             return
-        self.__changeItemCategory(self.state_)
+        self.__changeItemCategory(self.state)
 
     def resetAccessoryIcons(self):
         for key in list(self.buttonDict.keys()):
@@ -724,7 +724,7 @@ class ItemSelector(DirectFrame):
 
         self.itemViewers['main'].show()
         self.itemViewers['main'].setViewerText('')
-        self.state_ = InvalidEntry
+        self.state = InvalidEntry
         self.itemViewers['main'].resetViewer()
 
     def __changeItemCategory(self, buttonType):
@@ -765,10 +765,10 @@ class ItemSelector(DirectFrame):
             self.itemViewers['main'].setupViewer(buttonType)
         else:
             raise Exception('KartPage.py::__changeItemCategory - INVALID Category Type!')
-        if self.state_ != buttonType and self.state_ != InvalidEntry:
-            self.buttonDict[self.state_]['state'] = DGG.NORMAL
-            self.buttonDict[self.state_].setColorScale(1, 1, 1, 1)
-        self.state_ = buttonType
+        if self.state != buttonType and self.state != InvalidEntry:
+            self.buttonDict[self.state]['state'] = DGG.NORMAL
+            self.buttonDict[self.state].setColorScale(1, 1, 1, 1)
+        self.state = buttonType
 
 
 class KartViewer(DirectFrame):

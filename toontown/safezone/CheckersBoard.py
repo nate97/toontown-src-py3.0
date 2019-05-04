@@ -303,13 +303,13 @@ class CheckersTile:
 
     def __init__(self, tileNum):
         self.tileNum = tileNum
-        self.state_ = 0
+        self.state = 0
         self.adjacent = []
         self.jumps = []
 
     def delete(self):
         del self.tileNum
-        del self.state_
+        del self.state
         del self.adjacent
 
     def setJumps(self, jumpList):
@@ -327,10 +327,10 @@ class CheckersTile:
         return self.adjacent
 
     def setState(self, newState):
-        self.state_ = newState
+        self.state = newState
 
     def getState(self):
-        return self.state_
+        return self.state
 
     def getNum(self):
         return self.tileNum

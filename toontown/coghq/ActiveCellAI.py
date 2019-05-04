@@ -5,7 +5,7 @@ class ActiveCellAI(DistributedEntityAI.DistributedEntityAI):
     notify = DirectNotifyGlobal.directNotify.newCategory('ActiveCellAI')
 
     def __init__(self, level, entId):
-        self.state_ = 0
+        self.state = 0
         self.grid = None
         self.occupantIds = []
         DistributedEntityAI.DistributedEntityAI.__init__(self, level, entId)
@@ -30,7 +30,7 @@ class ActiveCellAI(DistributedEntityAI.DistributedEntityAI):
         DistributedEntityAI.DistributedEntityAI.delete(self)
 
     def getState(self):
-        return self.state_
+        return self.state
 
     def b_setState(self, state, objId = None):
         self.setState(state, objId)
@@ -42,7 +42,7 @@ class ActiveCellAI(DistributedEntityAI.DistributedEntityAI):
         self.sendUpdate('setState', [state, objId])
 
     def setState(self, state, objId = None):
-        self.state_ = state
+        self.state = state
         if state:
             self.occupantIds.append(objId)
         else:
