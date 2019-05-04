@@ -1,7 +1,7 @@
 from direct.directnotify import DirectNotifyGlobal
 from direct.task.Task import Task
 from direct.distributed.ClockDelta import *
-from toontown.fsm.FSM import FSM
+from direct.fsm.FSM import FSM
 from direct.interval.IntervalGlobal import *
 from toontown.racing.DistributedKartPad import DistributedKartPad
 from toontown.racing import RaceGlobals
@@ -162,7 +162,7 @@ class DistributedRacePad(DistributedKartPad, FSM):
 
     def addStartingBlock(self, block):
         DistributedKartPad.addStartingBlock(self, block)
-        if self.state_ == 'WaitCountdown':
+        if self.state == 'WaitCountdown':
             self.startCountdown()
 
     def makeClockGui(self):

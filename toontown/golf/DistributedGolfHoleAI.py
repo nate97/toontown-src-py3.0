@@ -3,7 +3,7 @@ from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import ToontownGlobals
 from panda3d.core import *
 from . import DistributedPhysicsWorldAI
-from toontown.fsm.FSM import FSM
+from direct.fsm.FSM import FSM
 from toontown.ai.ToonBarrier import *
 from toontown.golf import GolfGlobals
 import random
@@ -306,8 +306,8 @@ class DistributedGolfHoleAI(DistributedPhysicsWorldAI.DistributedPhysicsWorldAI,
                      ballFirstTouchedHoleFrame,
                      commonObjectData])
 
-            if self.state_ == 'WaitPlayback' or self.state_ == 'WaitTee':
-                self.notify.warning('ballMovie2AI requesting from %s to WaitPlayback' % self.state_)
+            if self.state == 'WaitPlayback' or self.state == 'WaitTee':
+                self.notify.warning('ballMovie2AI requesting from %s to WaitPlayback' % self.state)
             self.request('WaitPlayback')
         elif self.trustedPlayerId == None:
             return
@@ -318,7 +318,7 @@ class DistributedGolfHoleAI(DistributedPhysicsWorldAI.DistributedPhysicsWorldAI,
 
     def performReadyAction(self):
         avId = self.storeAction[0]
-        if self.state_ == 'WaitPlayback':
+        if self.state == 'WaitPlayback':
             self.notify.debugStateCall(self)
             self.notify.debug('ignoring the postSwing for avId=%d since we are in WaitPlayback' % avId)
             return
@@ -332,8 +332,8 @@ class DistributedGolfHoleAI(DistributedPhysicsWorldAI.DistributedPhysicsWorldAI,
             position = Vec3(self.storeAction[3], self.storeAction[4], self.storeAction[5])
         self.useCommonObjectData(self.commonHoldData)
         newPos = self.trackRecordBodyFlight(self.ball, self.storeAction[1], self.storeAction[2], position, self.storeAction[6], self.storeAction[7])
-        if self.state_ == 'WaitPlayback' or self.state_ == 'WaitTee':
-            self.notify.warning('performReadyAction requesting from %s to WaitPlayback' % self.state_)
+        if self.state == 'WaitPlayback' or self.state == 'WaitTee':
+            self.notify.warning('performReadyAction requesting from %s to WaitPlayback' % self.state)
         self.request('WaitPlayback')
         self.sendUpdate('ballMovie2Client', [self.storeAction[1],
          avId,
@@ -418,7 +418,7 @@ class DistributedGolfHoleAI(DistributedPhysicsWorldAI.DistributedPhysicsWorldAI,
         return self.golfCourse.doId
 
     def avatarDropped(self, avId):
-        self.notify.warning('avId %d dropped, self.state_=%s' % (avId, self.state_))
+        self.notify.warning('avId %d dropped, self.state=%s' % (avId, self.state))
         if self.barrierPlayback:
             self.barrierPlayback.clear(avId)
         else:

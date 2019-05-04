@@ -1,5 +1,5 @@
 from panda3d.core import Point3, NodePath
-from toontown.fsm.FSM import FSM
+from direct.fsm.FSM import FSM
 from direct.interval.IntervalGlobal import ProjectileInterval, Track, ActorInterval
 from direct.interval.IntervalGlobal import Func, Sequence, Parallel
 from .CogdoMazeGameObjects import CogdoMazeSplattable
@@ -96,7 +96,7 @@ class CogdoMazePlayer(FSM, CogdoMazeSplattable):
         self.accept(Globals.GagCollisionName + '-into-' + self.gagCollisionName, self.handleGagHit)
 
     def hitByDrop(self):
-        if self.state_ == 'Normal':
+        if self.state == 'Normal':
             self.request('Hit')
         if self.equippedGag != None:
             self.removeGag()

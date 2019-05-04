@@ -6,7 +6,7 @@ from toontown.racing.KartShopGlobals import KartGlobals
 from toontown.racing.DistributedKartPadAI import DistributedKartPadAI
 from toontown.racing.DistributedRaceAI import DistributedRaceAI
 from toontown.racing import RaceGlobals
-from toontown.fsm.FSM import FSM
+from direct.fsm.FSM import FSM
 
 #TODO - change race type
 
@@ -106,13 +106,13 @@ class DistributedRacePadAI(DistributedKartPadAI, FSM):
             if block.avId != 0:
                 hasAvatars = True
                 break
-        if hasAvatars and self.state_ == 'WaitEmpty':
+        if hasAvatars and self.state == 'WaitEmpty':
             self.b_setState('WaitCountdown', globalClockDelta.getRealNetworkTime())
-        elif not hasAvatars and self.state_ == 'WaitCountdown':
+        elif not hasAvatars and self.state == 'WaitCountdown':
             self.b_setState('WaitEmpty', globalClockDelta.getRealNetworkTime())
     
     def updateMovieState(self):
-        if self.state_ == 'WaitBoarding':
+        if self.state == 'WaitBoarding':
             for block in self.startingBlocks:
                 if block.currentMovie != 0:
                     return
@@ -181,7 +181,7 @@ class DistributedRacePadAI(DistributedKartPadAI, FSM):
         self.d_setState(state, timeStamp)
     
     def getState(self):
-        return [self.state_, self.lastTime]
+        return [self.state, self.lastTime]
         
     def setRaceZone(self, todo0):
         pass

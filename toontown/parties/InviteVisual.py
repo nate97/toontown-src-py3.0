@@ -3,7 +3,7 @@ import calendar
 from direct.gui.DirectGui import DirectFrame, DirectLabel
 from toontown.toonbase import TTLocalizer
 from direct.showbase import PythonUtil
-from toontown.fsm.FSM import FSM
+from direct.fsm.FSM import FSM
 from toontown.parties import PartyGlobals
 from toontown.parties import PartyUtils
 from toontown.toonbase.ToontownGlobals import VALENTINES_DAY

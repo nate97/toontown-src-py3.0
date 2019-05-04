@@ -6,7 +6,7 @@ from direct.directnotify import DirectNotifyGlobal
 from otp.avatar import DistributedAvatarAI
 from . import DistributedSuitAI
 from toontown.battle import BattleExperienceAI
-from toontown.fsm import FSM
+from direct.fsm import FSM
 from toontown.toonbase import ToontownGlobals
 from toontown.toon import InventoryBase
 from toontown.toonbase import TTLocalizer
@@ -155,12 +155,12 @@ class DistributedLawbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FSM
 
     def finalPieSplat(self):
         self.notify.debug('finalPieSplat')
-        if self.state_ != 'NearVictory':
+        if self.state != 'NearVictory':
             return
         self.b_setState('Victory')
 
     def doTaunt(self):
-        if not self.state_ == 'BattleThree':
+        if not self.state == 'BattleThree':
             return
         tauntIndex = random.randrange(len(TTLocalizer.LawbotBossTaunts))
         extraInfo = 0
@@ -802,7 +802,7 @@ class DistributedLawbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FSM
         if chairIndex < 0 or chairIndex >= len(self.chairs):
             self.notify.warning('invalid chairIndex = %d' % chairIndex)
             return
-        if not self.state_ == 'BattleTwo':
+        if not self.state == 'BattleTwo':
             return
         self.chairs[chairIndex].b_setToonJurorIndex(npcToonIndex)
         self.chairs[chairIndex].requestToonJuror()
@@ -897,7 +897,7 @@ def skipCJ():
                 break
     if not boss:
         return "You aren't in a CJ!"
-    if boss.state_ in ('PrepareBattleThree', 'BattleThree'):
+    if boss.state in ('PrepareBattleThree', 'BattleThree'):
         return "You can't skip this round."
     boss.exitIntroduction()
     boss.b_setState('PrepareBattleThree')

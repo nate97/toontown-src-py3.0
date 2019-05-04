@@ -2,7 +2,7 @@ import math
 import random
 from panda3d.core import NodePath, Point3, VBase4, TextNode, Vec3, deg2Rad, CollisionSegment, CollisionHandlerQueue, CollisionNode, BitMask32
 from pandac.PandaModules import SmoothMover
-from toontown.fsm import FSM
+from direct.fsm import FSM
 from direct.distributed import DistributedObject
 from direct.distributed.ClockDelta import globalClockDelta
 from direct.directnotify import DirectNotifyGlobal
@@ -467,7 +467,7 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
 
     def touchedTable(self, colEntry):
         tableIndex = int(colEntry.getIntoNodePath().getTag('tableIndex'))
-        if self.state_ == 'Free' and self.avId == 0 and self.allowLocalRequestControl:
+        if self.state == 'Free' and self.avId == 0 and self.allowLocalRequestControl:
             self.d_requestControl()
 
     def prepareForPhaseFour(self):
@@ -717,13 +717,13 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
             if self.power:
                 self.aimStart = 1
                 self.__endFireWater()
-        elif self.state_ == 'Controlled':
+        elif self.state == 'Controlled':
             self.__beginFireWater()
 
     def __controlReleased(self):
         if self.TugOfWarControls:
             pass
-        elif self.state_ == 'Controlled':
+        elif self.state == 'Controlled':
             self.__endFireWater()
 
     def __upArrow(self, pressed):
@@ -938,7 +938,7 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
             return
         if self.aimStart != None:
             return
-        if not self.state_ == 'Controlled':
+        if not self.state == 'Controlled':
             return
         if not self.avId == localAvatar.doId:
             return
@@ -951,7 +951,7 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
     def __endFireWater(self):
         if self.aimStart == None:
             return
-        if not self.state_ == 'Controlled':
+        if not self.state == 'Controlled':
             return
         if not self.avId == localAvatar.doId:
             return
@@ -1107,7 +1107,7 @@ class DistributedBanquetTable(DistributedObject.DistributedObject, FSM.FSM, Banq
         taskMgr.remove(self.taskName(self.UPDATE_KEY_PRESS_RATE_TASK))
 
     def __updateKeyPressRateTask(self, task):
-        if self.state_ not in 'Controlled':
+        if self.state not in 'Controlled':
             return Task.done
         for i in range(len(self.keyTTL)):
             self.keyTTL[i] -= 0.1

@@ -2,7 +2,7 @@ import types
 import math
 from direct.interval.IntervalGlobal import Sequence, Wait, ActorInterval, Func, SoundInterval, Parallel
 from direct.task import Task
-from toontown.fsm import FSM
+from direct.fsm import FSM
 from direct.showbase.PythonUtil import weightedChoice
 from toontown.hood import GenericAnimatedProp
 from toontown.hood import AnimatedProp

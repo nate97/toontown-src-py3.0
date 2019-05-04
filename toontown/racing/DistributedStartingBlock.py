@@ -24,7 +24,7 @@ from toontown.racing.Kart import Kart
 from toontown.racing import RaceGlobals
 from toontown.hood import ZoneUtil
 
-from toontown.fsm.FSM import FSM
+from direct.fsm.FSM import FSM
 
 if (__debug__):
     import pdb

@@ -3,7 +3,7 @@ from direct.directnotify import DirectNotifyGlobal
 from toontown.toonbase import ToontownGlobals
 from toontown.golf import DistributedGolfHoleAI
 from panda3d.core import *
-from toontown.fsm.FSM import FSM
+from direct.fsm.FSM import FSM
 from toontown.ai.ToonBarrier import *
 from toontown.golf import GolfGlobals
 INITIAL = 0
@@ -196,7 +196,7 @@ class DistributedGolfCourseAI(DistributedObjectAI.DistributedObjectAI, FSM):
             self.setCourseAbort()
         elif self.isCurHoleDone():
             if self.isPlayingLastHole():
-                if self.state_ not in ['WaitReward', 'WaitReadyHole']:
+                if self.state not in ['WaitReward', 'WaitReadyHole']:
                     self.safeDemand('WaitReward')
             else:
                 self.notify.debug('allBalls are in holes, calling holeOver')
@@ -308,7 +308,7 @@ class DistributedGolfCourseAI(DistributedObjectAI.DistributedObjectAI, FSM):
         self.notify.debug('GOLF COURSE: setAvatarReadyCourse: avatar id ready: ' + str(avId))
         self.avStateDict[avId] = READY
         self.notify.debug('GOLF COURSE: setAvatarReadyCourse: new avId states: ' + str(self.avStateDict))
-        if self.state_ == 'WaitReadyCourse':
+        if self.state == 'WaitReadyCourse':
             self.__barrier.clear(avId)
 
     def exitWaitReadyCourse(self):
@@ -356,13 +356,13 @@ class DistributedGolfCourseAI(DistributedObjectAI.DistributedObjectAI, FSM):
         return retval
 
     def avatarReadyHole(self, avId):
-        if self.state_ not in ['WaitJoin', 'WaitReadyCourse', 'WaitReadyHole']:
+        if self.state not in ['WaitJoin', 'WaitReadyCourse', 'WaitReadyHole']:
             self.notify.debug('GOLF COURSE: Ignoring setAvatarReadyHole message')
             return
         self.notify.debug('GOLF COURSE: setAvatarReadyHole: avatar id ready: ' + str(avId))
         self.avStateDict[avId] = ONHOLE
         self.notify.debug('GOLF COURSE: setAvatarReadyHole: new avId states: ' + str(self.avStateDict))
-        if self.state_ == 'WaitReadyHole':
+        if self.state == 'WaitReadyHole':
             self.__barrier.clear(avId)
 
     def enterPlayHole(self):
@@ -530,7 +530,7 @@ class DistributedGolfCourseAI(DistributedObjectAI.DistributedObjectAI, FSM):
         self.updateHistoryForBallIn(avId)
         if self.isCurHoleDone():
             if self.isPlayingLastHole():
-                if self.state_ != 'WaitReward':
+                if self.state != 'WaitReward':
                     self.safeDemand('WaitReward')
             else:
                 self.notify.debug('allBalls are in holes, calling holeOver')
@@ -899,18 +899,18 @@ class DistributedGolfCourseAI(DistributedObjectAI.DistributedObjectAI, FSM):
 
     def safeDemand(self, newState):
         doingDemand = False
-        if self.state_ == 'Cleanup':
+        if self.state == 'Cleanup':
             pass
         else:
-            if self.state_ in self.defaultTransitions:
-                if newState in self.defaultTransitions[self.state_]:
+            if self.state in self.defaultTransitions:
+                if newState in self.defaultTransitions[self.state]:
                     self.demand(newState)
                     doingDemand = True
-            elif self.state_ == None:
+            elif self.state == None:
                 self.demand(newState)
                 doingDemand = True
             if not doingDemand:
-                self.notify.warning('doId=%d ignoring demand from %s to %s' % (self.doId, self.state_, newState))
+                self.notify.warning('doId=%d ignoring demand from %s to %s' % (self.doId, self.state, newState))
         return doingDemand
 
     def setAvatarExited(self):

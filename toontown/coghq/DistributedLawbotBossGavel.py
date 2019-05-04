@@ -2,7 +2,7 @@ from direct.gui.DirectGui import *
 from panda3d.core import *
 from direct.interval.IntervalGlobal import *
 from direct.distributed.ClockDelta import *
-from toontown.fsm import FSM
+from direct.fsm import FSM
 from direct.distributed import DistributedObject
 from direct.showutil import Rope
 from direct.showbase import PythonUtil

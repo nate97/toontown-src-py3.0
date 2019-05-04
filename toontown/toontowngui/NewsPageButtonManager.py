@@ -1,5 +1,5 @@
 from panda3d.core import VBase4, VBase3
-from toontown.fsm import FSM
+from direct.fsm import FSM
 from direct.directnotify import DirectNotifyGlobal
 from direct.gui.DirectButton import DirectButton
 from toontown.toonbase import ToontownGlobals

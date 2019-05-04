@@ -4,7 +4,7 @@ from direct.directnotify import DirectNotifyGlobal
 from direct.distributed import DistributedSmoothNode
 from toontown.toonbase import ToontownGlobals
 from otp.otpbase import OTPGlobals
-from toontown.fsm import FSM
+from direct.fsm import FSM
 from direct.task import Task
 smileyDoId = 1
 
@@ -105,12 +105,12 @@ class DistCogdoCraneObject(DistributedSmoothNode.DistributedSmoothNode, FSM.FSM)
         self.collisionNodePath.unstash()
 
     def __hitFloor(self, entry):
-        if self.state_ == 'Dropped' or self.state_ == 'LocalDropped':
+        if self.state == 'Dropped' or self.state == 'LocalDropped':
             self.d_hitFloor()
             self.demand('SlidingFloor', localAvatar.doId)
 
     def __hitGoon(self, entry):
-        if self.state_ == 'Dropped' or self.state_ == 'LocalDropped':
+        if self.state == 'Dropped' or self.state == 'LocalDropped':
             goonId = int(entry.getIntoNodePath().getNetTag('doId'))
             goon = self.cr.doId2do.get(goonId)
             if goon:
@@ -120,7 +120,7 @@ class DistCogdoCraneObject(DistributedSmoothNode.DistributedSmoothNode, FSM.FSM)
         pass
 
     def __hitBoss(self, entry):
-        if (self.state_ == 'Dropped' or self.state_ == 'LocalDropped') and self.craneId != self.craneGame.doId:
+        if (self.state == 'Dropped' or self.state == 'LocalDropped') and self.craneId != self.craneGame.doId:
             vel = self.physicsObject.getVelocity()
             vel = self.crane.root.getRelativeVector(render, vel)
             vel.normalize()
@@ -165,10 +165,10 @@ class DistCogdoCraneObject(DistributedSmoothNode.DistributedSmoothNode, FSM.FSM)
         if state == 'G':
             self.demand('Grabbed', avId, craneId)
         elif state == 'D':
-            if self.state_ != 'Dropped':
+            if self.state != 'Dropped':
                 self.demand('Dropped', avId, craneId)
         elif state == 's':
-            if self.state_ != 'SlidingFloor':
+            if self.state != 'SlidingFloor':
                 self.demand('SlidingFloor', avId)
         elif state == 'F':
             self.demand('Free')
@@ -179,7 +179,7 @@ class DistCogdoCraneObject(DistributedSmoothNode.DistributedSmoothNode, FSM.FSM)
         self.sendUpdate('requestGrab')
 
     def rejectGrab(self):
-        if self.state_ == 'LocalGrabbed':
+        if self.state == 'LocalGrabbed':
             self.demand('LocalDropped', self.avId, self.craneId)
 
     def d_requestDrop(self):

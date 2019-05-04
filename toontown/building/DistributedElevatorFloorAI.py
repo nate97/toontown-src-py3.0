@@ -2,7 +2,7 @@ from . import DistributedElevatorFSMAI
 from .ElevatorConstants import *
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed.ClockDelta import *
-from toontown.fsm.FSM import FSM
+from direct.fsm.FSM import FSM
 from direct.task import Task
 from otp.ai.AIBase import *
 from toontown.toonbase import ToontownGlobals
@@ -86,10 +86,10 @@ class DistributedElevatorFloorAI(DistributedElevatorFSMAI.DistributedElevatorFSM
         DistributedElevatorFSMAI.DistributedElevatorFSMAI.acceptBoarder(self, avId, seatIndex)
         self.acceptOnce(self.air.getAvatarExitEvent(avId), self._DistributedElevatorFloorAI__handleUnexpectedExit, extraArgs = [
             avId])
-        if self.state_ == 'WaitEmpty' and self.countFullSeats() < self.countAvsInZone():
+        if self.state == 'WaitEmpty' and self.countFullSeats() < self.countAvsInZone():
             self.request('WaitCountdown')
             self.bldg.elevatorAlert(avId)
-        elif self.state_ in ('WaitCountdown', 'WaitEmpty') and self.countFullSeats() >= self.countAvsInZone():
+        elif self.state in ('WaitCountdown', 'WaitEmpty') and self.countFullSeats() >= self.countAvsInZone():
             taskMgr.doMethodLater(TOON_BOARD_ELEVATOR_TIME, self.goAllAboard, self.quickBoardTask)
 
     def countAvsInZone(self):
@@ -147,7 +147,7 @@ class DistributedElevatorFloorAI(DistributedElevatorFSMAI.DistributedElevatorFSM
         return Task.done
 
     def enterWaitEmpty(self):
-        self.lastState = self.state_
+        self.lastState = self.state
         for i in range(len(self.seats)):
             self.seats[i] = None
         print(self.seats)
@@ -158,7 +158,7 @@ class DistributedElevatorFloorAI(DistributedElevatorFSMAI.DistributedElevatorFSM
             self.accepting = 1
 
     def enterWaitCountdown(self):
-        self.lastState = self.state_
+        self.lastState = self.state
         DistributedElevatorFSMAI.DistributedElevatorFSMAI.enterWaitCountdown(self)
         taskMgr.doMethodLater(self.countdownTime, self.timeToGoTask, self.uniqueName('countdown-timer'))
         if self.lastState == 'WaitCountdown':
@@ -229,7 +229,7 @@ class DistributedElevatorFloorAI(DistributedElevatorFSMAI.DistributedElevatorFSM
     def setLocked(self, locked):
         self.isLocked = locked
         if locked:
-            if self.state_ == 'WaitEmpty':
+            if self.state == 'WaitEmpty':
                 self.request('Closing')
 
             if self.countFullSeats() == 0:
@@ -238,7 +238,7 @@ class DistributedElevatorFloorAI(DistributedElevatorFSMAI.DistributedElevatorFSM
                 self.wantState = 'opening'
         else:
             self.wantState = 'waitEmpty'
-            if self.state_ == 'Closed':
+            if self.state == 'Closed':
                 self.request('Opening')
 
     def getLocked(self):
@@ -272,7 +272,7 @@ class DistributedElevatorFloorAI(DistributedElevatorFSMAI.DistributedElevatorFSM
         self.demand('Opening')
 
     def enterOff(self):
-        self.lastState = self.state_
+        self.lastState = self.state
         if self.wantState == 'closed':
             self.demand('Closing')
         elif self.wantState == 'waitEmpty':

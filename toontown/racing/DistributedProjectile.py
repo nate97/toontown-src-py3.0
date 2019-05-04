@@ -3,7 +3,7 @@ from direct.distributed.ClockDelta import *
 from direct.interval.IntervalGlobal import *
 from direct.gui.DirectGui import *
 from panda3d.core import *
-from toontown.fsm import FSM
+from direct.fsm import FSM
 from direct.distributed.DistributedSmoothNode import DistributedSmoothNode
 from otp.avatar.ShadowCaster import ShadowCaster
 

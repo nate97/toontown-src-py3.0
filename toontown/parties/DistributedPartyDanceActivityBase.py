@@ -3,7 +3,7 @@ from panda3d.core import *
 from direct.interval.FunctionInterval import Wait, Func
 from direct.interval.MetaInterval import Sequence, Parallel
 from direct.showbase.PythonUtil import lerp, Enum
-from toontown.fsm import FSM
+from direct.fsm import FSM
 from toontown.toonbase import TTLocalizer
 from toontown.toonbase import ToontownGlobals
 from toontown.minigame.OrthoDrive import OrthoDrive

@@ -1,5 +1,5 @@
 from direct.distributed import DistributedObjectAI
-from toontown.fsm import FSM
+from direct.fsm import FSM
 
 class DistributedGolfSpotAI(DistributedObjectAI.DistributedObjectAI, FSM.FSM):
 
@@ -27,7 +27,7 @@ class DistributedGolfSpotAI(DistributedObjectAI.DistributedObjectAI, FSM.FSM):
         if not self.allowControl:
             return
         avId = self.air.getAvatarIdFromSender()
-        if avId in self.boss.involvedToons and self.avId == 0 and self.state_ != 'Off':
+        if avId in self.boss.involvedToons and self.avId == 0 and self.state != 'Off':
             golfSpotId = self.__getGolfSpotId(avId)
             if golfSpotId == 0:
                 grantRequest = True
@@ -38,7 +38,7 @@ class DistributedGolfSpotAI(DistributedObjectAI.DistributedObjectAI, FSM.FSM):
 
     def requestFree(self, gotHitByBoss):
         avId = self.air.getAvatarIdFromSender()
-        if avId == self.avId and self.state_ == 'Controlled':
+        if avId == self.avId and self.state == 'Controlled':
             self.request('Free', gotHitByBoss)
 
     def forceFree(self):

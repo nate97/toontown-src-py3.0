@@ -4,7 +4,7 @@ import random
 from direct.task import Task
 from direct.directnotify import DirectNotifyGlobal
 from direct.actor.Actor import Actor
-from toontown.fsm.FSM import FSM
+from direct.fsm.FSM import FSM
 from direct.gui.DirectGui import DirectButton
 from direct.gui.OnscreenText import OnscreenText
 from direct.interval.FunctionInterval import Func
@@ -424,7 +424,7 @@ class DistributedPartyTrampolineActivity(DistributedPartyActivity):
         self.d_toonExitDemand()
 
     def onTrampolineTrigger(self, collEntry):
-        if self.activityFSM.state_ == 'Idle' and self.toon == None and base.cr.playGame.getPlace().fsm.getCurrentState().getName() == 'walk':
+        if self.activityFSM.state == 'Idle' and self.toon == None and base.cr.playGame.getPlace().fsm.getCurrentState().getName() == 'walk':
             base.cr.playGame.getPlace().fsm.request('activity')
             self.d_toonJoinRequest()
         else:
@@ -570,12 +570,12 @@ class DistributedPartyTrampolineActivity(DistributedPartyActivity):
         if topOfJump:
             if newZ > self.trampHeight + 20.0:
                 self.b_requestAnim('Falling')
-            elif self.animFSM.state_ == 'Jump':
+            elif self.animFSM.state == 'Jump':
                 self.b_requestAnim('Falling')
         if newZ <= self.trampHeight and z > self.trampHeight:
-            if self.animFSM.state_ == 'Falling':
+            if self.animFSM.state == 'Falling':
                 self.b_requestAnim('Land')
-            elif self.animFSM.state_ != 'Neutral':
+            elif self.animFSM.state != 'Neutral':
                 self.b_requestAnim('Neutral')
         if bottomOfJump and a > self.boingThreshold:
             base.playSfx(self.boingSound)
@@ -643,7 +643,7 @@ class TrampolineAnimFSM(FSM):
         self.activity = activity
 
     def defaultFilter(self, request, args):
-        if request == self.state_:
+        if request == self.state:
             return None
         else:
             return FSM.defaultFilter(self, request, args)

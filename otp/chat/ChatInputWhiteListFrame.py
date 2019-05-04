@@ -1,5 +1,5 @@
 from direct.directnotify import DirectNotifyGlobal
-from toontown.fsm import FSM
+from direct.fsm import FSM
 from direct.gui.DirectGui import *
 from direct.task import Task
 from panda3d.core import *

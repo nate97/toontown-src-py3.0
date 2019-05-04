@@ -5,7 +5,7 @@ from . import DistributedSuitAI
 from . import SuitDNA
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed.ClockDelta import *
-from toontown.fsm import FSM
+from direct.fsm import FSM
 from otp.ai.AIBaseGlobal import *
 from toontown.battle import BattleExperienceAI
 from toontown.toon import NPCToons
@@ -104,7 +104,7 @@ class DistributedSellbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
             self.__goodJump(avId)
 
     def finalPieSplat(self):
-        if self.state_ != 'NearVictory':
+        if self.state != 'NearVictory':
             return
         self.b_setState('Victory')
 
@@ -415,7 +415,7 @@ def skipVP():
                 break
     if not boss:
         return "You aren't in a VP!"
-    if boss.state_ in ('PrepareBattleThree', 'BattleThree'):
+    if boss.state in ('PrepareBattleThree', 'BattleThree'):
         return "You can't skip this round."
     boss.exitIntroduction()
     boss.b_setState('PrepareBattleThree')

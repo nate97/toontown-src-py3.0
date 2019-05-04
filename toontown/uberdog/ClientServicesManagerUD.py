@@ -3,7 +3,7 @@ import base64
 from direct.directnotify.DirectNotifyGlobal import directNotify
 from direct.distributed.DistributedObjectGlobalUD import DistributedObjectGlobalUD
 from direct.distributed.PyDatagram import *
-from toontown.fsm.FSM import FSM
+from direct.fsm.FSM import FSM
 import hashlib
 import hmac
 import json
@@ -375,7 +375,7 @@ class LoginAccountFSM(OperationFSM):
             self.__handleCreate)
 
     def __handleCreate(self, accountId):
-        if self.state_ != 'CreateAccount':
+        if self.state != 'CreateAccount':
             self.notify.warning('Received a create account response outside of the CreateAccount state.')
             return
 
@@ -599,7 +599,7 @@ class GetAvatarsFSM(AvatarOperationFSM):
                 self.pendingAvatars.add(avId)
 
                 def response(dclass, fields, avId=avId):
-                    if self.state_ != 'QueryAvatars':
+                    if self.state != 'QueryAvatars':
                         return
                     if dclass != self.csm.air.dclassesByName['DistributedToonUD']:
                         self.demand('Kill', "One of the account's avatars is invalid!")

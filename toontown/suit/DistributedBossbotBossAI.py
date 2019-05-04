@@ -1,6 +1,6 @@
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed.ClockDelta import globalClockDelta
-from toontown.fsm import FSM
+from direct.fsm import FSM
 from direct.interval.IntervalGlobal import LerpPosInterval
 import math
 from panda3d.core import Point3
@@ -275,7 +275,7 @@ class DistributedBossbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
     def requestGetFood(self, beltIndex, foodIndex, foodNum):
         grantRequest = False
         avId = self.air.getAvatarIdFromSender()
-        if self.state_ != 'BattleTwo':
+        if self.state != 'BattleTwo':
             grantRequest = False
         elif (beltIndex, foodNum) not in list(self.toonFoodStatus.values()):
             if avId not in self.toonFoodStatus:
@@ -293,7 +293,7 @@ class DistributedBossbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
     def requestServeFood(self, tableIndex, chairIndex):
         grantRequest = False
         avId = self.air.getAvatarIdFromSender()
-        if self.state_ != 'BattleTwo':
+        if self.state != 'BattleTwo':
             grantRequest = False
         elif tableIndex < len(self.tables):
             table = self.tables[tableIndex]
@@ -868,7 +868,7 @@ class DistributedBossbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
     def requestGetToonup(self, beltIndex, toonupIndex, toonupNum):
         grantRequest = False
         avId = self.air.getAvatarIdFromSender()
-        if self.state_ != 'BattleFour':
+        if self.state != 'BattleFour':
             grantRequest = False
         elif (beltIndex, toonupNum) not in self.toonupsGranted:
             toon = simbase.air.doId2do.get(avId)
@@ -897,7 +897,7 @@ class DistributedBossbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
                 self.waitForNextAttack(0)
 
     def getBattleFourTime(self):
-        if self.state_ != 'BattleFour':
+        if self.state != 'BattleFour':
             t1 = 0
         else:
             elapsed = globalClock.getFrameTime() - self.battleFourStart

@@ -3,7 +3,7 @@ from toontown.toonbase.ToontownGlobals import *
 from toontown.racing.KartDNA import *
 from direct.distributed.ClockDelta import *
 from direct.distributed import DistributedSmoothNodeAI
-from toontown.fsm import FSM
+from direct.fsm import FSM
 from direct.task import Task
 
 from direct.distributed.PyDatagram import *

@@ -1,7 +1,7 @@
 import math
 from direct.showbase.DirectObject import DirectObject
 from direct.directnotify import DirectNotifyGlobal
-from toontown.fsm.FSM import FSM
+from direct.fsm.FSM import FSM
 from direct.task.Task import Task
 from direct.interval.IntervalGlobal import Sequence, Parallel, LerpScaleInterval, LerpFunctionInterval, Func, Wait, LerpFunc, SoundInterval, ParallelEndTogether, LerpPosInterval, ActorInterval, LerpPosHprInterval, LerpHprInterval
 from direct.directutil import Mopath
@@ -247,27 +247,27 @@ class CogdoFlyingLegalEagle(DirectObject):
     def setTarget(self, toon, elapsedTime = 0.0):
         self.notify.debug('Setting eagle %i to target: %s, elapsed time: %s' % (self.index, toon.getName(), elapsedTime))
         self.target = toon
-        if self.state_ == 'Roost':
+        if self.state == 'Roost':
             self.request('next', elapsedTime)
-        if self.state_ == 'ChargeUpAttack':
+        if self.state == 'ChargeUpAttack':
             messenger.send(CogdoFlyingLegalEagle.ChargingToAttackEventName, [self.target.doId])
 
     def clearTarget(self, elapsedTime = 0.0):
         self.notify.debug('Clearing target from eagle %i, elapsed time: %s' % (self.index, elapsedTime))
         messenger.send(CogdoFlyingLegalEagle.CooldownEventName, [self.target.doId])
         self.target = None
-        if self.state_ in ['LockOnToon']:
+        if self.state in ['LockOnToon']:
             self.request('next', elapsedTime)
         return
 
     def leaveCooldown(self, elapsedTime = 0.0):
-        if self.state_ in ['Cooldown']:
+        if self.state in ['Cooldown']:
             self.request('next', elapsedTime)
 
     def shouldBeInFrame(self):
-        if self.state_ in ['TakeOff', 'LockOnToon', 'ChargeUpAttack']:
+        if self.state in ['TakeOff', 'LockOnToon', 'ChargeUpAttack']:
             return True
-        elif self.state_ == 'Attack':
+        elif self.state == 'Attack':
             distance = self.suit.getDistance(self.target)
             threshold = Globals.LegalEagle.EagleAndTargetDistCameraTrackThreshold
             suitPos = self.suit.getPos(render)
@@ -374,8 +374,8 @@ class CogdoFlyingLegalEagle(DirectObject):
         self.setCollSphereToNest()
 
     def filterRoost(self, request, args):
-        self.notify.debug("filter%s( '%s', '%s' )" % (self.state_, request, args))
-        if request == self.state_:
+        self.notify.debug("filter%s( '%s', '%s' )" % (self.state, request, args))
+        if request == self.state:
             return None
         elif request == 'next':
             return 'TakeOff'
@@ -397,8 +397,8 @@ class CogdoFlyingLegalEagle(DirectObject):
         self.hoverOverNestSeq.loop()
 
     def filterTakeOff(self, request, args):
-        self.notify.debug("filter%s( '%s', '%s' )" % (self.state_, request, args))
-        if request == self.state_:
+        self.notify.debug("filter%s( '%s', '%s' )" % (self.state, request, args))
+        if request == self.state:
             return None
         elif request == 'next':
             if self.hasTarget():
@@ -433,8 +433,8 @@ class CogdoFlyingLegalEagle(DirectObject):
         taskMgr.doMethodLater(dur, self.requestNext, taskName, extraArgs=[])
 
     def filterLockOnToon(self, request, args):
-        self.notify.debug("filter%s( '%s', '%s' )" % (self.state_, request, args))
-        if request == self.state_:
+        self.notify.debug("filter%s( '%s', '%s' )" % (self.state, request, args))
+        if request == self.state:
             return None
         elif request == 'next':
             if self.hasTarget():
@@ -459,8 +459,8 @@ class CogdoFlyingLegalEagle(DirectObject):
         messenger.send(CogdoFlyingLegalEagle.ChargingToAttackEventName, [self.target.doId])
 
     def filterChargeUpAttack(self, request, args):
-        self.notify.debug("filter%s( '%s', '%s' )" % (self.state_, request, args))
-        if request == self.state_:
+        self.notify.debug("filter%s( '%s', '%s' )" % (self.state, request, args))
+        if request == self.state:
             return None
         elif request == 'next':
             if self.hasTarget():
@@ -491,8 +491,8 @@ class CogdoFlyingLegalEagle(DirectObject):
         self.attackSeq.start(elapsedTime)
 
     def filterAttack(self, request, args):
-        self.notify.debug("filter%s( '%s', '%s' )" % (self.state_, request, args))
-        if request == self.state_:
+        self.notify.debug("filter%s( '%s', '%s' )" % (self.state, request, args))
+        if request == self.state:
             return None
         elif request == 'next':
             return 'RetreatToSky'
@@ -513,8 +513,8 @@ class CogdoFlyingLegalEagle(DirectObject):
         self.retreatToSkySeq.start(elapsedTime)
 
     def filterRetreatToSky(self, request, args):
-        self.notify.debug("filter%s( '%s', '%s' )" % (self.state_, request, args))
-        if request == self.state_:
+        self.notify.debug("filter%s( '%s', '%s' )" % (self.state, request, args))
+        if request == self.state:
             return None
         elif request == 'next':
             return 'Cooldown'
@@ -534,8 +534,8 @@ class CogdoFlyingLegalEagle(DirectObject):
         return
 
     def filterCooldown(self, request, args):
-        self.notify.debug("filter%s( '%s', '%s' )" % (self.state_, request, args))
-        if request == self.state_:
+        self.notify.debug("filter%s( '%s', '%s' )" % (self.state, request, args))
+        if request == self.state:
             return None
         elif request == 'next':
             if self.hasTarget():
@@ -570,8 +570,8 @@ class CogdoFlyingLegalEagle(DirectObject):
         self.retreatToNestSeq.start(elapsedTime)
 
     def filterRetreatToNest(self, request, args):
-        self.notify.debug("filter%s( '%s', '%s' )" % (self.state_, request, args))
-        if request == self.state_:
+        self.notify.debug("filter%s( '%s', '%s' )" % (self.state, request, args))
+        if request == self.state:
             return None
         elif request == 'next':
             return 'LandOnNest'
@@ -590,8 +590,8 @@ class CogdoFlyingLegalEagle(DirectObject):
         self.landingSeq.start(elapsedTime)
 
     def filterLandOnNest(self, request, args):
-        self.notify.debug("filter%s( '%s', '%s' )" % (self.state_, request, args))
-        if request == self.state_:
+        self.notify.debug("filter%s( '%s', '%s' )" % (self.state, request, args))
+        if request == self.state:
             return None
         elif request == 'next':
             if self.hasTarget():

@@ -1,7 +1,7 @@
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed.DistributedObjectAI import DistributedObjectAI
 from direct.distributed.ClockDelta import *
-from toontown.fsm.FSM import FSM
+from direct.fsm.FSM import FSM
 from otp.otpbase.OTPLocalizerEnglish import EmoteFuncDict
 
 class DistributedResistanceEmoteMgrAI(DistributedObjectAI, FSM):

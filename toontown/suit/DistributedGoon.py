@@ -2,7 +2,7 @@ from panda3d.core import *
 from direct.interval.IntervalGlobal import *
 from toontown.battle.BattleProps import *
 from .GoonGlobals import *
-from toontown.fsm import FSM
+from direct.fsm import FSM
 from direct.distributed import ClockDelta
 from otp.level import BasicEntities
 from otp.level import DistributedEntity
@@ -354,7 +354,7 @@ class DistributedGoon(DistributedCrushableEntity.DistributedCrushableEntity, Goo
     def handleToonDetect(self, collEntry = None):
         if base.localAvatar.isStunned:
             return
-        if self.state_ == 'Off':
+        if self.state == 'Off':
             return
         self.stopToonDetect()
         self.request('Battle', base.localAvatar.doId)
@@ -390,10 +390,10 @@ class DistributedGoon(DistributedCrushableEntity.DistributedCrushableEntity, Goo
          pauseTime,
          ts))
         if mode == GOON_MOVIE_BATTLE:
-            if self.state_ != 'Battle':
+            if self.state != 'Battle':
                 self.request('Battle', avId, ts)
         elif mode == GOON_MOVIE_STUNNED:
-            if self.state_ != 'Stunned':
+            if self.state != 'Stunned':
                 toon = base.cr.doId2do.get(avId)
                 if toon:
                     toonDistance = self.getPos(toon).length()
@@ -403,13 +403,13 @@ class DistributedGoon(DistributedCrushableEntity.DistributedCrushableEntity, Goo
                     else:
                         self.request('Stunned', ts)
         elif mode == GOON_MOVIE_RECOVERY:
-            if self.state_ != 'Recovery':
+            if self.state != 'Recovery':
                 self.request('Recovery', ts, pauseTime)
         elif mode == GOON_MOVIE_SYNC:
             if self.walkTrack:
                 self.walkTrack.pause()
                 self.paused = 1
-            if self.state_ == 'Off' or self.state_ == 'Walk':
+            if self.state == 'Off' or self.state == 'Walk':
                 self.request('Walk', avId, pauseTime + ts)
         else:
             if self.walkTrack:

@@ -1,6 +1,6 @@
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed.DistributedObjectAI import DistributedObjectAI
-from toontown.fsm.FSM import FSM
+from direct.fsm.FSM import FSM
 from toontown.estate.DistributedEstateAI import DistributedEstateAI
 from toontown.estate.DistributedHouseAI import DistributedHouseAI
 from . import HouseGlobals
@@ -56,7 +56,7 @@ class LoadHouseFSM(FSM):
             self.__handleCreate)
 
     def __handleCreate(self, doId):
-        if self.state_ != 'CreateHouse':
+        if self.state != 'CreateHouse':
             return
 
         # Update the avatar's houseId:
@@ -118,7 +118,7 @@ class LoadEstateFSM(FSM):
                                              self.__gotAccount)
 
     def __gotAccount(self, dclass, fields):
-        if self.state_ != 'QueryAccount':
+        if self.state != 'QueryAccount':
             return # We must have aborted or something...
 
         if dclass != self.mgr.air.dclassesByName['AccountAI']:
@@ -145,7 +145,7 @@ class LoadEstateFSM(FSM):
                 functools.partial(self.__gotToon, index=index))
 
     def __gotToon(self, dclass, fields, index):
-        if self.state_ != 'QueryToons':
+        if self.state != 'QueryToons':
             return # We must have aborted or something...
 
         if dclass != self.mgr.air.dclassesByName['DistributedToonAI']:
@@ -177,7 +177,7 @@ class LoadEstateFSM(FSM):
             self.__handleEstateCreate)
 
     def __handleEstateCreate(self, estateId):
-        if self.state_ != 'CreateEstate':
+        if self.state != 'CreateEstate':
             return # We must have aborted or something...
         self.estateId = estateId
 
@@ -222,7 +222,7 @@ class LoadEstateFSM(FSM):
             fsm.start()
 
     def __houseDone(self, house):
-        if self.state_ != 'LoadHouses':
+        if self.state != 'LoadHouses':
             # We aren't loading houses, so we probably got cancelled. Therefore,
             # the only sensible thing to do is simply destroy the house.
             house.requestDelete()
@@ -246,7 +246,7 @@ class LoadEstateFSM(FSM):
             self.demand('Finished')
 
     def __petDone(self, pet):
-        if self.state_ != 'LoadPets':
+        if self.state != 'LoadPets':
             pet.requestDelete()
             return
 

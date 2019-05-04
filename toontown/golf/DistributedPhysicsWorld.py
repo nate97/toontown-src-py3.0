@@ -4,7 +4,7 @@ from toontown.toonbase import ToontownGlobals
 from panda3d.core import *
 from math import *
 import math
-from toontown.fsm.FSM import FSM
+from direct.fsm.FSM import FSM
 from toontown.minigame import ArrowKeys
 from direct.showbase import PythonUtil
 from direct.showutil import Rope

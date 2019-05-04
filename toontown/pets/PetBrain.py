@@ -5,7 +5,7 @@ from direct.showbase import DirectObject
 from direct.distributed import DistributedObject, DistributedObjectAI
 from direct.directnotify import DirectNotifyGlobal
 from direct.task import Task
-from toontown.fsm import FSM
+from direct.fsm import FSM
 from toontown.pets import PetConstants, PetObserve, PetGoal, PetGoalMgr
 from toontown.pets import PetTricks, PetLookerAI
 import random, types

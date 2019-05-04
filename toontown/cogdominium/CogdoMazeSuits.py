@@ -1,5 +1,5 @@
 from panda3d.core import Point3, VBase4
-from toontown.fsm.FSM import FSM
+from direct.fsm.FSM import FSM
 from direct.interval.IntervalGlobal import Sequence, Parallel, ActorInterval, Func, Wait, ParticleInterval, Track, LerpColorScaleInterval, LerpScaleInterval, LerpHprInterval
 from direct.task.Task import Task
 from toontown.battle import BattleParticles

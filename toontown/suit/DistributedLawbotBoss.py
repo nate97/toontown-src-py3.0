@@ -1,7 +1,7 @@
 from direct.directnotify import DirectNotifyGlobal
 from direct.directutil import Mopath
 from direct.distributed.ClockDelta import *
-from toontown.fsm import FSM
+from direct.fsm import FSM
 from direct.gui.DirectGui import *
 from direct.interval.IntervalGlobal import *
 from direct.showbase.PythonUtil import Functor
@@ -207,7 +207,7 @@ class DistributedLawbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         self.sendUpdate('hitToon', [toonId])
 
     def gotToon(self, toon):
-        stateName = self.state_
+        stateName = self.state
         if stateName == 'Elevator':
             self.placeToonInElevator(toon)
 
@@ -1778,8 +1778,8 @@ class DistributedLawbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         if not hasattr(self, 'state'):
             self.notify.warning('returning from setTaunt, no attr state')
             gotError = True
-        elif not self.state_ == 'BattleThree':
-            self.notify.warning('returning from setTaunt, not in battle three state, state=%s', self.state_)
+        elif not self.state == 'BattleThree':
+            self.notify.warning('returning from setTaunt, not in battle three state, state=%s', self.state)
             gotError = True
         if not hasattr(self, 'nametag'):
             self.notify.warning('returning from setTaunt, no attr nametag')

@@ -7,7 +7,7 @@ from toontown.suit import DistributedCashbotBossGoonAI
 #from toontown.coghq import DistributedCashbotBossTreasureAI
 from toontown.battle import BattleExperienceAI
 from toontown.chat import ResistanceChat
-from toontown.fsm import FSM
+from direct.fsm import FSM
 from . import DistributedBossCogAI
 from . import SuitDNA
 import random
@@ -169,7 +169,7 @@ class DistributedCashbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
 
     def makeTreasure(self, goon):
         return
-        if self.state_ != 'BattleThree':
+        if self.state != 'BattleThree':
             return
         pos = goon.getPos(self)
         v = Vec3(pos[0], pos[1], 0.0)
@@ -335,11 +335,11 @@ class DistributedCashbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
         return
 
     def magicWordReset(self):
-        if self.state_ == 'BattleThree':
+        if self.state == 'BattleThree':
             self.__resetBattleThreeObjects()
 
     def magicWordResetGoons(self):
-        if self.state_ == 'BattleThree':
+        if self.state == 'BattleThree':
             if self.goons != None:
                 for goon in self.goons:
                     goon.request('Off')
@@ -353,7 +353,7 @@ class DistributedCashbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
         avId = self.air.getAvatarIdFromSender()
         if not self.validate(avId, avId in self.involvedToons, 'recordHit from unknown avatar'):
             return
-        if self.state_ != 'BattleThree':
+        if self.state != 'BattleThree':
             return
         self.b_setBossDamage(self.bossDamage + damage)
         if self.bossDamage >= self.bossMaxDamage:

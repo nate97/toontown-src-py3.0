@@ -1,7 +1,7 @@
 import math
 from panda3d.core import Point3, CollisionSphere, CollisionNode, CollisionHandlerEvent, TextNode, VBase4, NodePath, BitMask32
 from pandac.PandaModules import SmoothMover
-from toontown.fsm import FSM
+from direct.fsm import FSM
 from direct.distributed import DistributedObject
 from direct.distributed.ClockDelta import globalClockDelta
 from direct.directnotify import DirectNotifyGlobal
@@ -427,7 +427,7 @@ class DistributedGolfSpot(DistributedObject.DistributedObject, FSM.FSM):
     def __beginFireBall(self):
         if self.aimStart != None:
             return
-        if not self.state_ == 'Controlled':
+        if not self.state == 'Controlled':
             return
         if not self.avId == localAvatar.doId:
             return
@@ -440,7 +440,7 @@ class DistributedGolfSpot(DistributedObject.DistributedObject, FSM.FSM):
     def __endFireBall(self):
         if self.aimStart == None:
             return
-        if not self.state_ == 'Controlled':
+        if not self.state == 'Controlled':
             return
         if not self.avId == localAvatar.doId:
             return

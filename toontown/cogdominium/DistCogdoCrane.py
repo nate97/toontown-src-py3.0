@@ -1,6 +1,6 @@
 from direct.distributed import DistributedObject
 from direct.distributed.ClockDelta import *
-from toontown.fsm import FSM
+from direct.fsm import FSM
 from direct.gui.DirectGui import *
 from direct.interval.IntervalGlobal import *
 from direct.showbase import PythonUtil
@@ -135,7 +135,7 @@ class DistCogdoCrane(DistributedObject.DistributedObject, FSM.FSM):
         self.cleanup()
 
     def cleanup(self):
-        if self.state_ != 'Off':
+        if self.state != 'Off':
             self.demand('Off')
         self.craneGame = None
         return
@@ -601,7 +601,7 @@ class DistCogdoCrane(DistributedObject.DistributedObject, FSM.FSM):
             obj.demand('LocalGrabbed', localAvatar.doId, self.doId)
 
     def grabObject(self, obj):
-        if self.state_ == 'Off':
+        if self.state == 'Off':
             return
         if self.heldObject != None:
             self.releaseObject()
@@ -639,7 +639,7 @@ class DistCogdoCrane(DistributedObject.DistributedObject, FSM.FSM):
         if self.heldObject:
             obj = self.heldObject
             obj.d_requestDrop()
-            if obj.state_ == 'Grabbed':
+            if obj.state == 'Grabbed':
                 obj.demand('LocalDropped', localAvatar.doId, self.doId)
 
     def __hitTrigger(self, event):

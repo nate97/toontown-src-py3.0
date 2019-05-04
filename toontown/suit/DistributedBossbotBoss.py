@@ -1,6 +1,6 @@
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed.ClockDelta import globalClockDelta
-from toontown.fsm import FSM
+from direct.fsm import FSM
 from direct.interval.IntervalGlobal import Sequence, Wait, Func, LerpHprInterval, Parallel, LerpPosInterval, Track, ActorInterval, ParallelEndTogether, LerpFunctionInterval, LerpScaleInterval, LerpPosHprInterval, SoundInterval
 from direct.showbase import PythonUtil
 from direct.task import Task
@@ -973,7 +973,7 @@ class DistributedBossbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         self.stopMoveTask()
 
     def setAttackCode(self, attackCode, avId = 0):
-        if self.state_ != 'BattleFour':
+        if self.state != 'BattleFour':
             return
         self.numAttacks += 1
         self.notify.debug('numAttacks=%d' % self.numAttacks)
@@ -1173,7 +1173,7 @@ class DistributedBossbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         zapTrack.append(toonTrack)
         if toon == localAvatar:
             zapTrack.append(Func(self.disableLocalToonSimpleCollisions))
-            currentState = self.state_
+            currentState = self.state
             if currentState in ('BattleFour', 'BattleTwo'):
                 zapTrack.append(Func(self.toFinalBattleMode))
             else:

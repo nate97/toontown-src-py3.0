@@ -10,7 +10,7 @@ from toontown.toonbase import TTLocalizer
 from panda3d.core import *
 from direct.gui.DirectGui import *
 from direct.distributed.ClockDelta import *
-from toontown.fsm.FSM import FSM
+from direct.fsm.FSM import FSM
 from toontown.golf import GolfGlobals
 from toontown.golf import GolfScoreBoard
 from toontown.golf import GolfRewardDialog
@@ -111,7 +111,7 @@ class DistributedGolfCourse(DistributedObject.DistributedObject, FSM, DelayDelet
 
     def setCourseReady(self, numHoles, holeIds, coursePar):
         self.notify.debug('GOLF COURSE: received setCourseReady')
-        if self.state_ == 'Cleanup':
+        if self.state == 'Cleanup':
             return
         self.numHoles = numHoles
         self.holeIds = holeIds
@@ -168,7 +168,7 @@ class DistributedGolfCourse(DistributedObject.DistributedObject, FSM, DelayDelet
 
     def setPlayHole(self):
         self.notify.debug('GOLF COURSE: received setPlayHole')
-        if self.state_ not in ['PlayHole', 'Cleanup']:
+        if self.state not in ['PlayHole', 'Cleanup']:
             self.request('PlayHole')
 
     def getTitle(self):
@@ -196,7 +196,7 @@ class DistributedGolfCourse(DistributedObject.DistributedObject, FSM, DelayDelet
                 return
             self.notify.warning('GOLF COURSE: setGameAbort: Aborting game')
             self.normalExit = 0
-            if not self.state_ == 'Cleanup':
+            if not self.state == 'Cleanup':
                 self.request('Cleanup')
             else:
                 self.notify.warning('GOLF COURSE: Attempting to clean up twice')
@@ -214,7 +214,7 @@ class DistributedGolfCourse(DistributedObject.DistributedObject, FSM, DelayDelet
             hole.avExited(avId)
         if self.localAvId == avId:
             self.notify.debug('forcing setCourseAbort')
-            if self.state_ == 'Join':
+            if self.state == 'Join':
                 loader.endBulkLoad('minigame')
             self.setCourseAbort(0)
         self.exitMessageForToon(avId)
@@ -344,7 +344,7 @@ class DistributedGolfCourse(DistributedObject.DistributedObject, FSM, DelayDelet
 
     def isGameDone(self):
         retval = False
-        self.notify.debug('Self state is: %s' % self.state_)
+        self.notify.debug('Self state is: %s' % self.state)
         if self.getCurrentOrNextState() == 'WaitReward' or self.getCurrentOrNextState() == 'WaitFinishCourse':
             retval = True
         return retval
@@ -360,7 +360,7 @@ class DistributedGolfCourse(DistributedObject.DistributedObject, FSM, DelayDelet
          aim1,
          aim2,
          aim3]
-        if self.state_ not in ['Cleanup']:
+        if self.state not in ['Cleanup']:
             self.demand('WaitReward')
 
     def enterWaitReward(self):

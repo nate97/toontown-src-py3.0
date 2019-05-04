@@ -1,5 +1,5 @@
 from direct.directnotify import DirectNotifyGlobal
-from toontown.fsm import FSM
+from direct.fsm import FSM
 from direct.interval.IntervalGlobal import *
 from direct.task.Task import Task
 from direct.task.TaskManagerGlobal import *
@@ -590,13 +590,13 @@ class DistributedCashbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
 
     def stunAllGoons(self):
         for goon in self.goons:
-            if goon.state_ == 'Walk' or goon.state == 'Battle':
+            if goon.state == 'Walk' or goon.state == 'Battle':
                 goon.demand('Stunned')
                 goon.sendUpdate('requestStunned', [0])
 
     def destroyAllGoons(self):
         for goon in self.goons:
-            if goon.state_ != 'Off' and not goon.isDead:
+            if goon.state != 'Off' and not goon.isDead:
                 goon.b_destroyGoon()
 
     def deactivateCranes(self):

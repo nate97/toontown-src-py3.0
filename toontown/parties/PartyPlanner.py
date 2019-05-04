@@ -2,7 +2,7 @@ import calendar
 from datetime import datetime
 from datetime import timedelta
 from direct.directnotify import DirectNotifyGlobal
-from toontown.fsm.FSM import FSM
+from direct.fsm.FSM import FSM
 from direct.gui import DirectGuiGlobals
 from direct.gui.DirectGui import DirectFrame, DirectButton, DirectLabel, DirectScrolledList, DirectCheckButton
 from direct.showbase import DirectObject
@@ -39,7 +39,7 @@ class PartyPlanner(DirectFrame, FSM):
         DirectFrame.__init__(self)
         self.totalCost = 0 # Why do we even need this???
         self.doneEvent = doneEvent
-        self.state_Array = ['Off',
+        self.stateArray = ['Off',
          'Welcome',
          'PartyEditor', # 'Guests',  skip over the Guests state.
          'Date',
@@ -709,18 +709,18 @@ class PartyPlanner(DirectFrame, FSM):
 
     def __nextItem(self):
         messenger.send('wakeup')
-        if self.state_ == 'PartyEditor' and self.okWithGroundsGui.doneStatus != 'ok':
+        if self.state == 'PartyEditor' and self.okWithGroundsGui.doneStatus != 'ok':
             self.okWithGroundsGui.show()
             return
-        if self.state_ == 'PartyEditor' and self.noFriends:
+        if self.state == 'PartyEditor' and self.noFriends:
             self.request('Date')
             self.selectedCalendarGuiDay = None
             self.calendarGuiMonth.clearSelectedDay()
             return
-        if self.state_ == 'Guests':
+        if self.state == 'Guests':
             self.selectedCalendarGuiDay = None
             self.calendarGuiMonth.clearSelectedDay()
-        if self.state_ == 'Time':
+        if self.state == 'Time':
             if self.partyTime < base.cr.toontownTimeManager.getCurServerDateTime():
                 self.okChooseFutureTimeEvent = 'okChooseFutureTimeEvent'
                 self.acceptOnce(self.okChooseFutureTimeEvent, self.okChooseFutureTime)
@@ -739,10 +739,10 @@ class PartyPlanner(DirectFrame, FSM):
 
     def __prevItem(self):
         messenger.send('wakeup')
-        if self.state_ == 'Date' and self.noFriends:
+        if self.state == 'Date' and self.noFriends:
             self.request('PartyEditor')
             return
-        if self.state_ == 'Invitation' and self.selectedCalendarGuiDay is None:
+        if self.state == 'Invitation' and self.selectedCalendarGuiDay is None:
             self.request('Guests')
             return
         self.requestPrev()

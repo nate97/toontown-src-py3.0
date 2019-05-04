@@ -6,7 +6,7 @@ import string
 import random
 import functools
 import time
-from toontown.fsm.FSM import FSM
+from direct.fsm.FSM import FSM
 
 # -- FSMS --
 class OperationFSM(FSM):

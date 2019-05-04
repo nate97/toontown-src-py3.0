@@ -2,7 +2,7 @@ from panda3d.core import *
 from direct.distributed import DistributedSmoothNodeAI
 from toontown.toonbase import ToontownGlobals
 from otp.otpbase import OTPGlobals
-from toontown.fsm import FSM
+from direct.fsm import FSM
 from direct.task import Task
 
 class DistributedCashbotBossObjectAI(DistributedSmoothNodeAI.DistributedSmoothNodeAI, FSM.FSM):
@@ -49,7 +49,7 @@ class DistributedCashbotBossObjectAI(DistributedSmoothNodeAI.DistributedSmoothNo
 
     def requestGrab(self):
         avId = self.air.getAvatarIdFromSender()
-        if self.state_ != 'Grabbed' and self.state_ != 'Off':
+        if self.state != 'Grabbed' and self.state != 'Off':
             craneId, objectId = self.__getCraneAndObject(avId)
             if craneId != 0 and objectId == 0:
                 self.demand('Grabbed', avId, craneId)
@@ -58,14 +58,14 @@ class DistributedCashbotBossObjectAI(DistributedSmoothNodeAI.DistributedSmoothNo
 
     def requestDrop(self):
         avId = self.air.getAvatarIdFromSender()
-        if avId == self.avId and self.state_ == 'Grabbed':
+        if avId == self.avId and self.state == 'Grabbed':
             craneId, objectId = self.__getCraneAndObject(avId)
             if craneId != 0 and objectId == self.doId:
                 self.demand('Dropped', avId, craneId)
 
     def hitFloor(self):
         avId = self.air.getAvatarIdFromSender()
-        if avId == self.avId and self.state_ == 'Dropped':
+        if avId == self.avId and self.state == 'Dropped':
             self.demand('SlidingFloor', avId)
 
     def requestFree(self, x, y, z, h):

@@ -2,7 +2,7 @@ from direct.directnotify import DirectNotifyGlobal
 from direct.directutil import Mopath
 from direct.distributed.ClockDelta import *
 from direct.fsm import ClassicFSM, State
-from toontown.fsm import FSM
+from direct.fsm import FSM
 from direct.gui.DirectGui import *
 from direct.interval.IntervalGlobal import *
 from direct.showbase.PythonUtil import Functor
@@ -171,7 +171,7 @@ class DistributedSellbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
         self.cagedToonNpcId = npcId
 
     def gotToon(self, toon):
-        stateName = self.state_
+        stateName = self.state
         if stateName == 'Elevator':
             self.placeToonInElevator(toon)
 

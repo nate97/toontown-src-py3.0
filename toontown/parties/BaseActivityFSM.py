@@ -1,4 +1,4 @@
-from toontown.fsm.FSM import FSM
+from direct.fsm.FSM import FSM
 from direct.directnotify import DirectNotifyGlobal
 
 class BaseActivityFSM(FSM):

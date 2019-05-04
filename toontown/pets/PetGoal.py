@@ -1,5 +1,5 @@
 from direct.task import Task
-from toontown.fsm import FSM
+from direct.fsm import FSM
 from direct.fsm import ClassicFSM, State
 from direct.showbase.PythonUtil import randFloat, Functor
 from direct.directnotify import DirectNotifyGlobal

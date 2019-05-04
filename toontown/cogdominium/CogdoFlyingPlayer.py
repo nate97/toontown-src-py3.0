@@ -1,6 +1,6 @@
 from panda3d.core import DepthOffsetAttrib, NodePath, Vec3, Vec4, TextNode
 from direct.directnotify import DirectNotifyGlobal
-from toontown.fsm.FSM import FSM
+from direct.fsm.FSM import FSM
 from direct.interval.FunctionInterval import Wait
 from direct.interval.IntervalGlobal import Func, LerpHprInterval, LerpScaleInterval, LerpFunctionInterval
 from direct.interval.MetaInterval import Sequence, Parallel
