@@ -17,8 +17,13 @@ class CatalogPetTrickItem(CatalogItem.CatalogItem):
         return 1
 
     def reachedPurchaseLimit(self, avatar):
-        return 1 # until we have pets
-        if self in avatar.onOrder or self in avatar.mailboxContents or self in avatar.onGiftOrder or self in avatar.awardMailboxContents or self in avatar.onAwardOrder:
+        if avatar.onOrder.count(self) != 0:
+            return 1
+        if avatar.onGiftOrder.count(self) != 0:
+            return 1
+        if avatar.mailboxContents.count(self) != 0:
+            return 1
+        if self in avatar.awardMailboxContents or self in avatar.onAwardOrder:
             return 1
         return self.trickId in avatar.petTrickPhrases
 
@@ -45,17 +50,17 @@ class CatalogPetTrickItem(CatalogItem.CatalogItem):
     def getPicture(self, avatar):
         from toontown.pets import PetDNA, Pet
         pet = Pet.Pet(forGui=1)
-        #dna = avatar.petDNA
-        i#f dna == None:
-        dna = PetDNA.getRandomPetDNA() # another temphack
-        pet.setDNA(dna)
-        pet.setH(180)
-        model, ival = self.makeFrameModel(pet, 0)
-        pet.setScale(2.0)
-        pet.setP(-40)
-        track = PetTricks.getTrickIval(pet, self.trickId)
-        name = 'petTrick-item-%s' % self.sequenceNumber
-        CatalogPetTrickItem.sequenceNumber += 1
+        dna = avatar.petDNA
+        if dna == None:
+            dna = PetDNA.getRandomPetDNA() # another temphack
+            pet.setDNA(dna)
+            pet.setH(180)
+            model, ival = self.makeFrameModel(pet, 0)
+            pet.setScale(2.0)
+            pet.setP(-40)
+            track = PetTricks.getTrickIval(pet, self.trickId)
+            name = 'petTrick-item-%s' % self.sequenceNumber
+            CatalogPetTrickItem.sequenceNumber += 1
         if track != None:
             track = Sequence(Sequence(track), ActorInterval(pet, 'neutral', duration=2), name=name)
         else:

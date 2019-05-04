@@ -971,18 +971,27 @@ class CatalogFurnitureItem(CatalogAtticItem.CatalogAtticItem):
         if self.getFlags() & FLBank:
             if self.getMaxBankMoney() <= avatar.getMaxBankMoney():
                 return 1
-            if self in avatar.onOrder or self in avatar.mailboxContents:
+            if avatar.mailboxContents.count(self) != 0:
                 return 1
+            if avatar.onOrder.count(self) != 0:
+                return 1
+
         if self.getFlags() & FLCloset:
             if self.getMaxClothes() <= avatar.getMaxClothes():
                 return 1
-            if self in avatar.onOrder or self in avatar.mailboxContents:
+            if avatar.mailboxContents.count(self) != 0:
                 return 1
+            if avatar.onOrder.count(self) != 0:
+                return 1
+
         if self.getFlags() & FLTrunk:
             if self.getMaxAccessories() <= avatar.getMaxAccessories():
                 return 1
-            if self in avatar.onOrder or self in avatar.mailboxContents:
+            if avatar.mailboxContents.count(self) != 0:
                 return 1
+            if avatar.onOrder.count(self) != 0:
+                return 1
+
         return 0
 
     def getTypeName(self):

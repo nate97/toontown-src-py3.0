@@ -16,7 +16,11 @@ class CatalogPoleItem(CatalogItem.CatalogItem):
         return 1
 
     def reachedPurchaseLimit(self, avatar):
-        return avatar.getFishingRod() >= self.rodId or self in avatar.onOrder or self in avatar.mailboxContents
+        if avatar.onOrder.count(self) != 0:
+            return 1
+        if avatar.mailboxContents.count(self) != 0:
+            return 1
+        return avatar.getFishingRod() >= self.rodId
 
     def saveHistory(self):
         return 1

@@ -603,18 +603,25 @@ class CatalogScreen(DirectFrame):
                 label = DirectLabel(self.base, image=square, relief=None, state='normal')
                 self.squares[i].append(label)
 
-        def priceSort(a, b, type):
-            priceA = a.getPrice(type)
-            priceB = b.getPrice(type)
-            return priceB - priceA
-
-        itemList = base.localAvatar.monthlyCatalog + base.localAvatar.weeklyCatalog
-
-
-        #itemList = sorted()
-
+        #def priceSort(a, b, type):
+            #priceA = a.getPrice(type)
+            #priceB = b.getPrice(type)
+            #return priceB - priceA
+        #itemList = base.localAvatar.monthlyCatalog + base.localAvatar.weeklyCatalog
         #itemList.sort(lambda a, b: priceSort(a, b, CatalogItem.CatalogTypeWeekly))
         #itemList.reverse()
+
+        def priceSort(item): # PY3
+            return item.getPrice(CatalogItem.CatalogTypeWeekly)
+
+        def priceSortBackorder(item): # PY3
+            return item.getPrice(CatalogItem.CatalogTypeBackorder)
+
+        monthlyList = base.localAvatar.monthlyCatalog.getAllItems() # PY3
+        weeklyList = base.localAvatar.weeklyCatalog.getAllItems()
+        itemList = monthlyList + weeklyList
+
+        itemList.sort(key=priceSort)
 
 
         allClosetItems = CatalogFurnitureItem.getAllClosets()
@@ -637,10 +644,13 @@ class CatalogScreen(DirectFrame):
             else:
                 self.panelList.append(CatalogItemPanel.CatalogItemPanel(parent=hidden, item=item, type=CatalogItem.CatalogTypeWeekly, parentCatalogScreen=self))
 
-        itemList = base.localAvatar.backCatalog
-
+        #itemList = base.localAvatar.backCatalog
         #itemList.sort(lambda a, b: priceSort(a, b, CatalogItem.CatalogTypeBackorder))
         #itemList.reverse()
+
+        itemList = base.localAvatar.backCatalog.getAllItems() # PY3
+        itemList.sort(key=priceSortBackorder)
+
 
         for item in itemList:
             if isinstance(item, CatalogInvalidItem.CatalogInvalidItem):
@@ -700,18 +710,13 @@ class CatalogScreen(DirectFrame):
         self.catalogSeries.setShxz(0.4)
         self.rings = DirectLabel(self.base, relief=None, geom=guiItems.find('**/rings'))
         self.clarabelleFrame = DirectLabel(self, relief=None, image=guiItems.find('**/clarabelle_frame'))
-
         hangupGui = guiItems.find('**/hangup')
         hangupRolloverGui = guiItems.find('**/hangup_rollover')
-
 
         self.hangup = DirectButton(base.a2dBottomRight, relief=None, pos=(-0.158, 0, 0.14), scale=(0.7, 0.7, 0.7), image=[hangupGui,
          hangupRolloverGui,
          hangupRolloverGui,
          hangupGui], text=['', TTLocalizer.CatalogHangUp, TTLocalizer.CatalogHangUp], text_fg=Vec4(1), text_scale=0.07, text_pos=(0.0, 0.14), command=self.hangUp)
-
-
-
 
         self.beanBank = DirectLabel(self, relief=None, image=guiItems.find('**/bean_bank'), text=str(base.localAvatar.getMoney() + base.localAvatar.getBankMoney()), text_align=TextNode.ARight, text_scale=0.11, text_fg=(0.95, 0.95, 0, 1), text_shadow=(0, 0, 0, 1), text_pos=(0.75, -0.81), text_font=ToontownGlobals.getSignFont())
         nextUp = guiItems.find('**/arrow_up')
@@ -778,10 +783,16 @@ class CatalogScreen(DirectFrame):
         for panel in self.panelList + self.backPanelList + self.loyaltyPanelList + self.emblemPanelList:
             panel.destroy()
 
-        def priceSort(a, b, type):
-            priceA = a.getPrice(type)
-            priceB = b.getPrice(type)
-            return priceB - priceA
+        #def priceSort(a, b, type):
+            #priceA = a.getPrice(type)
+            #priceB = b.getPrice(type)
+            #return priceB - priceA
+
+        def priceSort(item): # PY3
+            return item.getPrice(CatalogItem.CatalogTypeWeekly)
+
+        def priceSortBackorder(item): # PY3
+            return item.getPrice(CatalogItem.CatalogTypeBackorder)
 
         self.pageIndex = -1
         self.maxPageIndex = 0
@@ -798,10 +809,16 @@ class CatalogScreen(DirectFrame):
         self.loyaltyPageList = []
         self.panelDict = {}
         self.visiblePanels = []
-        itemList = base.localAvatar.monthlyCatalog + base.localAvatar.weeklyCatalog
 
+        #itemList = base.localAvatar.monthlyCatalog + base.localAvatar.weeklyCatalog
         #itemList.sort(lambda a, b: priceSort(a, b, CatalogItem.CatalogTypeWeekly))
         #itemList.reverse()
+
+        monthlyList = base.localAvatar.monthlyCatalog.getAllItems() # PY3
+        weeklyList = base.localAvatar.weeklyCatalog.getAllItems()
+        itemList = monthlyList + weeklyList
+
+        itemList.sort(key=priceSort)
 
         for item in itemList:
             if item.loyaltyRequirement() != 0:
@@ -809,10 +826,12 @@ class CatalogScreen(DirectFrame):
             else:
                 self.panelList.append(CatalogItemPanel.CatalogItemPanel(parent=hidden, item=item, type=CatalogItem.CatalogTypeWeekly))
 
-        itemList = base.localAvatar.backCatalog
-
+        #itemList = base.localAvatar.backCatalog
         #itemList.sort(lambda a, b: priceSort(a, b, CatalogItem.CatalogTypeBackorder))
         #itemList.reverse()
+
+        itemList = base.localAvatar.backCatalog.getAllItems() # PY3
+        itemList.sort(key=priceSortBackorder)
 
         for item in itemList:
             if item.loyaltyRequirement() != 0:

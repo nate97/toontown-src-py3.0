@@ -24,7 +24,13 @@ class CatalogRentalItem(CatalogItem.CatalogItem):
         return 0
 
     def reachedPurchaseLimit(self, avatar):
-        if self in avatar.onOrder or self in avatar.mailboxContents or self in avatar.onGiftOrder or self in avatar.awardMailboxContents or self in avatar.onAwardOrder:
+        if avatar.onOrder.count(self) != 0:
+            return 1
+        if avatar.onGiftOrder.count(self) != 0:
+            return 1
+        if avatar.mailboxContents.count(self) != 0:
+            return 1
+        if self in avatar.awardMailboxContents or self in avatar.onAwardOrder:
             return 1
         return 0
 
@@ -35,7 +41,7 @@ class CatalogRentalItem(CatalogItem.CatalogItem):
         return TTLocalizer.RentalTypeName
 
     def getName(self):
-        hours = int(self.duration / 60)
+        hours = int(self.duration // 60)
         if self.typeIndex == ToontownGlobals.RentalCannon:
             return '%s %s %s %s' % (hours,
              TTLocalizer.RentalHours,

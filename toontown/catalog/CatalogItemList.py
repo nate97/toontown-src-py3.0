@@ -111,11 +111,11 @@ class CatalogItemList:
     def extend(self, items):
         self += items
 
-    def count(self, item):
+    def count(self, item): # PY3
         if self.__list == None:
             self.__decodeList()
         
-        strItem = str(item) # PY3
+        strItem = str(item)
         #indexVar = self.index(item)
         #print (indexVar)
 
@@ -124,7 +124,6 @@ class CatalogItemList:
             patchList.append(str(patchItem))
 
         patchCount = patchList.count(strItem)
-        print ("patch count", patchCount)
 
         #return self.__list.count(item)
         return patchCount
@@ -165,17 +164,14 @@ class CatalogItemList:
         self.__blob = None
         return
 
-    def sort(self, cmpfunc = None):
-        if self.__list == None:
-            self.__decodeList()
-        if cmpfunc == None:
-            self.__list.sort()
+    def getAllItems(self): # PY3
+        patchList = []
+        if self.__list:
+            for patchItem in self.__list:
+                patchList.append(patchItem)
         else:
-            print ("wat")
-            print (cmpfunc)
-            self.__list.sort(key=cmpfunc)
-        self.__blob = None
-        return
+            return []
+        return patchList
 
     def __len__(self):
         if self.__list == None:

@@ -294,9 +294,6 @@ class CatalogItemPanel(DirectFrame):
         return showTeaserPanel
 
     def updateBuyButton(self):
-
-
-
         if not self.loaded:
             return
 
@@ -305,53 +302,16 @@ class CatalogItemPanel(DirectFrame):
 
         self.buyButton.show()
 
-
-
-
-        print (self['item'])
-        print (base.localAvatar.onOrder.count)
-        print (base.localAvatar.onOrder.count(self['item']))
-
-        itemList = base.localAvatar.onOrder
-        #print (itemList, "yes")
-
-        #for x in itemList:
-            #print (x)
-            #print (self['item'])
-
-        if self['item'] in itemList:
-            print ('yes', self['item'])
-
-
-
         typeCode = self['item'].getTypeCode()
-        #orderCount = base.localAvatar.onOrder.count(self['item'])
-        orderList = base.localAvatar.onOrder
+        orderCount = base.localAvatar.onOrder.count(self['item'])
 
-        newOrderCount = []
-        for ordCount in orderList:
-            newOrderCount.append(str(ordCount))
-
-        orderCount = []
-        if str(self['item']) in newOrderCount:
-            orderCount.append(self['item'])
-
-        orderCountLen = len(orderCount)
-
-
-     
-        #print (typeCode)
-        #print (orderCount, 'order count')
-
-        if orderCountLen > 0:
-            if orderCountLen > 1:
-                auxText = '%d %s' % (orderCountLen, TTLocalizer.CatalogOnOrderText)
+        if orderCount > 0:
+            if orderCount > 1:
+                auxText = '%d %s' % (orderCount, TTLocalizer.CatalogOnOrderText)
             else:
                 auxText = TTLocalizer.CatalogOnOrderText
         else:
             auxText = ''
-
-
 
         isNameTag = typeCode == CatalogItemTypes.NAMETAG_ITEM
         if isNameTag and not localAvatar.getGameAccess() == OTPGlobals.AccessFull:
@@ -368,12 +328,7 @@ class CatalogItemPanel(DirectFrame):
             auxText = TTLocalizer.CatalogCurrent
             self.buyButton['state'] = DGG.DISABLED
 
-
-
         elif self['item'].reachedPurchaseLimit(base.localAvatar):
-
-
-
             maxI = self['item'].getPurchaseLimit()
             if maxI <= 1:
                 auxText = TTLocalizer.CatalogPurchasedText
@@ -381,8 +336,6 @@ class CatalogItemPanel(DirectFrame):
                     auxText = TTLocalizer.CatalogGiftedText
             else:
                 auxText = TTLocalizer.CatalogPurchasedMaxText
-
-
 
             self.buyButton['state'] = DGG.DISABLED
         elif hasattr(self['item'], 'noGarden') and self['item'].noGarden(base.localAvatar):

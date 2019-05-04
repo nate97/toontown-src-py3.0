@@ -341,9 +341,6 @@ class CatalogClothingItem(CatalogItem.CatalogItem):
         return 1
 
     def reachedPurchaseLimit(self, avatar):
-
-        # This among other purchases are broken on python3, find a way to fix all of this
-
         if avatar.onOrder.count(self) != 0:
             return 1
         if avatar.onGiftOrder.count(self) != 0:

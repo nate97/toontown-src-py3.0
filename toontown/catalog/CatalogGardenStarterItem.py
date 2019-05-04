@@ -16,7 +16,15 @@ class CatalogGardenStarterItem(CatalogItem.CatalogItem):
         return 0
 
     def reachedPurchaseLimit(self, avatar):
-        if self in avatar.onOrder or self in avatar.mailboxContents or self in avatar.onGiftOrder or self in avatar.awardMailboxContents or self in avatar.onAwardOrder or hasattr(avatar, 'gardenStarted') and avatar.getGardenStarted():
+        if avatar.onOrder.count(self) != 0:
+            return 1
+        if avatar.onGiftOrder.count(self) != 0:
+            return 1
+        if avatar.mailboxContents.count(self) != 0:
+            return 1
+        if self in avatar.awardMailboxContents or self in avatar.onAwardOrder:
+            return 1
+        if hasattr(avatar, 'gardenStarted') and avatar.getGardenStarted():
             return 1
         return 0
 
