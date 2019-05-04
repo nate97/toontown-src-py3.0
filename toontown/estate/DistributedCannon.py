@@ -814,6 +814,8 @@ class DistributedCannon(DistributedObject.DistributedObject):
         av.setHpr(startHpr)
         avatar = self.av
         avatar.loop('swim')
+        if self.av == base.localAvatar:
+            base.localAvatar.b_setAnimState('dive')
         avatar.setPosHpr(0, 0, -(avatar.getHeight() / 2.0), 0, 0, 0)
         info = {}
         info['avId'] = avId

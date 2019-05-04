@@ -151,7 +151,7 @@ class BingoCardGui(DirectFrame):
         cardSize = self.game.getCardSize()
         for index in range(cardSize):
             self.cellGuiList[index].generateLogo()
-            if index == cardSize / 2:
+            if index == cardSize // 2:
                 self.cellGuiList[index].generateMarkedLogo()
             elif self.game.getGameState() & 1 << index:
                 self.cellGuiList[index].disable()
@@ -165,7 +165,7 @@ class BingoCardGui(DirectFrame):
         self.notify.info('enable Bingo card')
         self.stopCellBlinking()
         for index in range(len(self.cellGuiList)):
-            if index != self.game.getCardSize() / 2:
+            if index != self.game.getCardSize() // 2:
                 self.cellGuiList[index].enable(callback)
 
     def generateCard(self, tileSeed, zoneId):
@@ -194,7 +194,7 @@ class BingoCardGui(DirectFrame):
         for i in range(rowSize):
             for j in range(self.game.getColSize()):
                 color = self.getCellColor(i * rowSize + j)
-                if i * rowSize + j == self.game.getCardSize() / 2:
+                if i * rowSize + j == self.game.getCardSize() // 2:
                     tmpFish = 'Free'
                 else:
                     choice = rng.randrange(0, len(fishList))
@@ -379,9 +379,9 @@ class BingoCardGui(DirectFrame):
             self.lightSwitch(self.Off)
             self.lightSwitch(self.On, nTimeIndex)
             self.lightSwitch(self.On, self.NumLights - nTimeIndex)
-            self.lightSwitch(self.On, self.NumLights / 2 + nTimeIndex)
-            self.lightSwitch(self.On, self.NumLights / 2 - nTimeIndex)
-            nTimeIndex = (nTimeIndex + 1) % (self.NumLights / 2)
+            self.lightSwitch(self.On, self.NumLights // 2 + nTimeIndex)
+            self.lightSwitch(self.On, self.NumLights // 2 - nTimeIndex)
+            nTimeIndex = (nTimeIndex + 1) % (self.NumLights // 2)
             delay = 0.05
         elif flashMode == 1:
             if nTimeIndex:

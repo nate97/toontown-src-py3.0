@@ -10,7 +10,7 @@ class NormalBingo(BingoCardBase.BingoCardBase):
         self.gameType = BingoGlobals.NORMAL_CARD
 
     def checkForWin(self, id):
-        rowId = int(id / BingoGlobals.CARD_ROWS)
+        rowId = int(id // BingoGlobals.CARD_ROWS)
         colId = id % BingoGlobals.CARD_COLS
         rowResult = self.rowCheck(rowId)
         colResult = self.colCheck(colId)
@@ -24,11 +24,11 @@ class NormalBingo(BingoCardBase.BingoCardBase):
         return 1
 
     def checkForBingo(self):
-        id = self.cardSize / 2
+        id = self.cardSize // 2
         if self.checkForWin(id):
             return BingoGlobals.WIN
         for i in range(BingoGlobals.CARD_ROWS):
-            if i != BingoGlobals.CARD_ROWS / 2:
+            if i != BingoGlobals.CARD_ROWS // 2:
                 rowResult = self.rowCheck(i)
                 colResult = self.colCheck(i)
                 if rowResult | colResult:
