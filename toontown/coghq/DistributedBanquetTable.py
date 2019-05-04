@@ -2,7 +2,7 @@ import math
 import random
 from panda3d.core import NodePath, Point3, VBase4, TextNode, Vec3, deg2Rad, CollisionSegment, CollisionHandlerQueue, CollisionNode, BitMask32
 from pandac.PandaModules import SmoothMover
-from direct.fsm import FSM
+from toontown.fsm import FSM
 from direct.distributed import DistributedObject
 from direct.distributed.ClockDelta import globalClockDelta
 from direct.directnotify import DirectNotifyGlobal

@@ -6,7 +6,7 @@ from direct.directnotify import DirectNotifyGlobal
 from otp.avatar import DistributedAvatarAI
 from . import DistributedSuitAI
 from toontown.battle import BattleExperienceAI
-from direct.fsm import FSM
+from toontown.fsm import FSM
 from toontown.toonbase import ToontownGlobals
 from toontown.toon import InventoryBase
 from toontown.toonbase import TTLocalizer

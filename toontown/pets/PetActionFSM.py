@@ -1,5 +1,5 @@
 from direct.directnotify import DirectNotifyGlobal
-from direct.fsm import FSM
+from toontown.fsm import FSM
 from direct.interval.IntervalGlobal import *
 from direct.task import Task
 from direct.distributed.ClockDelta import globalClockDelta

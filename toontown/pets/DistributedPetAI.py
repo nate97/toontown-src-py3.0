@@ -16,7 +16,7 @@ from toontown.pets import PetCollider, PetSphere, PetLookerAI
 from toontown.pets import PetConstants, PetDNA, PetTraits
 from toontown.pets import PetObserve, PetBrain, PetMood
 from toontown.pets import PetActionFSM, PetBase, PetGoal, PetTricks
-from direct.fsm import FSM
+from toontown.fsm import FSM
 from toontown.toon import DistributedToonAI
 from toontown.ai import ServerEventBuffer
 import random

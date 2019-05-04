@@ -1,6 +1,6 @@
 from direct.actor import Actor
 from direct.directnotify import DirectNotifyGlobal
-from direct.fsm import FSM
+from toontown.fsm import FSM
 from direct.fsm import State
 from direct.interval.IntervalGlobal import *
 from direct.showbase.PythonUtil import Functor

@@ -1,5 +1,5 @@
 from direct.distributed import DistributedObjectAI
-from direct.fsm import FSM
+from toontown.fsm import FSM
 
 class DistributedGolfSpotAI(DistributedObjectAI.DistributedObjectAI, FSM.FSM):
 

@@ -1,6 +1,6 @@
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed.ClockDelta import globalClockDelta
-from direct.fsm import FSM
+from toontown.fsm import FSM
 from direct.interval.IntervalGlobal import LerpPosInterval
 import math
 from panda3d.core import Point3

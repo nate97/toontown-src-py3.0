@@ -4,7 +4,7 @@ from direct.directnotify import DirectNotifyGlobal
 from direct.distributed import DistributedSmoothNode
 from toontown.toonbase import ToontownGlobals
 from otp.otpbase import OTPGlobals
-from direct.fsm import FSM
+from toontown.fsm import FSM
 from direct.task import Task
 smileyDoId = 1
 

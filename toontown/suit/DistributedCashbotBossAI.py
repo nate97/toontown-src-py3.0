@@ -7,7 +7,7 @@ from toontown.suit import DistributedCashbotBossGoonAI
 #from toontown.coghq import DistributedCashbotBossTreasureAI
 from toontown.battle import BattleExperienceAI
 from toontown.chat import ResistanceChat
-from direct.fsm import FSM
+from toontown.fsm import FSM
 from . import DistributedBossCogAI
 from . import SuitDNA
 import random

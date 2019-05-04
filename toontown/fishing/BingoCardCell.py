@@ -1,4 +1,4 @@
-from direct.fsm import FSM
+from toontown.fsm import FSM
 from direct.gui.DirectGui import *
 from panda3d.core import *
 from direct.directnotify import DirectNotifyGlobal

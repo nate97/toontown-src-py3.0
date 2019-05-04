@@ -2,7 +2,7 @@ from direct.gui.DirectGui import *
 from panda3d.core import *
 from direct.interval.IntervalGlobal import *
 from direct.distributed.ClockDelta import *
-from direct.fsm import FSM
+from toontown.fsm import FSM
 from direct.distributed import DistributedObject
 from direct.showutil import Rope
 from direct.showbase import PythonUtil
@@ -665,7 +665,7 @@ class DistributedCashbotBossCrane(DistributedObject.DistributedObject, FSM.FSM):
         if self.heldObject:
             obj = self.heldObject
             obj.d_requestDrop()
-            if obj.state == 'Grabbed':
+            if obj.state_ == 'Grabbed':
                 obj.demand('LocalDropped', localAvatar.doId, self.doId)
 
     def __hitTrigger(self, event):

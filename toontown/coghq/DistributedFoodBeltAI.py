@@ -1,5 +1,5 @@
 from direct.distributed import DistributedObjectAI
-from direct.fsm import FSM
+from toontown.fsm import FSM
 from direct.directnotify import DirectNotifyGlobal
 from toontown.coghq import FoodBeltBase
 
