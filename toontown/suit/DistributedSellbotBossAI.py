@@ -5,7 +5,7 @@ from . import DistributedSuitAI
 from . import SuitDNA
 from direct.directnotify import DirectNotifyGlobal
 from direct.distributed.ClockDelta import *
-from direct.fsm import FSM
+from toontown.fsm import FSM
 from otp.ai.AIBaseGlobal import *
 from toontown.battle import BattleExperienceAI
 from toontown.toon import NPCToons

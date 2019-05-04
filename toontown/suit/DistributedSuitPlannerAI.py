@@ -74,7 +74,7 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
         self.currDesired = None
         self.baseNumSuits = (
             self.SuitHoodInfo[self.hoodInfoIdx][self.SUIT_HOOD_INFO_MIN] +
-            self.SuitHoodInfo[self.hoodInfoIdx][self.SUIT_HOOD_INFO_MAX]) / 2
+            self.SuitHoodInfo[self.hoodInfoIdx][self.SUIT_HOOD_INFO_MAX]) // 2 # PY3
         self.targetNumSuitBuildings = SuitBuildingGlobals.buildingMinMax[self.zoneId][0]
         if ZoneUtil.isWelcomeValley(self.zoneId):
             self.targetNumSuitBuildings = 0
@@ -501,7 +501,7 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
         targetFlyInNum = self.calcDesiredNumFlyInSuits()
         targetFlyInNum = min(targetFlyInNum, self.TOTAL_MAX_SUITS - self.numBuildingSuits)
         streetPoints = self.streetPointList[:]
-        flyInDeficit = ((targetFlyInNum - self.numFlyInSuits) + 3) / 4
+        flyInDeficit = ((targetFlyInNum - self.numFlyInSuits) + 3) // 4 # PY3
         while flyInDeficit > 0:
             if not self.createNewSuit([], streetPoints):
                 break
@@ -516,7 +516,7 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
             targetBuildingNum = int(len(suitBuildings) * self.SUIT_BUILDING_NUM_SUITS)
         targetBuildingNum += flyInDeficit
         targetBuildingNum = min(targetBuildingNum, self.TOTAL_MAX_SUITS - self.numFlyInSuits)
-        buildingDeficit = ((targetBuildingNum - self.numBuildingSuits) + 3) / 4
+        buildingDeficit = ((targetBuildingNum - self.numBuildingSuits) + 3) // 4 # PY3
         while buildingDeficit > 0:
             if not self.createNewSuit(suitBuildings, streetPoints):
                 break
@@ -627,7 +627,7 @@ class DistributedSuitPlannerAI(DistributedObjectAI.DistributedObjectAI, SuitPlan
             targetSuitBuildings += sp.targetNumSuitBuildings
             if sp.buildingMgr:
                 actualSuitBuildings += len(sp.buildingMgr.getSuitBlocks())
-        wantedSuitBuildings = int((totalBuildings*self.TOTAL_SUIT_BUILDING_PCT) / 100)
+        wantedSuitBuildings = int((totalBuildings*self.TOTAL_SUIT_BUILDING_PCT) // 100)
         self.notify.debug('Want %s out of %s total suit buildings; we currently have %s assigned, %s actual.' % (wantedSuitBuildings, totalBuildings, targetSuitBuildings, actualSuitBuildings))
         if actualSuitBuildings > 0:
             numReassigned = 0

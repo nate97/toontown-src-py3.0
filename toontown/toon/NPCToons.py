@@ -11569,13 +11569,13 @@ BlockerPositions = {TTLocalizer.Flippy: (Point3(207.4, 18.81, -0.475), 90.0)}
 zone2NpcDict = {}
 
 def generateZone2NpcDict():
-    for id, npcDesc in list(NPCToonDict.items()):
+    for toonId, npcDesc in list(NPCToonDict.items()):
         zoneId = npcDesc[0]
         if zoneId in zone2NpcDict:
-            zone2NpcDict[zoneId].append(id)
+            zone2NpcDict[zoneId].append(toonId)
+            zone2NpcDict[zoneId].sort() # This shouldn't break anything. Fix for flippy index position... PY3
         else:
-            zone2NpcDict[zoneId] = [id]
-
+            zone2NpcDict[zoneId] = [toonId]
 
 def getNPCName(npcId):
     npc = NPCToonDict.get(npcId)

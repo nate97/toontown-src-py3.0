@@ -2,7 +2,7 @@ from direct.directnotify import DirectNotifyGlobal
 from direct.directutil import Mopath
 from direct.distributed.ClockDelta import *
 from direct.fsm import ClassicFSM, State
-from direct.fsm import FSM
+from toontown.fsm import FSM
 from direct.gui.DirectGui import *
 from direct.interval.IntervalGlobal import *
 from direct.showbase.PythonUtil import Functor
