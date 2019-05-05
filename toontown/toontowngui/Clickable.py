@@ -1,11 +1,11 @@
-from toontown.fsm.FSM import FSM
+from direct.fsm.FSM import FSM
 from direct.showbase.DirectObject import DirectObject
 from panda3d.core import PandaNode, PGButton, NodePath, MouseWatcherRegion
 
-
 class Clickable(FSM, PandaNode, DirectObject):
     def __init__(self, name):
-        FSM.__init__(self, name)
+
+        self.setupFSM(name)
         PandaNode.__init__(self, name)
         DirectObject.__init__(self)
 
@@ -36,6 +36,15 @@ class Clickable(FSM, PandaNode, DirectObject):
         self.accept(buttonDownPattern.replace('%r', self.regionName), self.__handleMouseDown)
         self.accept(buttonUpPattern.replace('%r', self.regionName), self.__handleMouseUp)
 
+    def setupFSM(self, name): # Probably we shouldn't even be using the FSM for this but whatever.
+        self.cFSM = FSM(name)
+        self.request = self.cFSM.request
+        self.cFSM.enterReady = self.enterReady
+        self.cFSM.enterDepressed = self.enterDepressed
+        self.cFSM.exitDepressed = self.exitDepressed
+        self.cFSM.enterRollover = self.enterRollover
+        self.cFSM.enterInactive = self.enterInactive
+
     def destroy(self):
         self.ignoreAll()
 
@@ -46,6 +55,9 @@ class Clickable(FSM, PandaNode, DirectObject):
         if self.contents is not None:
             self.contents.removeNode()
             self.contents = None
+
+        if getattr(self, 'cFSM', None):
+            del self.cFSM
 
     def getUniqueName(self):
         return 'Clickable-' + str(id(self))
