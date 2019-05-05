@@ -1507,12 +1507,12 @@ class CatalogGenerator:
         self.__releasedItemLists = {}
 
     def getReleasedCatalogList(self, weekStart):
-        dayNumber = int(weekStart / (24 * 60))
+        dayNumber = int(weekStart // (24 * 60))
         itemLists = self.__getReleasedItemLists(dayNumber, weekStart)
         return itemLists
 
     def generateMonthlyCatalog(self, avatar, weekStart):
-        dayNumber = int(weekStart / (24 * 60))
+        dayNumber = int(weekStart // (24 * 60))
         itemLists = self.__getMonthlyItemLists(dayNumber, weekStart)
         monthlyCatalog = CatalogItemList.CatalogItemList()
         for lists in itemLists:
@@ -1736,7 +1736,7 @@ class CatalogGenerator:
     def __determineSeries(self, seriesDict, weeklist):
         for week in weeklist:
             if isinstance(week, int):
-                series = (week - 1) / ToontownGlobals.CatalogNumWeeksPerSeries + 1
+                series = (week - 1) // ToontownGlobals.CatalogNumWeeksPerSeries + 1
                 seriesDict[series] = None
 
         return

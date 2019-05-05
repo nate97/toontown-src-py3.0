@@ -302,7 +302,7 @@ class CatalogItem:
              p,
              r)
         if store & GiftTag:
-            self.giftTag = di.getString()
+            self.giftTag = di.getBlob()
         if versionNumber >= 8:
             self.specialEventId = di.getUint8()
         else:

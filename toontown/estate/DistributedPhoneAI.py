@@ -60,12 +60,17 @@ class DistributedPhoneAI(DistributedFurnitureItemAI):
 
         av.b_setCatalogNotify(ToontownGlobals.NoItems, av.mailboxNotify)
 
-    def __gotHouse(self, dclass, fields):
-            if dclass != self.air.dclassesByName['DistributedHouseAI']:
-                return
 
-            numItems = len(CatalogItemList(fields['setInteriorItems'][0], store=CatalogItem.Customization)) + len(CatalogItemList(fields['setAtticItems'][0], store=CatalogItem.Customization)) + len(CatalogItemList(fields['setAtticWallpaper'][0], store=CatalogItem.Customization)) + len(CatalogItemList(fields['setAtticWindows'][0], store=CatalogItem.Customization)) + len(CatalogItemList(fields['setInteriorWallpaper'][0], store=CatalogItem.Customization)) + len(CatalogItemList(fields['setInteriorWindows'][0], store=CatalogItem.Customization))
-            self.sendUpdateToAvatarId(fields['setAvatarId'][0], 'setLimits', [numItems])
+
+    def __gotHouse(self, dclass, fields): # PY3 needs work on Python3
+        # I think what this is doing, is actually calculating the items you currently have in your house?
+        if dclass != self.air.dclassesByName['DistributedHouseAI']:
+            return
+
+        numItems = len(CatalogItemList(fields['setInteriorItems'][0], store=CatalogItem.Customization)) + len(CatalogItemList(fields['setAtticItems'][0], store=CatalogItem.Customization)) + len(CatalogItemList(fields['setAtticWallpaper'][0], store=CatalogItem.Customization)) + len(CatalogItemList(fields['setAtticWindows'][0], store=CatalogItem.Customization)) + len(CatalogItemList(fields['setInteriorWallpaper'][0], store=CatalogItem.Customization)) + len(CatalogItemList(fields['setInteriorWindows'][0], store=CatalogItem.Customization))
+        self.sendUpdateToAvatarId(fields['setAvatarId'][0], 'setLimits', [numItems])
+
+
 
     def avatarExit(self):
         avId = self.air.getAvatarIdFromSender()

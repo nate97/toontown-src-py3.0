@@ -90,16 +90,16 @@ class CatalogItemList:
         self.__list = self.__makeList(self.store)
 
     def __makeList(self, store):
-        list = []
+        mList = []
         if self.__blob:
             dg = PyDatagram(self.__blob)
             di = PyDatagramIterator(dg)
             versionNumber = di.getUint8()
             while di.getRemainingSize() > 0:
                 item = CatalogItem.decodeCatalogItem(di, versionNumber, store)
-                list.append(item)
+                mList.append(item)
 
-        return list
+        return mList
 
     def append(self, item):
         if self.__list == None:
@@ -127,6 +127,16 @@ class CatalogItemList:
 
         #return self.__list.count(item)
         return patchCount
+
+    def sort(self, cmpfunc = None):
+        if self.__list == None:
+            self.__decodeList()
+        if cmpfunc == None:
+            self.__list.sort()
+        else:
+            self.__list.sort(cmpfunc)
+        self.__blob = None
+        return
 
     def index(self, item):
         if self.__list == None:
