@@ -110,7 +110,12 @@ MaxHpLimit = 137
 MaxCarryLimit = 80
 MaxQuestCarryLimit = 4
 GravityValue = 32.174
-MaxCogSuitLevel = 12 - 1
+MaxCogSuitLevel = 50 - 1
+CogSuitHPLevels = (15 - 1,
+ 20 - 1,
+ 30 - 1,
+ 40 - 1,
+50 - 1)
 setInterfaceFont(TTLocalizer.InterfaceFont)
 setSignFont(TTLocalizer.SignFont)
 from toontown.toontowngui import TTDialog
