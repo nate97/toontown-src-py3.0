@@ -248,7 +248,6 @@ class TownLoader(StateData.StateData):
                 else:
                     groupName = '%s' % zoneId
                 groupNode.setName(groupName)
-            groupNode.flattenMedium()
             self.nodeDict[zoneId] = []
             self.nodeList.append(groupNode)
             self.zoneDict[zoneId] = groupNode
