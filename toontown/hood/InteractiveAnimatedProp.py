@@ -75,6 +75,7 @@ class InteractiveAnimatedProp(GenericAnimatedProp.GenericAnimatedProp, FSM.FSM):
         anim = node.getTag('DNAAnim')
         self.trashcan = Actor.Actor(node, copy=0)
         self.trashcan.reparentTo(node)
+        self.soundPos = node.getPos()
         animDict = {}
         animDict['anim'] = '%s/%s' % (self.path, anim)
         for i in range(self.numIdles):

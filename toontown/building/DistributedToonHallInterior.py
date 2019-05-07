@@ -1,7 +1,7 @@
 from toontown.toonbase.ToonBaseGlobal import *
 from direct.interval.IntervalGlobal import *
 from direct.distributed.ClockDelta import *
-from direct.showbase import Audio3DManager
+from direct.showbase.Audio3DManager import Audio3DManager
 from toontown.toonbase import ToontownGlobals
 from toontown.dna.DNAParser import DNADoor
 import pickle
@@ -218,7 +218,7 @@ class DistributedToonHallInterior(DistributedToonInterior):
         self.sillyMeter.flattenMedium()
         self.sillyMeter.makeSubpart('arrow', ['uvj_progressBar*', 'def_springA'])
         self.sillyMeter.makeSubpart('meter', ['def_pivot'], ['uvj_progressBar*', 'def_springA'])
-        self.audio3d = Audio3DManager.Audio3DManager(base.sfxManagerList[0], camera)
+        self.audio3d = Audio3DManager(base.sfxManagerList[0], camera)
         self.phase1Sfx = self.audio3d.loadSfx('phase_4/audio/sfx/tt_s_prp_sillyMeterPhaseOne.ogg')
         self.phase1Sfx.setLoop(True)
         self.phase2Sfx = self.audio3d.loadSfx('phase_4/audio/sfx/tt_s_prp_sillyMeterPhaseTwo.ogg')

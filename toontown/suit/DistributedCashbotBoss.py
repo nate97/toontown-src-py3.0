@@ -3,9 +3,11 @@ from direct.fsm import FSM
 from direct.interval.IntervalGlobal import *
 from direct.task.Task import Task
 from direct.task.TaskManagerGlobal import *
-import math
 from panda3d.core import *
+
+import math
 import random
+import operator
 
 from . import DistributedBossCog
 from . import DistributedCashbotBossGoon
@@ -251,7 +253,32 @@ class DistributedCashbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
 
         newCollisionNode.setIntoCollideMask(newCollideMask)
         threshold = 0.1
-        planes.sort(lambda p1, p2: p1.compareTo(p2, threshold))
+
+
+
+        # NEEDS WORK!!!!!! # NJF
+        #nodePlanes = planes.copy()
+        #tempPlanes = []        
+        #for lPlane in planes:
+        #    tempPlanes.append(str(lPlane))            
+        #print (planes)
+
+        #def compTo(plane):
+        #    currentIndex = tempPlanes.index(str(plane))
+        #    nextIndex = currentIndex + 1
+        #    print (plane, currentIndex)
+        #    plane.compareTo(nodePlanes[nextIndex], threshold)
+        #    return 0
+
+        #planes.sort(key=compTo)
+        planes.sort() # PY3 this needs WORK
+
+        #planes.sort(lambda p1, p2: p1.compareTo(p2, threshold))
+
+
+
+
+
         lastPlane = None
         for plane in planes:
             if lastPlane == None or plane.compareTo(lastPlane, threshold) != 0:

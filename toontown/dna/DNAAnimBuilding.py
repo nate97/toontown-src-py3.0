@@ -30,4 +30,3 @@ class DNAAnimBuilding(DNALandmarkBuilding.DNALandmarkBuilding):
         self.setupSuitBuildingOrigin(nodePath, node)
         for child in self.children_:
             child.traverse(nodePath, dnaStorage)
-        nodePath.flattenStrong()

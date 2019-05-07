@@ -43,6 +43,9 @@ class GenericAnimatedProp(AnimatedProp.AnimatedProp):
 
     def delete(self):
         AnimatedProp.AnimatedProp.delete(self)
+        if hasattr(self, 'soundNode'):
+            self.soundNode.removeNode()
+            del self.soundNode
         self.node.cleanup()
         del self.node
         del self.trashcan
@@ -79,6 +82,7 @@ class GenericAnimatedProp(AnimatedProp.AnimatedProp):
         self.trashcan.reparentTo(node)
         self.trashcan.loadAnims({'anim': '%s/%s' % (self.path, anim)})
         self.trashcan.pose('anim', 0)
+        self.soundPos = node.getPos()
         self.node = self.trashcan
 
 
@@ -86,19 +90,11 @@ class GenericAnimatedProp(AnimatedProp.AnimatedProp):
         self.hoodId = ToontownGlobals.ToontownCentral
         fullString = str(node)
         splits = fullString.split('/')
-
-        # Check if normal object or animated, if everything fails set the hoodId and visId to 0
         try:
-            if type(splits[2]) == int:
-                visId = int(splits[2])
-                self.visId = visId
-                self.hoodId = ZoneUtil.getCanonicalHoodId(visId)
-                self.notify.debug('calcHoodId %d from %s' % (self.hoodId, fullString))
-            else:
-                # Probably an animated prop...
-                visId = int(splits[4])
-                self.visId = visId
-                self.hoodId = ZoneUtil.getCanonicalHoodId(visId)
+            visId = int(splits[4])
+            self.visId = visId
+            self.hoodId = ZoneUtil.getCanonicalHoodId(visId)
+            self.notify.debug('calcHoodId %d from %s' % (self.hoodId, fullString))
         except Exception as generic:
             if 'Editor' not in fullString:
                 self.notify.warning("calcHoodId couldn't parse %s using 0" % fullString)
@@ -130,7 +126,10 @@ class GenericAnimatedProp(AnimatedProp.AnimatedProp):
                     if self.visId == localAvatar.zoneId and origAnimName != 'tt_a_ara_dga_hydrant_idleIntoFight':
                         self.notify.warning('anim %s had duration of %s while sound  has duration of %s' % (origAnimName, maximumDuration, soundDur))
                 soundDur = maximumDuration
-            result = SoundInterval(theSound, node=self.node, listenerNode=base.localAvatar, volume=sfxVolume, cutOff=cutoff, startTime=0, duration=soundDur)
+            if not hasattr(self, 'soundNode'):
+                self.soundNode = render.attachNewNode('Sound Node')
+                self.soundNode.setPos(self.soundPos)
+            result = SoundInterval(theSound, node=self.soundNode, listenerNode=base.localAvatar, volume=sfxVolume, cutOff=cutoff, startTime=0, duration=soundDur)
         else:
             result = Sequence()
         return result

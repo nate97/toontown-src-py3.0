@@ -183,7 +183,7 @@ class TownLoader(StateData.StateData):
     def exitFinal(self):
         pass
 
-    def createHood(self, dnaFile, loadStorage = 1):
+    def createHood(self, dnaFile, loadStorage = 1): # NJF
         if loadStorage:
             files = ('phase_5/dna/storage_town.pdna', self.townStorageDNAFile)
             dnaBulk = DNABulkLoader(self.hood.dnaStore, files)
