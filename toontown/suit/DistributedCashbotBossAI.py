@@ -72,7 +72,12 @@ class DistributedCashbotBossAI(DistributedBossCogAI.DistributedBossCogAI, FSM.FS
         def compareJoinChance(a, b):
             return cmp(a[1], b[1])
 
-        reserveSuits.sort(compareJoinChance)
+        def sortBySecond(joinChance):
+            return joinChance[1]
+
+        #reserveSuits.sort(compareJoinChance)
+        reserveSuits.sort(key=sortBySecond) # PY3 probably need work idk
+
         return {'activeSuits': activeSuits,
          'reserveSuits': reserveSuits}
 

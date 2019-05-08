@@ -204,6 +204,13 @@ class DistributedFactorySuit(DistributedSuitBase.DistributedSuitBase, DelayDelet
     def subclassManagesParent(self):
         return 1
 
+    def exitOff(self): # Overrides method in DistributedSuitBase because seeing 2d nametags in factories is super clunky looking
+        if not self.subclassManagesParent():
+            self.setParent(ToontownGlobals.SPRender)
+        self.showNametag3d()
+        self.hideNametag2d()
+        self.loop('neutral', 0)
+
     def enterWalk(self, ts = 0):
         self.enableBattleDetect('walk', self.__handleToonCollision)
         if self.path:

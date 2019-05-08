@@ -50,8 +50,8 @@ class DistributedGridAI(DistributedEntityAI.DistributedEntityAI):
         if self.objPos.get(objId, None):
             return 1
         x, y = pos[0], pos[1]
-        col = min(int(x / self.cellSize), self.numCol - width)
-        row = min(int(y / self.cellSize), self.numRow - width)
+        col = min(int(x // self.cellSize), self.numCol - width)
+        row = min(int(y // self.cellSize), self.numRow - width)
         self.notify.debug('attempt add %d at %s, row,col = %d,%d' % (objId,
          pos,
          row,
