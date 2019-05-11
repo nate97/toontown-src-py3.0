@@ -110,4 +110,11 @@ class BattlePlace(Place.Place):
         phase = ToontownGlobals.streetPhaseMap[hoodId]
         if hoodId == zoneId:
             zoneId = 'sz'
+        else: # Not base hood, logic fixes error with teleporting to toon while they're in a battle, or have been in a battle.
+            zoneId = ZoneUtil.getCanonicalCogZoneId(zoneId) # Corrects battle zoneId
+            if zoneId == hoodId: # Passthrough to see if we're in the base hood zone now that we've got a corrected zoneId
+                zoneId = 'sz'
         return 'phase_%s/dna/%s_%s.pdna' % (phase, hood, zoneId)
+
+
+

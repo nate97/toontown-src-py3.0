@@ -188,6 +188,11 @@ def getCanonicalSafeZoneId(zoneId):
     return getSafeZoneId(getCanonicalZoneId(zoneId))
 
 
+def getCanonicalCogZoneId(zoneId):
+    zoneId = zoneId - zoneId % 100
+    return zoneId
+
+
 def isInterior(zoneId):
     if tutorialDict:
         if zoneId in tutorialDict['interiors']:

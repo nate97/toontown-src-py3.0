@@ -341,13 +341,6 @@ class DistributedDoorEntity(DistributedDoorEntityBase.DistributedDoorEntityBase,
                 cSphereNode.setIntoCollideMask(ToontownGlobals.WallBitmask)
                 self.cSphereNodePath = self.node.attachNewNode(cSphereNode)
 
-            if 1:
-                self.node.flattenMedium()
-                self.doorTop.flattenMedium()
-                self.doorBottom.flattenMedium()
-                self.doorLeft.flattenMedium()
-                self.doorRight.flattenMedium()
-
         self.setDoorState(self.initialState, self.initialStateTimestamp)
         del self.initialState
         del self.initialStateTimestamp

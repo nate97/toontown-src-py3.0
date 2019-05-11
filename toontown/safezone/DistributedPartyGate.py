@@ -59,7 +59,7 @@ class DistributedPartyGate(DistributedObject.DistributedObject):
 
     def setupSignText(self):
         loader = self.cr.playGame.hood.loader
-        partyGate = loader.geom.find('**/partyGateSignGroup')
+        partyGate = loader.geom.find('**/partyGate_grp')
         if partyGate.isEmpty():
             self.notify.warning('Could not find partyGate_grp in loader.geom')
             return

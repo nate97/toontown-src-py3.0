@@ -61,6 +61,6 @@ class DNAProp(DNANode.DNANode):
         node.setPosHprScale(self.pos, self.hpr, self.scale)
         node.setName(self.name)
         node.setColorScale(self.color, 0)
-        #self.smartFlatten(node)
+        self.smartFlatten(node)
         for child in self.children_:
             child.traverse(node, dnaStorage)

@@ -21,6 +21,12 @@ class StageRoom(DirectObject.DirectObject):
         return
 
     def delete(self):
+        try:
+            self.ug.removeNode()
+        except:
+            pass
+        if not self.__geom.isEmpty():
+            self.__geom.removeNode()
         del self.localToonFSM
 
     def enter(self):
@@ -37,9 +43,10 @@ class StageRoom(DirectObject.DirectObject):
 
     def setGeom(self, geom):
         self.__geom = geom
-        ug = self.__geom.find('**/underground')
-        if not ug.isEmpty():
-            ug.setBin('ground', -10)
+        self.ug = self.__geom.find('**/underground')
+        if not self.ug.isEmpty():
+            self.ug.setBin('ground', -10)
+            self.ug.reparentTo(render)
 
     def getGeom(self):
         return self.__geom
