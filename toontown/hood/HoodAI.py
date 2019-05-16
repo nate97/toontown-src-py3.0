@@ -146,7 +146,7 @@ class HoodAI:
         for fishingPond in self.fishingPonds:
             fishingPond.bingoMgr = DistributedPondBingoManagerAI(self.air)
             fishingPond.bingoMgr.setPondDoId(fishingPond.doId)
-            fishingPond.bingoMgr.generateWithRequired(self.zoneId)
+            fishingPond.bingoMgr.generateWithRequired(fishingPond.zoneId) # Was using self.zoneId, this only generated the bingo managers in playgrounds, causing an exception when entering street ponds
 
     def findPartyGates(self, dnaGroup, zoneId):
         partyGates = []

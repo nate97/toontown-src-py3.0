@@ -18,8 +18,9 @@ class DDSafeZoneLoader(SafeZoneLoader.SafeZoneLoader):
         self.swimSound = base.loader.loadSfx('phase_4/audio/sfx/AV_swim_single_stroke.ogg')
         self.submergeSound = base.loader.loadSfx('phase_5.5/audio/sfx/AV_jump_in_water.ogg')
         water = self.geom.find('**/water')
-        water.setTransparency(1)
-        water.setColor(1, 1, 1, 0.8)
+        if not water.isEmpty():
+            water.setTransparency(1)
+            water.setColor(1, 1, 1, 0.8)
         self.boat = self.geom.find('**/donalds_boat')
         if self.boat.isEmpty():
             self.notify.error('Boat not found')
