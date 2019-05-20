@@ -18,13 +18,14 @@ Don't just start contributing. We talk about what we are about to do before we d
 ##### You must compile dependencies yourself, ask for assistance if needed. #####
 
 #### PANDA3D
-This software requires a modified version of the Panda3D game engine to correctly function. This issue will be addressed at a later date.
+For right now we're using a a modified Panda3D with Python3 Astron support:
 ##### Link: https://github.com/nate97/panda3d
 
 
 #### ASTRON
-This software requires a modified version of Astron to function with the latest version:
-##### Link: https://github.com/nate97/Astron
+This software requires you to compile Astron, an opensource implementation of Toontown Online's OTP server:
+##### Link: https://github.com/Astron/Astron
+
 
 #### Python dependencies ####
 Please view the [dependencies](https://github.com/ToontownInfinite/src/wiki/Dependencies) page in the wiki for help starting Toontown.
