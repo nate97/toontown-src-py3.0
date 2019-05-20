@@ -30,4 +30,6 @@ This software requires you to compile Astron, an opensource implementation of To
 
 
 #### Python dependencies ####
-Please view the [dependencies](https://github.com/ToontownInfinite/src/wiki/Dependencies) page in the wiki for help starting Toontown.
+It is recommended you acquire these packages with the usage of pip3.
+* PyYAML
+* semidbm
