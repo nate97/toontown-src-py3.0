@@ -351,3 +351,6 @@ class DistributedLawbotChair(DistributedObject.DistributedObject, FSM.FSM):
         if not self.toonJurorIndex == newVal:
             self.toonJurorIndex = newVal
             self.loadToonJuror()
+
+
+

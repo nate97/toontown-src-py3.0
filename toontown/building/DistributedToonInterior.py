@@ -128,7 +128,7 @@ class DistributedToonInterior(DistributedObject.DistributedObject, LegacyInterio
         self.randomBldg = False
         self.strZoneId = str(self.zoneId)
 
-        seedDict = self.loadBinInteriors() # Open bin file with legacy loader
+        seedDict = self.loadJSONInteriors() # Open bin file with legacy loader
 
         if self.strZoneId in seedDict: # Building is predefined
             self.interiorItemList = (seedDict[self.strZoneId][INTERIOR_ITEM_LIST])

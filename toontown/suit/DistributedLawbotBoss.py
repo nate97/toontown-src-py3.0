@@ -1629,10 +1629,10 @@ class DistributedLawbotBoss(DistributedBossCog.DistributedBossCog, FSM.FSM):
             self.witnessToonOnstage = 1
 
     def __hideWitnessToon(self):
-        if self.witnessToonOnstage:
-            self.witnessToon.removeActive()
-            self.witnessToon.detachNode()
-            self.witnessToonOnstage = 0
+        #if self.witnessToonOnstage: # Why??? PY3
+        self.witnessToon.removeActive()
+        self.witnessToon.detachNode()
+        self.witnessToonOnstage = 0
 
     def __hideToons(self):
         for toonId in self.involvedToons:

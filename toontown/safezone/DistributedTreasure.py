@@ -193,19 +193,27 @@ class DistributedTreasure(DistributedObject.DistributedObject):
             self.treasureType = TreasureGlobals.TreasureV
 
 
-    def startFloat(self):
+    def startFloat(self): # This function is for estate cannon popsicles, makes the popsicles appear as though they are floating.
         if self.treasureType == TreasureGlobals.TreasureE:
             defaultPos = self.nodePath.getPos()
+            randPos = random.random() - 6
 
-            randValue = random.random() - 6
+            delayTime = random.uniform(0, 0.1)
 
-            startPos = (defaultPos[0], defaultPos[1], defaultPos[2] - randValue)
-            endPos = (defaultPos[0], defaultPos[1], defaultPos[2])
-
-            floatUp = LerpPosInterval(self.nodePath, 2, Point3(startPos), blendType='easeInOut')
-            floatDown = LerpPosInterval(self.nodePath, 2, Point3(endPos), blendType='easeInOut')
+            randChoice = random.choice([True, False])
             
-            delayTime = random.uniform(0, 0.3)
+            if randChoice: # This either starts the icecream at the highest position, or the lowest position
+                startPos = (defaultPos[0], defaultPos[1], defaultPos[2] - randPos)
+                endPos = (defaultPos[0], defaultPos[1], defaultPos[2])
+
+                floatUp = LerpPosInterval(self.nodePath, 2, Point3(startPos), blendType='easeInOut')
+                floatDown = LerpPosInterval(self.nodePath, 2, Point3(endPos), blendType='easeInOut')
+            else:
+                startPos = (defaultPos[0], defaultPos[1], defaultPos[2])
+                endPos = (defaultPos[0], defaultPos[1], defaultPos[2] + randPos)
+
+                floatUp = LerpPosInterval(self.nodePath, 2, Point3(endPos), blendType='easeInOut')
+                floatDown = LerpPosInterval(self.nodePath, 2, Point3(startPos), blendType='easeInOut')
 
             self.flyingSeq = Sequence(floatUp, Wait(delayTime), floatDown, Wait(delayTime), name=self.uniqueName('floatingIcecream'))
             self.flyingSeq.loop()
