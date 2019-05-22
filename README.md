@@ -28,6 +28,9 @@ For right now we're using a a modified Panda3D with Python3 Astron support:
 This software requires you to compile Astron, an opensource implementation of Toontown Online's OTP server:
 ##### Link: https://github.com/Astron/Astron
 
+#### RESOURCES
+Resources for this repository can be found here:
+https://github.com/nate97/resources
 
 #### Python dependencies ####
 It is recommended you acquire these packages with the usage of pip3.
