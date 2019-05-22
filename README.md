@@ -23,7 +23,6 @@ Don't just start contributing. We talk about what we are about to do before we d
 For right now we're using a a modified Panda3D with Python3 Astron support:
 ##### Link: https://github.com/nate97/panda3d
 
-
 #### ASTRON
 This software requires you to compile Astron, an opensource implementation of Toontown Online's OTP server:
 ##### Link: https://github.com/Astron/Astron
