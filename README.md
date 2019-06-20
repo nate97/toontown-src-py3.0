@@ -9,7 +9,7 @@ This source runs on Python 3 with a modified version of Panda3D that requires up
 The idea behind this project is to restore Toontown Online to its **original state**. This means that the plan is to removing all modifications Toontown Infinite had planned for the gameplay, as well as restoring all broken features from Toontown Online, excluding the Toon News feature. Feel free to fork this repository if you desire to add your own content.
 
 ### Contact ###
-Discord server available here: https://discord.gg/SkF53cT
+Discord server available here: https://discord.gg/GngUsaw
 No profanity allowed, please keep it professional.
 
 ### Contributing ###
