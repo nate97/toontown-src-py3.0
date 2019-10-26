@@ -52,6 +52,12 @@ class ChatBalloon(NodePath):
         self.textWidth = self.textNode.getWidth()
         if self.textWidth < self.TEXT_MIN_WIDTH:
             self.textWidth = self.TEXT_MIN_WIDTH
+
+        if self.textWidth >= 5:
+            self.BALLOON_X_PADDING = 0.65
+        else:
+            self.BALLOON_X_PADDING = 0.50
+
         paddedWidth = self.textWidth + (self.BALLOON_X_PADDING*2)
         self.balloon.setSx(paddedWidth / modelWidth)
         self.textHeight = textNode.getHeight()

@@ -33,7 +33,6 @@ from toontown.chat.ChatGlobals import *
 from toontown.chat.WhisperPopup import *
 from toontown.coghq import CogDisguiseGlobals
 from toontown.distributed import DelayDelete
-from toontown.distributed import DelayDelete
 from toontown.distributed.DelayDeletable import DelayDeletable
 from toontown.effects.ScavengerHuntEffects import *
 from toontown.estate import DistributedGagTree

@@ -90,7 +90,7 @@ class DistributedPhoneAI(DistributedFurnitureItemAI):
 
     def requestPurchaseMessage(self, context, item, optional):
 
-        print (context, item, optional)
+        #print (context, item, optional) # NJF
 
         avId = self.air.getAvatarIdFromSender()
         if avId != self.avId:

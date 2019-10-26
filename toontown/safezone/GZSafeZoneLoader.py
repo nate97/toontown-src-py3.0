@@ -96,7 +96,8 @@ class GZSafeZoneLoader(SafeZoneLoader):
         del self.golfCourseId
 
     def handleRaceOver(self):
-        print('you done!!')
+        pass # NJF
+        #print('you done!!')
 
     def handleLeftGolf(self):
         req = {'loader': 'safeZoneLoader',

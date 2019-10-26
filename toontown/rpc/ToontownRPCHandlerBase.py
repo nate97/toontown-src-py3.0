@@ -50,7 +50,7 @@ class ToontownRPCHandlerBase:
             return (-32002, 'Invalid token length')
 
         # Next, decrypt the token using AES-128 in CBC mode:
-        rpcServerSecret = config.GetString('rpc-server-secret', '6163636f756e7473')
+        rpcServerSecret = config.GetString('rpc-server-secret', '0')
 
         # Ensure that our secret is the correct size:
         if len(rpcServerSecret) > AES.block_size:

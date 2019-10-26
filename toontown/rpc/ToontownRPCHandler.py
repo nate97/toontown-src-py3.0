@@ -235,7 +235,7 @@ class ToontownRPCHandler(ToontownRPCHandlerBase):
             [int accountId] = The ID of the account to send the message to.
             [str message] = The message to send.
         """
-        channel = accountId + (1003L<<32)
+        channel = accountId + (1003 << 32)
         self.rpc_messageChannel(channel, message)
 
     @rpcmethod(accessLevel=MODERATOR)
@@ -249,7 +249,7 @@ class ToontownRPCHandler(ToontownRPCHandlerBase):
             [int avId] = The ID of the avatar to send the message to.
             [str message] = The message to send.
         """
-        channel = avId + (1001L<<32)
+        channel = avId + (1001 << 32)
         self.rpc_messageChannel(channel, message)
 
     # --- KICKS ---
@@ -325,7 +325,7 @@ class ToontownRPCHandler(ToontownRPCHandlerBase):
             [int code] = The code for the kick.
             [str reason] = The reason for the kick.
         """
-        channel = accountId + (1003L<<32)
+        channel = accountId + (1003 << 32)
         self.rpc_kickChannel(channel, code, reason)
 
     @rpcmethod(accessLevel=MODERATOR)
@@ -338,7 +338,7 @@ class ToontownRPCHandler(ToontownRPCHandlerBase):
             [int code] = The code for the kick.
             [str reason] = The reason for the kick.
         """
-        channel = avId + (1001L<<32)
+        channel = avId + (1001 << 32)
         self.rpc_kickChannel(channel, code, reason)
 
     # --- BANS ---
@@ -369,7 +369,7 @@ class ToontownRPCHandler(ToontownRPCHandlerBase):
             now = datetime.date.today()
             release = str(now + datetime.timedelta(hours=duration))
         else:
-        pass
+            pass
         #    release = '0000-00-00'  # Permanent ban.
         #executeHttpRequest('accounts/ban/', Id=userId, Release=release,
         #                   Reason=reason)

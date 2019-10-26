@@ -850,6 +850,7 @@ WakeWalkDelta = 0.2
 NoItems = 0
 NewItems = 1
 OldItems = 2
+
 SuitInvasionBegin = 0
 SuitInvasionEnd = 1
 SuitInvasionUpdate = 2

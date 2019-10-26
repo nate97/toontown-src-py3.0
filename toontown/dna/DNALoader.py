@@ -29,7 +29,6 @@ from . import DNASuitPoint
 
 import zlib
 import sys
-import io
 
 sys.setrecursionlimit(10000)
 
@@ -193,7 +192,7 @@ class DNALoader:
 
     def loadDNAFileBase(self, dnaStorage, file):
         self.dnaStorage = dnaStorage
-        dnaFile = io.open(file, 'rb')
+        dnaFile = open(file, 'rb')
         dnaData = dnaFile.read()
         dg = PyDatagram(dnaData)
         dgi = PyDatagramIterator(dg)

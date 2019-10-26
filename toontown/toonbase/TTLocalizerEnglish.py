@@ -9821,7 +9821,7 @@ else:
 
 
 if __debug__:
-    input = open(filename, 'r')
+    input = open(filename, 'rb')
 else:
     input = StreamReader(vfs.openReadFile(filename, 1), 1)
 
@@ -9832,6 +9832,7 @@ if not input:
 
 currentLine = input.readline()
 while currentLine:
+    currentLine = currentLine.decode("utf-8")
     if currentLine.lstrip()[0:1] != '#':
         a1 = currentLine.find('*')
         a2 = currentLine.find('*', a1 + 1)

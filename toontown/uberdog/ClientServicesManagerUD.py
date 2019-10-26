@@ -469,6 +469,7 @@ class LoginAccountFSM(OperationFSM):
         self.csm.sendUpdateToChannel(self.target, 'acceptLogin', [int(time.time())])
         self.demand('Off')
 
+
 class CreateAvatarFSM(OperationFSM):
     notify = directNotify.newCategory('CreateAvatarFSM')
 
@@ -654,6 +655,7 @@ class GetAvatarsFSM(AvatarOperationFSM):
         self.csm.sendUpdateToAccountId(self.target, 'setAvatars', [potentialAvs])
         self.demand('Off')
 
+
 # This inherits from GetAvatarsFSM, because the delete operation ends in a
 # setAvatars message being sent to the client.
 class DeleteAvatarFSM(GetAvatarsFSM):
@@ -707,6 +709,7 @@ class DeleteAvatarFSM(GetAvatarsFSM):
         self.csm.air.friendsManager.clearList(self.avId)
         self.csm.air.writeServerEvent('avatarDeleted', self.avId, self.target)
         self.demand('QueryAvatars')
+
 
 class SetNameTypedFSM(AvatarOperationFSM):
     notify = directNotify.newCategory('SetNameTypedFSM')
@@ -763,6 +766,7 @@ class SetNameTypedFSM(AvatarOperationFSM):
 
         self.csm.sendUpdateToAccountId(self.target, 'setNameTypedResp', [self.avId, status])
         self.demand('Off')
+
 
 class SetNamePatternFSM(AvatarOperationFSM):
     notify = directNotify.newCategory('SetNamePatternFSM')
@@ -920,25 +924,6 @@ class LoadAvatarFSM(AvatarOperationFSM):
         self.demand('Off')
         return task.done
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     def enterSetAvatar(self):
         channel = self.csm.GetAccountConnectionChannel(self.target)
 
@@ -991,19 +976,6 @@ class LoadAvatarFSM(AvatarOperationFSM):
         taskMgr.doMethodLater(0.2, self.enterSetAvatarTask,
                               'avatarTask-%s' % self.avId, extraArgs=[channel],
                               appendTask=True)
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 class UnloadAvatarFSM(OperationFSM):

@@ -292,16 +292,26 @@ class TTIFriendsManagerUD(DistributedObjectGlobalUD):
                 self.sendUpdateToAvatarId(doId, 'friendOnline', [friendId, 0, 0])
             self.sendUpdateToAvatarId(friendId, 'friendOnline', [doId, 0, 0])
 
+        self.air.globalOccurrenceMgr.toonLogin(doId)
+        #if simbase.config.GetBool('want-discord-server', False): #### DISCORD-SERVER ####
+            #self.sendStatusToDiscord(doId, status='online')
+
     def goingOffline(self, avId):
         self.toonOffline(avId)
 
     def toonOffline(self, doId):
         if doId not in self.onlineToons:
             return
+
         def handleToon(dclass, fields):
             if dclass != self.air.dclassesByName['DistributedToonUD']:
                 return
             friendsList = fields['setFriendsList'][0]
+
+            self.air.globalOccurrenceMgr.toonLogout(doId)
+            #if simbase.config.GetBool('want-discord-server', False): #### DISCORD-SERVER ####
+                #self.sendStatusToDiscord(doId, status='offline')
+
             for friend in friendsList:
                 friendId = friend[0]
                 if friendId in self.onlineToons:
@@ -437,3 +447,23 @@ class TTIFriendsManagerUD(DistributedObjectGlobalUD):
     def sleepAutoReply(self, toId):
         requester = self.air.getAvatarIdFromSender()
         self.sendUpdateToAvatarId(toId, 'setSleepAutoReply', [requester])
+
+    def sendStatusToDiscord(self, avId, status):
+        #### DISCORD-SERVER ####
+        def sendNameToQue(toonName):
+            if status == 'online':
+                self.air.discordServerBot.logIn(toonName)
+            else:
+                self.air.discordServerBot.logOut(toonName)
+
+        def handleToon(dclass, fields):
+            if dclass != self.air.dclassesByName['DistributedToonUD']:
+                return
+            toonName = fields['setName'][0]
+            sendNameToQue(toonName)
+
+        self.air.dbInterface.queryObject(self.air.dbId, avId, handleToon)
+        #### DISCORD-SERVER ####
+
+
+

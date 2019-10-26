@@ -188,7 +188,6 @@ class NewsManager(DistributedObject.DistributedObject):
 
 
                 if hasattr(base.cr.playGame, 'dnaStore') and hasattr(base.cr.playGame, 'hood') and hasattr(base.cr.playGame.hood, 'loader'):
-
                     if holidayId == ToontownGlobals.HALLOWEEN_COSTUMES or holidayId == ToontownGlobals.SPOOKY_COSTUMES:
                         self.holidayDecorator = HalloweenHolidayDecorator.HalloweenHolidayDecorator()
                     elif holidayId == ToontownGlobals.CRASHED_LEADERBOARD:
@@ -197,7 +196,6 @@ class NewsManager(DistributedObject.DistributedObject):
                         self.holidayDecorator = HolidayDecorator.HolidayDecorator()
 
                     self.holidayDecorator.decorate()
-
 
 
 

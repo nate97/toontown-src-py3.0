@@ -128,6 +128,7 @@ class SuitInvasionManagerAI:
 
     def notifyInvasionStarted(self):
         msgType = ToontownGlobals.SuitInvasionBegin
+        cogType = self.getSuitName()
         if self.flags & IFSkelecog:
             msgType = ToontownGlobals.SkelecogInvasionBegin
         elif self.flags & IFWaiter:
@@ -136,10 +137,13 @@ class SuitInvasionManagerAI:
             msgType = ToontownGlobals.V2InvasionBegin
         self.air.newsManager.sendUpdate(
             'setInvasionStatus',
-            [msgType, self.getSuitName(), self.total, self.flags])
+            [msgType, cogType, self.total, self.flags])
+
+        self.air.globalOccurrenceMgr.sendInvasionOccurrence(msgType, cogType) # OCCURRENCE-MANAGER-AI
 
     def notifyInvasionEnded(self):
         msgType = ToontownGlobals.SuitInvasionEnd
+        cogType = self.getSuitName()
         if self.flags & IFSkelecog:
             msgType = ToontownGlobals.SkelecogInvasionEnd
         elif self.flags & IFWaiter:
@@ -147,7 +151,9 @@ class SuitInvasionManagerAI:
         elif self.flags & IFV2:
             msgType = ToontownGlobals.V2InvasionEnd
         self.air.newsManager.sendUpdate(
-            'setInvasionStatus', [msgType, self.getSuitName(), 0, self.flags])
+            'setInvasionStatus', [msgType, cogType, 0, self.flags])
+
+        self.air.globalOccurrenceMgr.sendInvasionOccurrence(msgType, cogType) # OCCURRENCE-MANAGER-AI
 
     def notifyInvasionUpdate(self):
         self.air.newsManager.sendUpdate(
@@ -175,7 +181,7 @@ class SuitInvasionManagerAI:
         self.remaining -= 1
         if self.remaining == 0:
             self.stopInvasion()
-        elif self.remaining == (self.total//2):
+        elif self.remaining == (self.total // 2):
             self.notifyInvasionUpdate()
         self.sendInvasionStatus()
 
@@ -208,3 +214,6 @@ class SuitInvasionManagerAI:
         else:
             status = {'invasion': None}
         self.air.netMessenger.send('shardStatus', [self.air.ourChannel, status])
+
+
+

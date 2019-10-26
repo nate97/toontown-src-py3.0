@@ -56,7 +56,7 @@ class HalloweenHolidayDecorator(HolidayDecorator.HolidayDecorator):
             base.cr.playGame.hood.endSpookySky()
 
     def decorate(self):
-        print("???")
+        #print("???") NJF
         self.updateHoodDNAStore()
         self.swapIval = self.getSwapVisibleIval()
         if self.swapIval:

@@ -11,7 +11,7 @@ from toontown.toontowngui import TTDialog
 from toontown.toontowngui.TeaserPanel import TeaserPanel
 from toontown.parties.InviteVisual import InviteVisual
 from . import CatalogItem
-from direct.showbase.PythonUtil import StackTrace
+#from direct.showbase.PythonUtil import StackTrace
 
 class MailboxScreen(DirectObject.DirectObject):
     notify = directNotify.newCategory('MailboxScreen')
@@ -44,10 +44,10 @@ class MailboxScreen(DirectObject.DirectObject):
             self.frame.hide()
         else:
             self.notify.warning('hide called, but frame is deleted, self.frame deleted in:')
-            if hasattr(self, 'frameDelStackTrace'):
-                print(self.frameDelStackTrace)
-            self.notify.warning('current stackTrace =')
-            print(StackTrace())
+            #if hasattr(self, 'frameDelStackTrace'):
+            #    print(self.frameDelStackTrace)
+            #self.notify.warning('current stackTrace =')
+            #print(StackTrace())
             self.notify.warning('crash averted, but root cause unknown')
 
     def load(self):
@@ -139,7 +139,7 @@ class MailboxScreen(DirectObject.DirectObject):
         if hasattr(self, 'frame'):
             self.frame.destroy()
             del self.frame
-            self.frameDelStackTrace = StackTrace()
+            #self.frameDelStackTrace = StackTrace()
         else:
             self.notify.warning('unload, no self.frame')
         if hasattr(self, 'mailbox'):

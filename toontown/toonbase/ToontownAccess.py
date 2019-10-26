@@ -32,7 +32,7 @@ class ToontownAccess:
         return []
 
     def sendUpdate(self, fieldName, args = [], sendToId = None):
-        print (fieldName)
+        #print (fieldName) # NJF
         if base.cr and hasattr(base, 'localAvatar'):
             dg = base.localAvatar.dclass.clientFormatUpdate(fieldName, sendToId or base.localAvatar.doId, args)
             base.cr.send(dg)

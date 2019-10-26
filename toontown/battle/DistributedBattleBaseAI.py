@@ -769,6 +769,7 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI, BattleBas
                 toon.hp = -1
                 toon.inventory.zeroInv(1)
                 self.__handleSuddenExit(toonId, 0)
+        self.air.globalOccurrenceMgr.sendDeathOccurrence(toonId) # OCCURRENCE-MANAGER-AI
 
     def signupToon(self, toonId, x, y, z):
         if self.toons.count(toonId):

@@ -127,7 +127,6 @@ class GenericAnimatedProp(AnimatedProp.AnimatedProp):
                         self.notify.warning('anim %s had duration of %s while sound  has duration of %s' % (origAnimName, maximumDuration, soundDur))
                 soundDur = maximumDuration
             if not hasattr(self, 'soundNode'):
-                print (self.soundPos)
                 self.soundNode = render.attachNewNode('Sound Node')
                 self.soundNode.setPos(self.soundPos)
             result = SoundInterval(theSound, node=self.soundNode, listenerNode=base.localAvatar, volume=sfxVolume, cutOff=cutoff, startTime=0, duration=soundDur)

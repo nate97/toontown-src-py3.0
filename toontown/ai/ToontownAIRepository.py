@@ -73,6 +73,9 @@ class ToontownAIRepository(ToontownInternalRepository):
         self.lawOfficeMgr = None
         self.countryClubMgr = None
 
+        # For when in game events occur
+        self.globalOccurrenceMgr = self.generateGlobalObject(OTP_DO_ID_GLOBAL_OCCURRENCE_MANAGER, 'GlobalOccurrenceManager') # OCCURRENCE-MANAGER-AI
+
         self.zoneAllocator = UniqueIdAllocator(ToontownGlobals.DynamicZonesBegin,
                                                ToontownGlobals.DynamicZonesEnd)
         self.zoneDataStore = AIZoneDataStore()
@@ -138,7 +141,6 @@ class ToontownAIRepository(ToontownInternalRepository):
         self.wantLeaderBoardMgr = True
         if self.wantLeaderBoardMgr:
             self.leaderBoardMgr = DistributedLeaderBoardManagerAI(self)
-
 
         # Need work
         self.codeRedemptionManager = TTCodeRedemptionMgrAI(self)

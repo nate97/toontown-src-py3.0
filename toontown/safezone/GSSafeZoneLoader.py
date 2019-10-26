@@ -86,7 +86,8 @@ class GSSafeZoneLoader(SafeZoneLoader):
         del self.trackId
 
     def handleRaceOver(self):
-        print('you done!!')
+        pass # NJF
+        #print('you done!!')
 
     def handleLeftRace(self):
         req = {'loader': 'safeZoneLoader',
