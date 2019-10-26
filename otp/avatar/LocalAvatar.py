@@ -136,7 +136,7 @@ class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.Dis
         self.stopUpdateSmartCamera()
         self.shutdownSmartCamera()
         self.deleteCollisions()
-        self.controlManager.delete()
+        #self.controlManager.delete() # FIXME PY3 RuntimeError: dictionary changed size during iteration
         self.physControls = None
         del self.controlManager
         self.positionExaminer.delete()

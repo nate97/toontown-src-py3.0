@@ -8,6 +8,8 @@ from direct.showbase.ShowBase import ShowBase
 from otp.ai.MagicWordGlobal import *
 from panda3d.core import Camera, TPLow, VBase4, ColorWriteAttrib, Filename, getModelPath, NodePath, Vec4
 
+
+
 class OTPBase(ShowBase):
 
     def __init__(self, windowType = None):
@@ -335,3 +337,6 @@ def backgroundColor(r=None, g=1, b=1, a=1):
         r, g, b, a = OTPGlobals.DefaultBackgroundColor
     base.setBackgroundColor(Vec4(r, g, b, a))
     return 'The background color has been changed.'
+
+
+

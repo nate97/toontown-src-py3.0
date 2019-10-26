@@ -16,7 +16,7 @@ class EditMgrAI(EditMgrBase.EditMgrBase):
             idChosen = 0
             while not idChosen:
                 for id in range(self.lastAllocatedEntId, allocRange[1]):
-                    print(id)
+                    #print(id) # NJF
                     if id not in entIdDict:
                         idChosen = 1
                         break

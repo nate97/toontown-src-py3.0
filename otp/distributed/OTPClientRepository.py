@@ -1457,6 +1457,8 @@ class OTPClientRepository(ClientRepositoryBase):
 
     @report(types=['args', 'deltaStamp'], dConfigParam='teleport')
     def enterPlayGame(self, hoodId, zoneId, avId):
+        if not getattr(self, 'garbageLeakLogger', None): # PY3
+            self.garbageLeakLogger = GarbageLeakServerEventAggregator(self)
         if self.music:
             self.music.stop()
             self.music = None
