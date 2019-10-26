@@ -302,6 +302,7 @@ from toontown.cogdominium import DistCogdoCrane/AI
 from toontown.cogdominium import DistCogdoCraneMoneyBag/AI
 from toontown.cogdominium import DistCogdoCraneCog/AI
 from toontown.parties.GlobalPartyManager/AI/UD import GlobalPartyManager/AI/UD
+from toontown.uberdog.GlobalOccurrenceManager/AI/UD import GlobalOccurrenceManager/AI/UD
 
 struct GiftItem {
   blob Item;
@@ -3372,3 +3373,13 @@ dclass DistributedTrashcanZeroMgr : DistributedPhaseEventMgr {
 
 dclass DistributedSillyMeterMgr : DistributedPhaseEventMgr {
 };
+
+
+dclass GlobalOccurrenceManager : DistributedObjectGlobal {
+    holidayBegan(uint32 holidayId);
+    invasionBegan(uint32 msgType, string cogType);
+    toonDied(uint32 avId);
+};
+
+
+
