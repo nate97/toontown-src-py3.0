@@ -1,6 +1,7 @@
 from direct.directnotify.DirectNotifyGlobal import directNotify
 from direct.distributed.DistributedObjectGlobal import DistributedObjectGlobal
 import hmac
+import hashlib
 from panda3d.core import *
 
 from otp.distributed.PotentialAvatar import PotentialAvatar
@@ -24,7 +25,8 @@ class ClientServicesManager(DistributedObjectGlobal):
         key = 'bG9sLndlLmNoYW5nZS50aGlzLnRvby5tdWNo'
         key = key.encode('utf-8') # PY3
 
-        digest_maker = hmac.new(key)
+        digMod = hashlib.sha256 # REQUIRED NOW PY3.8
+        digest_maker = hmac.new(key, digestmod=digMod)
         digest_maker.update(token)
         clientKey = digest_maker.hexdigest()
 

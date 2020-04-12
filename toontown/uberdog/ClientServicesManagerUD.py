@@ -6,6 +6,7 @@ from direct.distributed.PyDatagram import *
 from direct.fsm.FSM import FSM
 import hashlib
 import hmac
+import hashlib
 import json
 from panda3d.core import *
 import time
@@ -1123,7 +1124,9 @@ class ClientServicesManagerUD(DistributedObjectGlobalUD):
         key = self.key.encode('utf-8') # PY3
 
         # Time to check this login to see if its authentic
-        digest_maker = hmac.new(key)
+
+        digMod = hashlib.sha256 # REQUIRED NOW PY3.8
+        digest_maker = hmac.new(key, digestmod=digMod)
         digest_maker.update(cookie)
         serverKey = digest_maker.hexdigest()
         if serverKey == authKey:
