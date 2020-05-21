@@ -317,12 +317,16 @@ class CalendarGuiDay(DirectFrame):
         endDate = datetime.date(self.myDate.year, holidayEnd[0], holidayEnd[1])
         if endDate < startDate:
             endDate = datetime.date(endDate.year + 1, endDate.month, endDate.day)
+
         if holidayId in TTLocalizer.HolidayNamesInCalendar:
             holidayName = TTLocalizer.HolidayNamesInCalendar[holidayId][0]
             holidayDesc = TTLocalizer.HolidayNamesInCalendar[holidayId][1]
+        elif holidayId == ToontownGlobals.HALLOWEEN_COSTUMES: # Holiday 27 (HALLOWEEN_COSTUMES) is only for enabling the NPC's halloween attire, so we ignore this holiday on the calendar.
+            return
         else:
             holidayName = TTLocalizer.UnknownHoliday % holidayId
             holidayDesc = TTLocalizer.UnknownHoliday % holidayId
+
         if holidayStart[0] == holidayEnd[0] and holidayStart[1] == holidayEnd[1]:
             holidayText = myStrftime(startTime)
             holidayText += ' ' + holidayName

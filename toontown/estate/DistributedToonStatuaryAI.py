@@ -17,8 +17,8 @@ class DistributedToonStatuaryAI(DistributedStatuaryAI):
     def getOptional(self):
         return self.dnaCode
 
-    def construct(self, gardenData):
-        DistributedStatuaryAI.construct(self, gardenData)
+    def construct(self, gardenData, gType = 0):
+        DistributedStatuaryAI.construct(self, gardenData, gType)
 
         self.dnaCode = gardenData.getUint16()
 

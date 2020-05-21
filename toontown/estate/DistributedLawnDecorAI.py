@@ -20,26 +20,14 @@ class DistributedLawnDecorAI(DistributedNodeAI):
 
         self.movie = None
 
-    def setPlot(self, plotIndex):
-        self.plotIndex = plotIndex
-
     def getPlot(self):
         return self.plotIndex
-
-    def setHeading(self, heading):
-        self.heading = heading
 
     def getHeading(self):
         return self.heading
 
-    def setPosition(self, pos):
-        self.pos = pos
-
     def getPosition(self):
         return self.pos
-
-    def setOwnerIndex(self, ownerIndex):
-        self.ownerIndex = ownerIndex
 
     def getOwnerIndex(self):
         return self.ownerIndex
@@ -52,10 +40,6 @@ class DistributedLawnDecorAI(DistributedNodeAI):
         self.gardenManager.revertToPlot(self.plotIndex)
 
     def setMovie(self, movie, avId):
-        if not self.gardenManager.house.avatarId == avId:
-            self.notify.warning('Avatar %s tried to access a garden that is not theirs!' % avId)
-            self.sendUpdate('interactionDenied', [avId])
-            return
         self.movie = movie
         self.sendUpdate('setMovie', [movie, avId])
 
@@ -65,19 +49,19 @@ class DistributedLawnDecorAI(DistributedNodeAI):
     def interactionDenied(self, avId):
         self.sendUpdate('interactionDenied', [avId])
 
-    def construct(self, gardenData):
-        self.plotIndex = gardenData.getUint8()
+    def construct(self, gardenData, gType = 0):
+
+        print (gardenData)
+        self.plotIndex = gardenData[1]
+
 
         self.plotType = GardenGlobals.getPlotType(self.ownerIndex, self.plotIndex)
         self.pos = GardenGlobals.getPlotPos(self.ownerIndex, self.plotIndex)
         self.heading = GardenGlobals.getPlotHeading(self.ownerIndex, self.plotIndex)
 
-    def constructBox(self, boxIndex, boxType, x, y, header):
-        self.boxIndex = boxIndex
-        self.boxType = boxType
-        self.pos = (x, y, 0)
-        self.heading = header
-
-
     def pack(self, gardenData):
-        gardenData.addUint8(self.plotIndex)
+        pass
+        #gardenData.addUint8(self.plotIndex)
+
+
+

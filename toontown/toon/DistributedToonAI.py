@@ -3738,6 +3738,9 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
     def setPreviousAccess(self, access):
         self.previousAccess = access
 
+    def d_setTPose(self):
+        self.sendUpdate('setTPose')
+
     def b_setAccess(self, access):
         self.setAccess(access)
         self.d_setAccess(access)
@@ -4253,6 +4256,8 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
     def getAnimalSound(self):
         return self.animalSound
 
+    def setToonScale(self, scale):
+        self.sendUpdate('setToonScale', [scale])
 
 @magicWord(category=CATEGORY_PROGRAMMER, types=[str, int, int])
 def cheesyEffect(value, hood=0, expire=0):
@@ -5114,3 +5119,24 @@ def maxTrees():
                     house.gardenManager.updateGardenData()
                     return 'Successfully maxed tree growth!'
     return 'Failed to max tree growth.'
+
+@magicWord(category=CATEGORY_PROGRAMMER)
+def tpose():
+    """
+    Forces T-Pose on invoker.
+    """
+    target = spellbook.getTarget()
+    target.d_setTPose()
+    return "TPose has been set."
+
+@magicWord(category=CATEGORY_PROGRAMMER, types=[float])
+def setScale(scale=1):
+    toon = spellbook.getTarget()
+    if not 0.4 <= scale <= 8:
+        return 'That scale is out of range.'
+    toon.setToonScale(scale)
+    if scale == 1:
+        return "Toon's scale has been returned to normal."
+    return "Toon's scale has been set."
+
+

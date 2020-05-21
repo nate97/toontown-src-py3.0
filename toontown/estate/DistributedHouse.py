@@ -81,6 +81,8 @@ class DistributedHouse(DistributedObject.DistributedObject):
             if self.houseType >= len(self.cr.playGame.hood.loader.houseModels):
                 self.houseType = HouseGlobals.HOUSE_DEFAULT
             houseModel = self.cr.playGame.hood.loader.houseModels[self.houseType]
+            roofEve = houseModel.find("**/roof_eve*")
+            roofEve.setTwoSided(True)
             self.house = houseModel.copyTo(self.cr.playGame.hood.loader.houseNode[self.housePosInd])
             self.house_loaded = 1
             self.cr.playGame.hood.loader.houseId2house[self.doId] = self.house

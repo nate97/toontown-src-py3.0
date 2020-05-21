@@ -18,8 +18,8 @@ class DistributedStatuaryAI(DistributedLawnDecorAI):
     def getTypeIndex(self):
         return self.typeIndex
 
-    def construct(self, gardenData):
-        DistributedLawnDecorAI.construct(self, gardenData)
+    def construct(self, gardenData, gType = 0):
+        DistributedLawnDecorAI.construct(self, gardenData, gType)
 
         self.typeIndex = gardenData.getUint8()
 

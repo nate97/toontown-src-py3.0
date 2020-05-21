@@ -10,10 +10,6 @@ class DistributedGardenPlotAI(DistributedLawnDecorAI):
 
         self.occupier = GardenGlobals.EmptyPlot
 
-    def plantFlower(self, species, variety):
-        self.setMovie(GardenGlobals.MOVIE_PLANT, self.air.getAvatarIdFromSender())
-        self.gardenManager.constructFlower(self.plotIndex, species, variety)
-
     def plantGagTree(self, gagTrack, gagLevel):
         self.setMovie(GardenGlobals.MOVIE_PLANT, self.air.getAvatarIdFromSender())
         self.gardenManager.constructTree(self.plotIndex, gagTrack, gagLevel)
@@ -39,9 +35,10 @@ class DistributedGardenPlotAI(DistributedLawnDecorAI):
             DistributedLawnDecorAI.movieDone(self)
 
 
-    def construct(self, gardenData):
-        DistributedLawnDecorAI.construct(self, gardenData)
+    def construct(self, gardenData, gType = 0):
+        DistributedLawnDecorAI.construct(self, gardenData, gType)
 
     def pack(self, gardenData):
-        gardenData.addUint8(self.occupier)
-        DistributedLawnDecorAI.pack(self, gardenData)
+        pass
+        #gardenData.addUint8(self.occupier)
+        #DistributedLawnDecorAI.pack(self, gardenData)

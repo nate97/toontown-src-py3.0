@@ -17,11 +17,13 @@ DEFAULT_YEARLY_HOLIDAYS = [
     [JULY4_FIREWORKS, [6, 29, 12, 0], [7, 17, 0, 0]],
 
 
-    [HALLOWEEN_COSTUMES, [10, 21, 12, 0], [11, 1, 0, 0]],
+    [HALLOWEEN_COSTUMES, [10, 17, 0, 0], [11, 1, 0, 0]],
 
-    [HALLOWEEN_PROPS, [10, 21, 12, 0], [11, 1, 0, 0]],
-    [TRICK_OR_TREAT, [10, 21, 12, 0], [11, 1, 0, 0]],
-    [HALLOWEEN, [10, 31, 12, 0], [11, 1, 0, 0]],
+    [HALLOWEEN_PROPS, [10, 17, 0, 0], [11, 1, 0, 0]],
+
+    [TRICK_OR_TREAT, [10, 24, 0, 0], [11, 1, 0, 0]],
+
+    [HALLOWEEN, [10, 29, 0, 0], [11, 1, 0, 0]],
 
     [WINTER_DECORATIONS, [12, 14, 12, 0], [1, 4, 0, 0]],
     [WINTER_CAROLING, [12, 14, 12, 0], [1, 4, 0, 0]],

@@ -5,13 +5,13 @@ from toontown.estate import GardenGlobals
 from toontown.estate.DistributedAnimatedStatuaryAI import DistributedAnimatedStatuaryAI
 from toontown.estate.DistributedChangingStatuaryAI import DistributedChangingStatuaryAI
 from toontown.estate.DistributedGagTreeAI import DistributedGagTreeAI
-from toontown.estate.DistributedGardenBoxAI import DistributedGardenBoxAI
 from toontown.estate.DistributedGardenPlotAI import DistributedGardenPlotAI
 from toontown.estate.DistributedStatuaryAI import DistributedStatuaryAI
 from toontown.estate.DistributedToonStatuaryAI import DistributedToonStatuaryAI
 from toontown.toonbase.ToontownBattleGlobals import NUM_GAG_TRACKS
 
 from time import time
+import pickle
 
 occupier2Class = {
     GardenGlobals.EmptyPlot: DistributedGardenPlotAI,
@@ -19,8 +19,7 @@ occupier2Class = {
     GardenGlobals.StatuaryPlot: DistributedStatuaryAI,
     GardenGlobals.ToonStatuaryPlot: DistributedToonStatuaryAI,
     GardenGlobals.ChangingStatuaryPlot: DistributedChangingStatuaryAI,
-    GardenGlobals.AnimatedStatuaryPlot: DistributedAnimatedStatuaryAI,
-    GardenGlobals.PlanterBox: DistributedGardenBoxAI,
+    GardenGlobals.AnimatedStatuaryPlot: DistributedAnimatedStatuaryAI
 }
 
 
@@ -32,41 +31,36 @@ class GardenManagerAI:
         self.house = house
 
         self.plots = []
-        self.boxes = []
-
 
     def loadGarden(self):
         if not self.house.hasGardenData():
+            print ("We dont have a garden yet!!!")
             self.createBlankGarden()
             return
 
-        gardenData = self.house.getGardenData()
-
-        #self.createFlowerBoxes()
-        self.createGardenFromData(gardenData)
-
-
-
-
+        print ("creating garden from data")
+        self.createGardenFromData(self.house.getGardenData())
         self.giveOrganicBonus()
 
 
 
-
-
-
-
     def createBlankGarden(self):
-        gardenData = PyDatagram()
+        data = []
 
         plots = GardenGlobals.getGardenPlots(self.house.housePos)
-        gardenData.addUint8(len(plots))
 
         for i, plotData in enumerate(plots):
-            gardenData.addUint8(GardenGlobals.EmptyPlot)
-            gardenData.addUint8(i)
+            print (i, plotData)
 
-        self.house.b_setGardenData(gardenData.getMessage())
+            holdingList = []
+            holdingList.append(GardenGlobals.EmptyPlot)
+            holdingList.append(i)
+            data.append(holdingList)
+
+        myPickledGarden = pickle.dumps(data)
+
+        # Sends gatden data to clients
+        self.house.b_setGardenData(myPickledGarden)
         self.loadGarden()
 
 
@@ -85,80 +79,101 @@ class GardenManagerAI:
 
 
 
-
-
-
-    def createFlowerBoxes(self):
-
-        boxDefs = GardenGlobals.estateBoxes[1]
-        for x, y, header, boxType in boxDefs:
-
-            box = occupier2Class[6](self.air, self, self.house.housePos)
-
-            #box.constructBox(6, boxType, x, y, header)
-            box.setTypeIndex(boxType)
-            print(boxType, x, y, header)
-            print("??????????????????????????????")
-            print(self.house)
-
-            try:
-                box.generateWithRequired(self.house.zoneId)
-            except:
-                pass
-
-            self.boxes.append(box)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     def createGardenFromData(self, gardenData):
-        dg = PyDatagram(gardenData)
-        gardenData = PyDatagramIterator(dg)
-        plotCount = gardenData.getUint8()
-        for _ in range(plotCount):
-            occupier = gardenData.getUint8()
+
+
+        myGarden = pickle.loads(gardenData)
+        print (myGarden)
+
+        plotCount = len(myGarden)# First thing in the list is the number of plots
+
+        tmpGardenLoop = myGarden.copy() # Make copy of list to use in our for loop
+
+        for x in range(plotCount):
+
+
+            curPlot = tmpGardenLoop[x]
+            occupier = tmpGardenLoop[x][0] # Type to generate
+
             if occupier not in occupier2Class:
+                print ("value not in occupier")
                 continue
+
             plot = occupier2Class[occupier](self.air, self, self.house.housePos)
-            plot.construct(gardenData)
+            plot.construct(curPlot)
             plot.generateWithRequired(self.house.zoneId)
 
             self.plots.append(plot)
 
 
+
+
     def updateGardenData(self):
-        gardenData = PyDatagram()
 
-        gardenData.addUint8(len(self.plots))
+        rawGardenData = []
+
+        plotCount = len(self.plots)
+
+
         for plot in self.plots:
-            plot.pack(gardenData)
+            gardenPlot = []
 
-        self.house.b_setGardenData(gardenData.getMessage())
+
+            occupier = plot.occupier
+            plotIndex = plot.plotIndex
+
+            try:
+                typeIndex = plot.typeIndex # Type of gag tree?  
+                waterLevel = plot.waterLevel
+                growthLevel = plot.growthLevel
+                timestamp = plot.timestamp
+                wilted = plot.wilted
+            except:
+                typeIndex = 0
+                waterLevel = 0
+                growthLevel = 0
+                timestamp = 0
+                wilted = 0
+                print ("we dont have these attributes")
+
+
+            try:
+            
+                gardenPlot.append(occupier)
+                gardenPlot.append(plotIndex)
+                gardenPlot.append(typeIndex)
+                gardenPlot.append(waterLevel)
+                gardenPlot.append(growthLevel)
+                gardenPlot.append(timestamp)
+                gardenPlot.append(wilted)
+
+
+            except:
+                gardenPlot.append(occupier)
+                gardenPlot.append(plotIndex)
+
+            rawGardenData.append(gardenPlot)
+
+            
+
+
+
+        print (rawGardenData, "WHAT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!??????? UPDATE GARDEN DATA")
+        myPickledGarden = pickle.dumps(rawGardenData)
+        self.house.b_setGardenData(myPickledGarden)
+
+
+
+
+        #gardenData = PyDatagram()
+
+        #gardenData.addUint8(len(self.plots))
+        #for plot in self.plots:
+        #    plot.pack(gardenData)
+
+        #self.house.b_setGardenData(gardenData.getMessage())
+
+
 
     def delete(self):
         for plot in self.plots:
@@ -166,23 +181,6 @@ class GardenManagerAI:
 
     def getTimestamp(self):
         return int(time())
-
-    def constructFlower(self, plotIndex, species, variety):
-        dg = PyDatagram()
-        dg.addUint8(plotIndex)
-        dg.addUint8(species)
-        dg.addUint16(variety)
-        dg.addInt8(0)  # Water Level
-        dg.addInt8(0)  # Growth Level
-        dg.addUint32(self.getTimestamp())
-        dg.addUint8(0)  # Wilted State (False)
-        gardenData = PyDatagramIterator(dg)
-
-        plot = occupier2Class[GardenGlobals.FlowerPlot](self.air, self, self.house.housePos)
-        plot.construct(gardenData)
-        self.plots[plotIndex] = plot
-
-        self.updateGardenData()
 
     def constructTree(self, plotIndex, gagTrack, gagLevel):
         dg = PyDatagram()
@@ -192,10 +190,22 @@ class GardenManagerAI:
         dg.addInt8(0)  # Growth Level
         dg.addUint32(self.getTimestamp())
         dg.addUint8(0)  # Wilted State (False)
-        gardenData = PyDatagramIterator(dg)
+
+        gardenData = [0, plotIndex, GardenGlobals.getTreeTypeIndex(gagTrack, gagLevel), 0, 0, self.getTimestamp(), 0]
+
+
+
+
+
+
+
+
+
+
+
 
         plot = occupier2Class[GardenGlobals.TreePlot](self.air, self, self.house.housePos)
-        plot.construct(gardenData)
+        plot.construct(gardenData, 1) # 1 is for the type
         self.plots[plotIndex] = plot
 
         self.updateGardenData()
@@ -240,12 +250,9 @@ class GardenManagerAI:
         self.updateGardenData()
 
     def revertToPlot(self, plotIndex):
-        dg = PyDatagram()
-        dg.addUint8(plotIndex)
-        gardenData = PyDatagramIterator(dg)
-
         plot = occupier2Class[GardenGlobals.EmptyPlot](self.air, self, self.house.housePos)
-        plot.construct(gardenData)
+        emptyPlot = [0,plotIndex,0,0,0,0,0]
+        plot.construct(emptyPlot)
         self.plots[plotIndex] = plot
 
         self.updateGardenData()
@@ -294,6 +301,3 @@ class GardenManagerAI:
             trackBonus[level] = max(treesGrown[level])
 
         av.b_setTrackBonusLevel(trackBonus)
-
-
-

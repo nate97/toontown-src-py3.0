@@ -6,6 +6,7 @@ from direct.distributed import DistributedSmoothNode
 from direct.distributed.ClockDelta import *
 from direct.distributed.MsgTypes import *
 from direct.fsm import ClassicFSM
+from direct.interval.LerpInterval import LerpScaleInterval
 from direct.interval.IntervalGlobal import Sequence, Wait, Func, Parallel, SoundInterval
 from direct.showbase import PythonUtil
 from direct.task.Task import Task
@@ -973,11 +974,31 @@ class DistributedToon(DistributedPlayer.DistributedPlayer, Toon.Toon, Distribute
             else:
                 self.putOnSuit(index, rental=True)
 
+
+
+    def setTPose(self):
+        self.updateToonDNA(self.style, 1, 1)
+        self.generateToonAccessories()
+
+
+
     def isCog(self):
         if self.cogIndex == -1:
             return 0
         else:
             return 1
+
+
+
+    def setToonScale(self, newScale):
+
+        curScale = self.getScale()
+        self.resetHeight()
+
+
+
+        scaleInterval = LerpScaleInterval(self, 1.2, newScale, curScale, blendType='easeInOut', name="")
+        scaleInterval.start()
 
 
 

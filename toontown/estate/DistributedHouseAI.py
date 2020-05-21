@@ -324,6 +324,7 @@ class DistributedHouseAI(DistributedObjectAI):
         self.sendUpdate('setGardenData', [gardenData])
 
     def b_setGardenData(self, gardenData):
+        print (gardenData, "SAVING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
         self.setGardenData(gardenData)
         self.d_setGardenData(gardenData)
 
@@ -331,7 +332,7 @@ class DistributedHouseAI(DistributedObjectAI):
         return self.gardenData
 
     def hasGardenData(self):
-        return self.gardenData != ''
+        return self.gardenData != b''
 
     def placeStarterGarden(self):
         av = self.air.doId2do.get(self.avatarId)

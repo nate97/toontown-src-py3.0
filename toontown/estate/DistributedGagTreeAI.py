@@ -48,21 +48,36 @@ class DistributedGagTreeAI(DistributedPlantBaseAI):
                 state += 1
         return state == GardenGlobals.FULL_TREE
 
-    def construct(self, gardenData):
-        DistributedPlantBaseAI.construct(self, gardenData)
+    def construct(self, gardenData, gType = 0):
+        DistributedPlantBaseAI.construct(self, gardenData, gType)
 
-        self.wilted = gardenData.getUint8()
+
+        print (gardenData,"construct gagtree!")
+
+
+
+        self.plotIndex = gardenData[1]
+        self.typeIndex = gardenData[2]
+        self.waterLevel = gardenData[3]
+        self.growthLevel = gardenData[4]
+        self.timestamp = gardenData[5]
+        self.updateFromTimestamp()
+
+        print (self.typeIndex)
+
+        self.wilted = gardenData[6]
         if self.waterLevel == -1:
             self.wilted = True
 
         self.gagTrack, self.gagLevel = GardenGlobals.getTreeTrackAndLevel(self.typeIndex)
 
     def pack(self, gardenData):
-        gardenData.addUint8(self.occupier)
+        pass
+        #gardenData.addUint8(self.occupier)
 
-        DistributedPlantBaseAI.pack(self, gardenData)
+        #DistributedPlantBaseAI.pack(self, gardenData)
 
-        gardenData.addUint8(self.wilted)
+        #gardenData.addUint8(self.wilted)
 
     def movieDone(self):
         if self.movie == GardenGlobals.MOVIE_REMOVE:

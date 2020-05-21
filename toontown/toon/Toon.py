@@ -549,14 +549,15 @@ class Toon(Avatar.Avatar, ToonHead):
 
         return
 
-    def updateToonDNA(self, newDNA, fForce = 0):
+    def updateToonDNA(self, newDNA, fForce = 0, tPose = 0):
         self.style.gender = newDNA.getGender()
         oldDNA = self.style
         if fForce or newDNA.head != oldDNA.head:
             self.swapToonHead(newDNA.head)
         if fForce or newDNA.torso != oldDNA.torso:
             self.swapToonTorso(newDNA.torso, genClothes=0)
-            self.loop('neutral')
+            if not tPose:
+                self.loop('neutral')
         if fForce or newDNA.legs != oldDNA.legs:
             self.swapToonLegs(newDNA.legs)
         self.swapToonColor(newDNA)

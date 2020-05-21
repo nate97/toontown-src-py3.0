@@ -67,39 +67,44 @@ class DistributedPlantBaseAI(DistributedLawnDecorAI):
 
         self.setMovie(GardenGlobals.MOVIE_CLEAR, self.air.getAvatarIdFromSender())
 
-    def construct(self, gardenData):
-        DistributedLawnDecorAI.construct(self, gardenData)
+    def construct(self, gardenData, gType = 0):
+        DistributedLawnDecorAI.construct(self, gardenData, gType)
 
-        self.typeIndex = gardenData.getUint8()
-        self.waterLevel = gardenData.getInt8()
-        self.growthLevel = gardenData.getInt8()
+        self.typeIndex = gardenData[2]
+        self.waterLevel = gardenData[3]
+        self.growthLevel = gardenData[4]
+        self.timestamp = gardenData[5]
 
-        try:
-            self.timestamp = gardenData.getUint32()
+        #self.updateFromTimestamp() # This is now being called in distributedGagTreeAI, revert this if it causes issues
 
-            self.updateFromTimestamp()
-        except:
-            pass
 
     def updateFromTimestamp(self):
+        print ("update tree")
         seconds = self.gardenManager.getTimestamp() - self.timestamp
         cycles = seconds / GardenGlobals.GROWTH_INTERVAL
         unwateredCycles = abs(self.growthLevel - cycles)
         self.waterLevel = max(self.waterLevel - unwateredCycles, -1)
         if self.waterLevel < 0:
+            print ("water level less than 0")
             # This tree is wilted, don't grow it.
             return
 
         if self.waterLevel > 127:
+            print ("??? water level over 127")
             # Oh no, a broken garden!
             self.waterLevel = 0
 
+
         self.growthLevel = min(cycles, GardenGlobals.MAX_GROWTH_LEVEL)
+        print (self.growthLevel, "growth level")
+    
+
 
     def pack(self, gardenData):
-        DistributedLawnDecorAI.pack(self, gardenData)
+        return
+        #DistributedLawnDecorAI.pack(self, gardenData)
 
-        gardenData.addUint8(self.typeIndex)
-        gardenData.addInt8(self.waterLevel)
-        gardenData.addInt8(self.growthLevel)
-        gardenData.addUint32(self.timestamp)
+        #gardenData.addUint8(self.typeIndex)
+        #gardenData.addInt8(self.waterLevel)
+        #gardenData.addInt8(self.growthLevel)
+        #gardenData.addUint32(self.timestamp)
