@@ -16,13 +16,16 @@ class DistributedChangingStatuaryAI(DistributedStatuaryAI):
     def d_setGrowthLevel(self, growthLevel):
         self.sendUpdate('setGrowthLevel', [growthLevel])
 
-    def getGrowthLevel(self, growthLevel):
+    def getGrowthLevel(self):
         return self.growthLevel
 
     def construct(self, gardenData):
         DistributedStatuaryAI.construct(self, gardenData)
 
-        if datetime.now().month in (1, 2, 11, 12):
-            self.growthLevel = 2
-        else:
-            self.growthLevel = 1
+        # This needs a timestamp to use to cuase changingstatuary to melt.
+        self.growthLevel = 0 # They stay unmelted permenantly for the time being
+                    
+        #if datetime.now().month in (1, 2, 11, 12):
+        #    self.growthLevel = 0
+        #else:
+        #    self.growthLevel = 0

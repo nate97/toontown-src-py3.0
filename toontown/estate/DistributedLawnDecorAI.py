@@ -50,11 +50,7 @@ class DistributedLawnDecorAI(DistributedNodeAI):
         self.sendUpdate('interactionDenied', [avId])
 
     def construct(self, gardenData, gType = 0):
-
-        print (gardenData)
         self.plotIndex = gardenData[1]
-
-
         self.plotType = GardenGlobals.getPlotType(self.ownerIndex, self.plotIndex)
         self.pos = GardenGlobals.getPlotPos(self.ownerIndex, self.plotIndex)
         self.heading = GardenGlobals.getPlotHeading(self.ownerIndex, self.plotIndex)

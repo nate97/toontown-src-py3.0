@@ -651,6 +651,12 @@ class LocalAvatar(DistributedAvatar.DistributedAvatar, DistributedSmoothNode.Dis
         del self.prevIdealPos
         self.posCamera(1, 0.7)
 
+    def unsetCameraPosForLawnDecorInteraction(self):
+        self.prevIdealPos = self.getIdealCameraPos()
+        self.setIdealCameraPos(self.prevIdealPos)
+        del self.prevIdealPos
+        self.posCamera(1, 0.7)
+
     def setCameraSettings(self, camSettings):
         self.setIdealCameraPos(camSettings[0])
         if self.isPageUp and self.isPageDown or not self.isPageUp and not self.isPageDown:

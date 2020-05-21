@@ -21,14 +21,13 @@ class DistributedStatuaryAI(DistributedLawnDecorAI):
     def construct(self, gardenData, gType = 0):
         DistributedLawnDecorAI.construct(self, gardenData, gType)
 
-        self.typeIndex = gardenData.getUint8()
+        self.typeIndex = gardenData[2]
 
     def pack(self, gardenData):
-        gardenData.addUint8(self.occupier)
-
-        DistributedLawnDecorAI.pack(self, gardenData)
-
-        gardenData.addUint8(self.typeIndex)
+        pass
+        #gardenData.addUint8(self.occupier)
+        #DistributedLawnDecorAI.pack(self, gardenData)
+        #gardenData.addUint8(self.typeIndex)
 
     def movieDone(self):
         if self.movie == GardenGlobals.MOVIE_REMOVE:

@@ -90,7 +90,7 @@ class DistributedPlantBaseAI(DistributedLawnDecorAI):
             return
 
         if self.waterLevel > 127:
-            print ("??? water level over 127")
+            print ("water level over 127")
             # Oh no, a broken garden!
             self.waterLevel = 0
 

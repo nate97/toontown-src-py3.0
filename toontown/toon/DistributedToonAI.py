@@ -3397,6 +3397,20 @@ class DistributedToonAI(DistributedPlayerAI.DistributedPlayerAI, DistributedSmoo
 
         self.notify.warning("removing garden item %d that toon doesn't have" % index)
 
+    def removeGardenItemAdjusted(self, index, count):
+        index = index - 100 # Adjust the index minus 100 to align with Specials dict and PlantAttributes located in GardenGlobals
+        for item in self.gardenSpecials:
+            if item[0] == index:
+                newCount = item[1] - count
+                self.gardenSpecials.remove(item)
+                if newCount > 0:
+                    self.gardenSpecials.append((index, newCount))
+                self.gardenSpecials.sort()
+                self.b_setGardenSpecials(self.gardenSpecials)
+                return
+
+        self.notify.warning("removing garden item %d that toon doesn't have" % index)
+
     def b_setFlowerCollection(self, speciesList, varietyList):
         self.setFlowerCollection(speciesList, varietyList)
         self.d_setFlowerCollection(speciesList, varietyList)

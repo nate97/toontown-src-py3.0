@@ -1,4 +1,3 @@
-#!/usr/bin/env python2
 import collections
 import compiler
 import re
@@ -216,7 +215,7 @@ class MediaWikiGenerator:
                          "<code>write_rpc_doc.py</code> utility.''\n")
 
 
-parser = MethodParser('toontown/rpc/ToontownRPCHandler.py')
+parser = MethodParser('../toontown/rpc/ToontownRPCHandler.py')
 parser.parse()
 generator = MediaWikiGenerator(parser.getMethods())
 with open('wiki.txt', 'w') as f:

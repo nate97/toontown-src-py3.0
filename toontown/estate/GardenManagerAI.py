@@ -29,19 +29,15 @@ class GardenManagerAI:
     def __init__(self, air, house):
         self.air = air
         self.house = house
-
         self.plots = []
+
 
     def loadGarden(self):
         if not self.house.hasGardenData():
-            print ("We dont have a garden yet!!!")
             self.createBlankGarden()
             return
-
-        print ("creating garden from data")
         self.createGardenFromData(self.house.getGardenData())
         self.giveOrganicBonus()
-
 
 
     def createBlankGarden(self):
@@ -50,8 +46,6 @@ class GardenManagerAI:
         plots = GardenGlobals.getGardenPlots(self.house.housePos)
 
         for i, plotData in enumerate(plots):
-            print (i, plotData)
-
             holdingList = []
             holdingList.append(GardenGlobals.EmptyPlot)
             holdingList.append(i)
@@ -80,10 +74,7 @@ class GardenManagerAI:
 
 
     def createGardenFromData(self, gardenData):
-
-
         myGarden = pickle.loads(gardenData)
-        print (myGarden)
 
         plotCount = len(myGarden)# First thing in the list is the number of plots
 
@@ -91,16 +82,17 @@ class GardenManagerAI:
 
         for x in range(plotCount):
 
-
             curPlot = tmpGardenLoop[x]
-            occupier = tmpGardenLoop[x][0] # Type to generate
+            occupier = tmpGardenLoop[x][0] # Type of garden object to generate
 
             if occupier not in occupier2Class:
-                print ("value not in occupier")
-                continue
+                continue # Value not in occupier, this isnt any type of gardening object!
 
             plot = occupier2Class[occupier](self.air, self, self.house.housePos)
             plot.construct(curPlot)
+
+            print (curPlot)
+
             plot.generateWithRequired(self.house.zoneId)
 
             self.plots.append(plot)
@@ -122,119 +114,115 @@ class GardenManagerAI:
             occupier = plot.occupier
             plotIndex = plot.plotIndex
 
-            try:
-                typeIndex = plot.typeIndex # Type of gag tree?  
+            if isinstance(plot, DistributedGagTreeAI):
+                typeIndex = plot.typeIndex # Type of gag tree
                 waterLevel = plot.waterLevel
                 growthLevel = plot.growthLevel
                 timestamp = plot.timestamp
                 wilted = plot.wilted
-            except:
+
+            elif isinstance(plot, DistributedStatuaryAI):
+                typeIndex = plot.typeIndex
+                waterLevel = 0
+                growthLevel = plot.growthLevel
+                timestamp = 0 # This needs to be implemented for AdjustingStatuary
+                wilted = 0
+
+            else: # Empty plot
                 typeIndex = 0
                 waterLevel = 0
                 growthLevel = 0
                 timestamp = 0
                 wilted = 0
-                print ("we dont have these attributes")
 
+            gardenPlot.append(occupier)
+            gardenPlot.append(plotIndex)
+            gardenPlot.append(typeIndex)
+            gardenPlot.append(waterLevel)
+            gardenPlot.append(growthLevel)
+            gardenPlot.append(timestamp)
+            gardenPlot.append(wilted)
 
-            try:
-            
-                gardenPlot.append(occupier)
-                gardenPlot.append(plotIndex)
-                gardenPlot.append(typeIndex)
-                gardenPlot.append(waterLevel)
-                gardenPlot.append(growthLevel)
-                gardenPlot.append(timestamp)
-                gardenPlot.append(wilted)
-
-
-            except:
-                gardenPlot.append(occupier)
-                gardenPlot.append(plotIndex)
 
             rawGardenData.append(gardenPlot)
 
             
-
-
-
-        print (rawGardenData, "WHAT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!??????? UPDATE GARDEN DATA")
+        print (rawGardenData, "Updating garden data!")
         myPickledGarden = pickle.dumps(rawGardenData)
-        self.house.b_setGardenData(myPickledGarden)
-
-
-
-
-        #gardenData = PyDatagram()
-
-        #gardenData.addUint8(len(self.plots))
-        #for plot in self.plots:
-        #    plot.pack(gardenData)
-
-        #self.house.b_setGardenData(gardenData.getMessage())
-
+        self.house.b_setGardenData(myPickledGarden) # Write garden data to database
 
 
     def delete(self):
         for plot in self.plots:
             plot.requestDelete()
 
+
     def getTimestamp(self):
         return int(time())
 
+
     def constructTree(self, plotIndex, gagTrack, gagLevel):
-        dg = PyDatagram()
-        dg.addUint8(plotIndex)
-        dg.addUint8(GardenGlobals.getTreeTypeIndex(gagTrack, gagLevel))  # Type Index
-        dg.addInt8(0)  # Water Level
-        dg.addInt8(0)  # Growth Level
-        dg.addUint32(self.getTimestamp())
-        dg.addUint8(0)  # Wilted State (False)
-
         gardenData = [0, plotIndex, GardenGlobals.getTreeTypeIndex(gagTrack, gagLevel), 0, 0, self.getTimestamp(), 0]
-
-
-
-
-
-
-
-
-
-
-
-
         plot = occupier2Class[GardenGlobals.TreePlot](self.air, self, self.house.housePos)
-        plot.construct(gardenData, 1) # 1 is for the type
+        plot.construct(gardenData)
         self.plots[plotIndex] = plot
-
         self.updateGardenData()
+
 
     def plantingFinished(self, plotIndex):
         plot = self.plots[plotIndex]
         plot.generateWithRequired(self.house.zoneId)
+        itemType = plot.typeIndex
         plot.setMovie(GardenGlobals.MOVIE_FINISHPLANTING, self.air.getAvatarIdFromSender())
+
         if isinstance(plot, DistributedGagTreeAI):
+            av = self.air.doId2do.get(self.house.avatarId)
+            if not av:
+                return
+
             self.givePlantingSkill(self.air.getAvatarIdFromSender(), plot.gagLevel)
 
-    def constructStatuary(self, plotIndex, typeIndex):
-        dg = PyDatagram()
-        dg.addUint8(plotIndex)
-        dg.addUint8(typeIndex)
-        gardenData = PyDatagramIterator(dg)
+            av.inventory.useItem(plot.gagTrack, plot.gagLevel) # Take away 1 of the used gag type
+            av.b_setInventory(av.inventory.makeNetString())
 
+
+        if isinstance(plot, DistributedStatuaryAI):
+            av = self.air.doId2do.get(self.house.avatarId)
+            if not av:
+                return
+
+            av.removeGardenItemAdjusted(itemType, 1) # Remove special garden item
+
+            # Take away money based on recipe length
+            allRecipes = GardenGlobals.Recipes
+            for recp in allRecipes:
+                tmpRecipe = allRecipes[recp]
+                recipeType = tmpRecipe['special']
+
+                if recipeType == itemType - 100: # This is for statuarys, and probably would likely need to be adjusted for DistributedFlower type
+                    beanRecipe = tmpRecipe['beans']
+                    beanCount = len(beanRecipe)
+                    av.takeMoney(beanCount) # Takes away how many jellybeans it took to create plant/statuary
+
+                else:
+                    pass
+
+
+    def constructStatuary(self, plotIndex, typeIndex):
         occupier = GardenGlobals.StatuaryPlot
         if typeIndex in GardenGlobals.ChangingStatuaryTypeIndices:
             occupier = GardenGlobals.ChangingStatuaryPlot
         elif typeIndex in GardenGlobals.AnimatedStatuaryTypeIndices:
             occupier = GardenGlobals.AnimatedStatuaryPlot
 
+        gardenData = [occupier, plotIndex, typeIndex, 0, 0, self.getTimestamp(), 0]
+
         plot = occupier2Class[occupier](self.air, self, self.house.housePos)
         plot.construct(gardenData)
-
         self.plots[plotIndex] = plot
 
         self.updateGardenData()
+
 
     def constructToonStatuary(self, plotIndex, typeIndex, dnaCode):
         dg = PyDatagram()
@@ -249,6 +237,7 @@ class GardenManagerAI:
 
         self.updateGardenData()
 
+
     def revertToPlot(self, plotIndex):
         plot = occupier2Class[GardenGlobals.EmptyPlot](self.air, self, self.house.housePos)
         emptyPlot = [0,plotIndex,0,0,0,0,0]
@@ -257,10 +246,12 @@ class GardenManagerAI:
 
         self.updateGardenData()
 
+
     def removeFinished(self, plotIndex):
         plot = self.plots[plotIndex]
         plot.generateWithRequired(self.house.zoneId)
         plot.setMovie(GardenGlobals.MOVIE_PLANT_REJECTED, self.air.getAvatarIdFromSender())
+
 
     def givePlantingSkill(self, avId, gagLevel):
         av = self.air.doId2do.get(avId)
@@ -268,6 +259,7 @@ class GardenManagerAI:
             return
         currSkill = av.getShovelSkill()
         av.b_setShovelSkill(currSkill + 1 + gagLevel)
+
 
     def giveOrganicBonus(self):
         av = self.air.doId2do.get(self.house.avatarId)

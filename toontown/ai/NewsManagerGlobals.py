@@ -25,8 +25,8 @@ DEFAULT_YEARLY_HOLIDAYS = [
 
     [HALLOWEEN, [10, 29, 0, 0], [11, 1, 0, 0]],
 
-    [WINTER_DECORATIONS, [12, 14, 12, 0], [1, 4, 0, 0]],
-    [WINTER_CAROLING, [12, 14, 12, 0], [1, 4, 0, 0]],
+    [WINTER_DECORATIONS, [12, 14, 12, 0], [12, 31, 0, 0]],
+    [WINTER_CAROLING, [12, 14, 12, 0], [12, 31, 0, 0]],
 ]
 
 HOLIDAY_SHOPKEEPER_ZONES = {

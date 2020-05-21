@@ -324,7 +324,6 @@ class DistributedHouseAI(DistributedObjectAI):
         self.sendUpdate('setGardenData', [gardenData])
 
     def b_setGardenData(self, gardenData):
-        print (gardenData, "SAVING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
         self.setGardenData(gardenData)
         self.d_setGardenData(gardenData)
 
