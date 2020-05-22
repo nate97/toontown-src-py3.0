@@ -2,12 +2,13 @@ Toontown
 =================
 Toontown is a free, non-profit game inspired by _Disney's Toontown Online_.
 
+This source runs on Python 3 with a modified version of Panda3D that requires upgraded Py3 Astron code, see dependencies below.
 
 ### Our Goal ###
 The idea behind this project is to restore Toontown Online to its **original state**. This means that the plan is to removing all modifications Toontown Infinite had planned for the gameplay, as well as restoring all broken features from Toontown Online, excluding the Toon News feature. Feel free to fork this repository if you desire to add your own content.
 
 ### Contact ###
-Discord server available here: https://discord.gg/SkF53cT
+Discord server available here: https://discord.gg/bcRBCbH
 No profanity allowed, please keep it professional.
 
 ### Contributing ###
@@ -27,5 +28,13 @@ This software requires you to compile Astron, an opensource implementation of To
 ##### Link: https://github.com/Astron/Astron
 
 
+#### RESOURCES
+Resources for this repository can be found here:
+https://github.com/nate97/resources
+
+
+
 #### Python dependencies ####
-Please view the [dependencies](https://github.com/ToontownInfinite/src/wiki/Dependencies) page in the wiki for help starting Toontown.
+These packages are required and can be obtained using pip3.
+* PyYAML
+* semidbm
