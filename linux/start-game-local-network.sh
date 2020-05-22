@@ -8,7 +8,7 @@ read -p "Username: " ttiUsername
 export ttiUsername=$ttiUsername
 export ttiPassword="password"
 export TTI_PLAYCOOKIE=$ttiUsername
-export TTI_GAMESERVER="10.0.0.29"
+export TTI_GAMESERVER="192.168.1.218"
 
 echo "==============================="
 echo "Starting Toontown Online..."

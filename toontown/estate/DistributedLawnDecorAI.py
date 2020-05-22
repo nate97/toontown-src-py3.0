@@ -23,8 +23,14 @@ class DistributedLawnDecorAI(DistributedNodeAI):
     def getPlot(self):
         return self.plotIndex
 
+    def setHeading(self, heading):
+        self.heading = heading
+
     def getHeading(self):
         return self.heading
+
+    def setPosition(self, pos):
+        self.pos = pos
 
     def getPosition(self):
         return self.pos
@@ -57,7 +63,5 @@ class DistributedLawnDecorAI(DistributedNodeAI):
 
     def pack(self, gardenData):
         pass
-        #gardenData.addUint8(self.plotIndex)
-
 
 

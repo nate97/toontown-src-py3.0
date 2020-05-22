@@ -22,6 +22,10 @@ class DistributedPlantBaseAI(DistributedLawnDecorAI):
     def d_setWaterLevel(self, waterLevel):
         self.sendUpdate('setWaterLevel', [waterLevel])
 
+    def setWaterLevel(self, waterLevel):
+        self.waterLevel = waterLevel
+        self.d_setWaterLevel(waterLevel)
+
     def getWaterLevel(self):
         return self.waterLevel
 
@@ -49,7 +53,7 @@ class DistributedPlantBaseAI(DistributedLawnDecorAI):
 
         if self.waterLevel < GardenGlobals.getMaxWateringCanPower():
             self.waterLevel += GardenGlobals.getWateringCanPower(av.wateringCan, av.wateringCanSkill)
-            self.d_setWaterLevel(self.waterLevel)
+            self.setWaterLevel(self.waterLevel)
 
             self.gardenManager.updateGardenData()
 
@@ -102,9 +106,5 @@ class DistributedPlantBaseAI(DistributedLawnDecorAI):
 
     def pack(self, gardenData):
         return
-        #DistributedLawnDecorAI.pack(self, gardenData)
 
-        #gardenData.addUint8(self.typeIndex)
-        #gardenData.addInt8(self.waterLevel)
-        #gardenData.addInt8(self.growthLevel)
-        #gardenData.addUint32(self.timestamp)
+

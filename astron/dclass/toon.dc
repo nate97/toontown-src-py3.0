@@ -620,6 +620,8 @@ dclass DistributedToon : DistributedPlayer {
   setDISLid(uint32) ram db airecv;
   flagAv(uint32, uint16, string []) airecv ownsend;
   setAnimalSound(uint8 index) ram broadcast ownrecv;
+  setTPose() broadcast;
+  setToonScale(float64 scale) broadcast ram;
 };
 
 dclass DistributedCCharBase : DistributedObject {
@@ -2670,6 +2672,7 @@ dclass DistributedLawnDecor : DistributedNode {
   setMovie(uint8, uint32) broadcast ram;
   movieDone() airecv clsend;
   interactionDenied(uint32) broadcast ram;
+  setBoxDoId(uint32 boxId, uint8 index) broadcast ram;
 };
 
 dclass DistributedGardenPlot : DistributedLawnDecor {

@@ -4,11 +4,13 @@ from direct.distributed.PyDatagram import PyDatagram
 from toontown.estate import GardenGlobals
 from toontown.estate.DistributedAnimatedStatuaryAI import DistributedAnimatedStatuaryAI
 from toontown.estate.DistributedChangingStatuaryAI import DistributedChangingStatuaryAI
+from toontown.estate.DistributedGardenBoxAI import DistributedGardenBoxAI
 from toontown.estate.DistributedGagTreeAI import DistributedGagTreeAI
 from toontown.estate.DistributedGardenPlotAI import DistributedGardenPlotAI
 from toontown.estate.DistributedStatuaryAI import DistributedStatuaryAI
 from toontown.estate.DistributedToonStatuaryAI import DistributedToonStatuaryAI
 from toontown.toonbase.ToontownBattleGlobals import NUM_GAG_TRACKS
+
 
 from time import time
 import pickle
@@ -19,7 +21,8 @@ occupier2Class = {
     GardenGlobals.StatuaryPlot: DistributedStatuaryAI,
     GardenGlobals.ToonStatuaryPlot: DistributedToonStatuaryAI,
     GardenGlobals.ChangingStatuaryPlot: DistributedChangingStatuaryAI,
-    GardenGlobals.AnimatedStatuaryPlot: DistributedAnimatedStatuaryAI
+    GardenGlobals.AnimatedStatuaryPlot: DistributedAnimatedStatuaryAI,
+    GardenGlobals.PlanterBox: DistributedGardenBoxAI
 }
 
 
@@ -36,6 +39,8 @@ class GardenManagerAI:
         if not self.house.hasGardenData():
             self.createBlankGarden()
             return
+
+        self.createGardenBoxes()
         self.createGardenFromData(self.house.getGardenData())
         self.giveOrganicBonus()
 
@@ -58,25 +63,34 @@ class GardenManagerAI:
         self.loadGarden()
 
 
+    def createGardenBoxes(self): # Generates flowerboxes
+        occupier = GardenGlobals.PlanterBox
+        boxIndex = 0
+        boxes = []
+        boxDefs = GardenGlobals.estateBoxes[self.house.housePos]
+        for x, y, h, boxType in boxDefs:
+            gardenData = [occupier, boxIndex, x, y, h, boxType]
 
+            box = occupier2Class[occupier](self.air, self, self.house.housePos)
+            box.construct(gardenData)
+            box.generateWithRequired(self.house.zoneId)
 
+            boxes.append(box)
+            boxIndex += 1
 
-
-
-
-
-
-
-
-
-
-
+        self.gardenBoxes = boxes
 
 
     def createGardenFromData(self, gardenData):
         myGarden = pickle.loads(gardenData)
+        boxDefs = GardenGlobals.estateBoxes[self.house.housePos]
+        boxDefs = list(boxDefs)
+        print (boxDefs, "!!!!!!")
+
+        
 
         plotCount = len(myGarden)# First thing in the list is the number of plots
+        boxInt = 0
 
         tmpGardenLoop = myGarden.copy() # Make copy of list to use in our for loop
 
@@ -91,32 +105,37 @@ class GardenManagerAI:
             plot = occupier2Class[occupier](self.air, self, self.house.housePos)
             plot.construct(curPlot)
 
-            print (curPlot)
+            plotType = plot.plotType
+            
+            if plotType == 1:
+                myPos = boxDefs[boxInt]
+                myPos = (myPos[0], myPos[1], myPos[2])
+
+
+                print (myPos)
+                plot.setPosition(myPos)
+
+                boxInt += 1
+                if boxInt > 4:
+                    boxInt = 0
 
             plot.generateWithRequired(self.house.zoneId)
-
             self.plots.append(plot)
 
 
-
-
     def updateGardenData(self):
-
         rawGardenData = []
-
         plotCount = len(self.plots)
-
 
         for plot in self.plots:
             gardenPlot = []
-
-
             occupier = plot.occupier
             plotIndex = plot.plotIndex
 
             if isinstance(plot, DistributedGagTreeAI):
                 typeIndex = plot.typeIndex # Type of gag tree
                 waterLevel = plot.waterLevel
+                print ("water level gag tree", waterLevel)
                 growthLevel = plot.growthLevel
                 timestamp = plot.timestamp
                 wilted = plot.wilted
@@ -175,6 +194,7 @@ class GardenManagerAI:
         itemType = plot.typeIndex
         plot.setMovie(GardenGlobals.MOVIE_FINISHPLANTING, self.air.getAvatarIdFromSender())
 
+        # These should probably be called in the construction functions
         if isinstance(plot, DistributedGagTreeAI):
             av = self.air.doId2do.get(self.house.avatarId)
             if not av:
@@ -204,8 +224,6 @@ class GardenManagerAI:
                     beanCount = len(beanRecipe)
                     av.takeMoney(beanCount) # Takes away how many jellybeans it took to create plant/statuary
 
-                else:
-                    pass
 
 
     def constructStatuary(self, plotIndex, typeIndex):

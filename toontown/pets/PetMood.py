@@ -82,7 +82,10 @@ class PetMood:
         self.petRef = weakref.ref(pet)
 
     def getPet(self):
-        pet = self.petRef()
+        try:
+            pet = self.petRef()
+        except:
+            print ("Error with getPet in PetMood.py")
         if pet is None:
             self.notify.error('pet has been deleted')
         return pet
@@ -164,7 +167,10 @@ class PetMood:
         if not self.started:
             return
         self.started = 0
-        taskMgr.remove(self.getMoodDriftTaskName())
+        try:
+            taskMgr.remove(self.getMoodDriftTaskName())
+        except:
+            print ("Could not find pet task:", self.getMoodDriftTaskName())
 
     def driftMood(self, dt = None, curMood = None):
         now = globalClock.getFrameTime()

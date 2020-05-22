@@ -289,7 +289,7 @@ class DistributedLawnDecor(DistributedNode.DistributedNode, NodePath, ShadowCast
     def stopCamIval(self, avId):
         track = Sequence()
         if avId == localAvatar.doId:
-            track = Sequence(Func(base.localAvatar.unsetCameraPosForLawnDecorInteraction), Wait(0.8), Func(base.localAvatar.enableSmartCameraViews))
+            track = Sequence(Func(base.localAvatar.unsetCameraPosForPetInteraction), Wait(0.8), Func(base.localAvatar.enableSmartCameraViews))
         return track
 
     def canBeWatered(self):

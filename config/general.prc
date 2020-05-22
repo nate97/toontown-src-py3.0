@@ -14,8 +14,8 @@ aux-display pandadx9
 aux-display p3tinydisplay
 
 # Disable antialiasing
-framebuffer-multisample 1
-multisamples 2
+#framebuffer-multisample 1
+#multisamples 2
 
 show-frame-rate-meter #t
 
@@ -42,6 +42,9 @@ content-packs-sort-filename sort.yaml
 
 # Injector:
 want-injector #f
+
+# Discord bot integration for Uberdog
+want-discord-server #f
 
 # Backups:
 backups-filepath backups/

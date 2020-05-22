@@ -248,6 +248,7 @@ class PMover:
 
 
     def destroy(self):
+        print ("Destroy smart doodle")
         taskMgr.remove("doodleTask-" + str(self.serialNum))
-
-
+        del self.AIDoodle
+        del self.AIWorld

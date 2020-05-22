@@ -718,11 +718,7 @@ def getBoxPlots(houseIndex):
 
 def getBoxType(houseIndex, plotIndex):
     flowerBoxes = estateBoxes[houseIndex]
-    print(str(flowerBoxes))
     flowerBOX = flowerBoxes[plotIndex]
-    print(str(flowerBOX))
-
-    print("What???")
     return 1
 
 def getBoxPos(houseIndex, boxIndex):

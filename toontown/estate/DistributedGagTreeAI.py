@@ -50,11 +50,7 @@ class DistributedGagTreeAI(DistributedPlantBaseAI):
 
     def construct(self, gardenData, gType = 0):
         DistributedPlantBaseAI.construct(self, gardenData, gType)
-
-
         print (gardenData,"construct gagtree!")
-
-
 
         self.plotIndex = gardenData[1]
         self.typeIndex = gardenData[2]
