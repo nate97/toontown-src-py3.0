@@ -38,10 +38,10 @@ class CogHood(Hood):
             skyOuter.setBin('background', 0)
         if not skyMiddle.isEmpty():
             skyMiddle.setDepthWrite(0)
-            skyMiddle.setBin('background', 10)
+            skyMiddle.setBin('fixed', 10)
         if not skyInner.isEmpty():
             skyInner.setDepthWrite(0)
-            skyInner.setBin('background', 20)
+            skyInner.setBin('fixed', 20)
 
         self.parentFSM.getStateNamed(self.__class__.__name__).addChild(self.fsm)
 

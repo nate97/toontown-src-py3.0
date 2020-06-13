@@ -357,7 +357,7 @@ class DistributedLawnDecor(DistributedNode.DistributedNode, NodePath, ShadowCast
             self.model.setTransparency(1)
             self.model.setAlphaScale(0)
             self.movie.append(LerpFunc(self.model.setAlphaScale, fromData=0, toData=1, duration=3))
-        self.movie.append(self.stopCamIval(avId))
+        #self.movie.append(self.stopCamIval(avId)) # NJF needs fixed
         self.movie.append(Func(toon.detachShovel))
         self.movie.append(Func(toon.loop, 'neutral'))
         if avId == localAvatar.doId:

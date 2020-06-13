@@ -140,7 +140,12 @@ class QuietZoneState(StateData.StateData):
         return
 
     def handleWaitForQuietZoneResponse(self, msgType, di):
-        self.notify.debug('handleWaitForQuietZoneResponse(' + 'msgType=' + str(msgType) + ', di=' + str(di) + ')')
+        # Converting the datagram to a string results in a decoding error on Windows, just putting in a try statement since I don't feel like looking into this extensively for now NJF
+        try:
+            self.notify.debug('handleWaitForQuietZoneResponse(' + 'msgType=' + str(msgType) + ', di=' + str(di) + ')')
+        except:
+            pass
+
         if msgType == CLIENT_ENTER_OBJECT_REQUIRED:
             base.cr.handleQuietZoneGenerateWithRequired(di)
         elif msgType == CLIENT_ENTER_OBJECT_REQUIRED_OTHER:
