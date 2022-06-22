@@ -125,7 +125,7 @@ class ContentPacksManager:
         if not os.path.exists(self.sortFilename):
             return
         with open(self.sortFilename, 'r') as f:
-            self.sort = yaml.load(f) or []
+            self.sort = yaml.safe_load(f) or []
 
     def writeSortConfig(self):
         """
